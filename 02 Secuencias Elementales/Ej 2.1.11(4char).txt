@@ -1,0 +1,28 @@
+ACCION 2.1.11 (4char) ES
+AMBIENTE
+	Palabras:Secuencia de caracteres
+	Cr:Caracter
+	FourLet,Carac:Entero
+PROCESO
+ARR(Palabras)
+AVZ(Palabras,Cr)
+FourLet:=0
+MIENTRAS NFDS(Palabras) HACER
+	
+	Mientras Cr=" " y NFDS(Palabras) HACER
+		AVZ(Palabras,Cr)
+	FIN MIENTRAS
+	Carac:=0
+	Mientras Cr<>" " y NFDS(Palabras) HACER
+		Carac:=Carac+1
+		AVZ(Palabras,Cr)
+	FIN MIENTRAS
+	
+	SI Carac=4 ENTONCES
+		FourLet:=FourLet+1
+	FIN SI
+FIN MIENTRAS
+ESCRIBIR("La cantidad de palabras con 4 caracteres es ",FourLet)
+CERRAR(Palabras)
+FIN ACCION
+	

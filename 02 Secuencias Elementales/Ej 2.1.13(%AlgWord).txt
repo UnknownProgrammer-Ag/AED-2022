@@ -1,0 +1,37 @@
+ACCION 2.1.13 (%AlgWord) ES
+AMBIENTE
+	Palabras:Secuencia de Caracteres
+	Chr:Caracter
+	AlgCont,TotalWord:Entero
+	PorcAlg:Real
+PROCESO
+ARR(Palabras)
+AVZ(Palabras,Chr)
+AlgCont:=0
+TotalWord:=0
+MIENTRAS NFDS(Palabras) HACER
+		
+	Mientras Chr=" " y NFDS(Palabras) HACER
+		AVZ(Palabras,Chr)
+	FIN MIENTRAS
+	
+	Si Chr='A' ENTONCES 
+		AVZ(Palabras,Chr)
+		Si Chr='L' ENTONCES
+			AVZ(Palabras,Chr)
+			SI Chr='G' ENTONCES
+				AlgCont:=AlgCont+1
+			FIN Si
+		FIN Si
+	FIN Si 
+	
+	Mientras Chr<>" " y NFDS(Palabras) HACER
+		AVZ(Palabras,Chr)
+	FIN MIENTRAS
+	TotalWord:=TotalWord+1
+
+FIN MIENTRAS
+PorcAlg:=(AlgCont*100)/TotalWord
+ESCRIBIR("El porcentaje de palabras que comienza con ALG es ",PorcAlg)
+CERRAR(Palabras)
+FIN ACCION

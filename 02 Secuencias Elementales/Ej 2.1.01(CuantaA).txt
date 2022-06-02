@@ -1,0 +1,18 @@
+ACCION 2.1.1 (CuantaA) ES
+AMBIENTE
+	Alph:Secuencia de caracteres
+	Lt:caracter
+	ContA:Entero
+PROCESO
+ContA:=0
+ARR(Alph)
+AVZ(Alph,Lt)
+	MIENTRAS NFDS(Alph) HACER
+		SI Lt='A' ENTONCES
+			ContA:=ContA+1
+		FIN SI
+		AVZ(Alph,Lt)
+	FIN MIENTRAS
+	ESCRIBIR("La cantidad de A en la secuencia es de: ",ContA)
+	cerrar(Alph)
+FIN ACCION

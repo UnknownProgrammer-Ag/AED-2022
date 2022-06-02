@@ -1,0 +1,52 @@
+ACCION Ej 2.02.07 (Padron) ES
+AMBIENTE
+
+	Identi=registro de
+		FullName:AN(45)
+		DNI:N(8)
+		Direc:AN(35)
+	fin registro
+	
+	Habitantes=registro de
+		ID:Identi
+		Clase:N(4)
+		Mesa:N(2)
+		Obsv:AN(40)
+		Circuito:N(2)
+		Partido:{0..3}
+	fin registro
+	
+	Procedimiento Insertar() ES
+		Sel.FullName:=Dat.ID.FullName
+		Sel.DNI:=Dat.ID.DNI
+		Sel.Direc:=Dat.ID.Direc
+		GRABAR(PartC,Sel)
+	FIN Procedimiento
+	
+Padron:Archivo de Habitantes ordenado por FullName
+Dat:Habitantes
+PartC,NoPart:Archivo de Identi ordenado por FullName
+Sel:Identi
+
+PROCESO
+ABRIR E/(Habitantes)
+ABRIR S/(PartC,NoPart)
+LEER(Habitantes,Dat)
+
+MIENTRAS NFDA(Habitantes) HACER
+	Si (Dat.Partido=3) ENTONCES
+		Insertar()
+	CONTRARIO
+		SI (Dat.Partido=0) Y (Dat.Clase>1940) ENTONCES
+			Insertar()
+		FIN SI
+	FIN SI
+	LEER(Habitantes,Dat)
+FIN MIENTRAS
+
+CERRAR(Habitantes)
+CERRAR(PartC)
+CERRAR(NoPart)
+FIN ACCION
+
+		

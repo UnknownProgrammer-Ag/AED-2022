@@ -1,0 +1,95 @@
+ACCION Ej 2.2.11 (CorteAprobados) ES
+AMBIENTE
+	Fecha=registro de 
+		Año:N(4)
+		Mes:N(2)
+		Dia:N(2)
+	fin registro
+	
+	Student=registro de
+		Sexo:{'M','F'}
+		Carrera:{'IEM','ISI','IQ','LAR'}
+		Legajo:N(5)
+		Ingreso:Fecha
+		MateriasAprobadas:N(2)
+	fin registro
+
+Alumnos:Archivo de Student ordenado por Sexo,Carrera,Legajo
+ID:Student
+
+ContCarrno20,ContCarr20,ContSex20,ContSexno20,Total20,Totalno20:Entero
+ResgSexo:{'M','F'}
+ResgCarr:{'IEM','ISI','IQ','LAR'}
+
+	PROCEDIMIENTO Corte_Sexo() ES	
+		
+		Corte_Carrera()
+		
+		ESCRIBIR("Los alumnos de sexo ",ResgSexo," con mas 20 materias aprobadas son en total: ",ContSex20)
+		ESCRIBIR("Los alumnos de sexo ",ResgSexo," con menos de 20 materias aprobadas son en total: ",ContSexno20)
+		
+		Total20:=Total20+ContSex20
+		Totalno20:=Totalno20+ContSexno20
+		
+		ContSex20:=0
+		ContSexno20:=0
+		
+		ResgSexo:=ID.Sexo
+	fin PROCEDIMIENTO
+	
+	Procedimiento Corte_Carrera() ES
+		ESCRIBIR("Los alumnos de la carrera", ResgCarr," con mas de 20 materias aprobadas son en total: ",ContCarr20)
+		ESCRIBIR("Los alumnos de la carrera", ResgCarr," con menos de 20 materias aprobadas son en total: ",ContCarrno2020)
+	
+		ContSex20:=ContCarr20
+		ContSexno20:=ContCarrno20
+		
+		ContCarr20:=0
+		ContCarrno20:=0
+		
+		ResgCarr:=ID.Carrera
+		
+	Fin procedimiento
+
+PROCESO
+ABRIR E/(Alumnos)
+LEER(Alumnos,ID)
+
+ResgCarr:=ID.Carrera
+ResgSexo:=ID.Sexo
+
+ContCarr20:=0
+ContCarrno20:=0
+ContSex20:=0
+ContSexno20:=0
+Total20:=0
+Totalno20:=0
+
+MIENTRAS NFDA(Alumnos) HACER
+	SI ResgSexo <> ID.Sexo ENTONCES
+		Corte_Sexo()
+	CONTRARIO
+		SI ResgCarr<> ID.Carrera ENTONCES
+			Corte_Carrera()
+		FIN SI
+	FIN SI
+	
+	SI (ID.Ingreso.Año=2009) ENTONCES
+		SI (ID.MateriasAprobadas<20) ENTONCES
+			ContCarrno20:=ContCarrno20+1
+		CONTRARIO
+			ContCarr20:=ContCarr20+1
+		FIN SI
+	FIN SI
+	
+	LEER(Alumnos,ID)
+FIN MIENTRAS
+
+Corte_Sexo()
+
+ESCRIBIR("Total de Alumnos con mas de 20 materias aprobadas: ",Total20)
+ESCRIBIR("Total de Alumnos con menos de 20 materias aprobadas: ",Totalno20)
+
+CERRAR(Alumnos)
+
+FIN ACCION

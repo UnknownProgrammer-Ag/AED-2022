@@ -1,0 +1,26 @@
+ACCION 1.1.36 (Todoes3) ES
+AMBIENTE
+	N,Ml,Ct,Dc,Ud,Suma:Entero
+	Procedimiento Aviso() ES
+		ESCRIBIR("Para finalizar el programa ingrese 0000")
+PROCESO
+ESCRIBIR("Ingrese el numero")
+MIENTRAS N<>0000 ENTONCES
+	Ml:=N DIV 1000
+	Ct:=(N DIV 100) MOD 10
+	Dc:=(N DIV 10) MOD 10
+		SI N>99 ENTONCES
+			Ct:=N DIV 100
+		CONTRARIO
+			DC:=N DIV 10
+		FIN SI
+	Ud:=N MOD 10
+	Suma:=Ml+Ct+Dc+Ud
+	SI (Suma MOD 3)=0 ENTONCES	
+		ESCRIBIR("El numero ",N," es multiplo de 3")
+	CONTRARIO
+		ESCRIBIR("El numero ",N," no es multiplo de 3")
+	FIN SI
+	ESCRIBIR("Ingrese otro valor")
+	LEER(N)
+FIN MIENTRAS

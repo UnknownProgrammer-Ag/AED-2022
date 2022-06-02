@@ -1,0 +1,21 @@
+ACCION 1.2.2 (SumaNatural) ES
+AMBIENTE
+....
+	FUNCION SumaDig(N:Entero):Entero ES
+	AMBIENTE
+		Ml,Ct,Dc,Ud:Entero
+	PROCESO	
+		Ml:=N DIV 1000
+		Ct:=(N DIV 100) MOD 10
+		Dc:=(N DIV 10) MOD 10
+		SI N>99 ENTONCES
+			Ct:=N DIV 100
+		CONTRARIO
+			DC:=N DIV 10
+		FIN SI
+		Ud:=N MOD 10
+		SumaDig:=Ml+Ct+Dc+Ud
+	FIN FUNCION
+PROCESO
+....
+FIN ACCION

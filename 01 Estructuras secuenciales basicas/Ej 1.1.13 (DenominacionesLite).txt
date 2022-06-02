@@ -1,0 +1,11 @@
+ACCION 1.1.13(DenomLite) ES
+AMBIENTE
+ Suma,Ud,Dc,Ct:Entero
+PROCESO
+	Escribir("Ingrese un numero mayor a 100 menor a 1000")
+	Leer(Suma)
+	Ud:= NumEnt MOD 10
+	Dc:= (NumEnt DIV 10) MOD 10
+	Ct:= NumEnt DIV 100
+	Escribir("Debera usar ",Ud," billetes de 1, ",Dc," billetes de 10 y ",Ct," billetes de 100")ç
+FIN ACCION

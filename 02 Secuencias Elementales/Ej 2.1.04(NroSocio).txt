@@ -1,0 +1,15 @@
+ACCION 2.1.4 (NroSocio) ES
+AMBIENTE
+	SecSoc:Secuencia de Enteros
+	Reg,Nro:Entero
+PROCESO
+ARR(SecSoc)
+AVZ(SecSoc,Nro)
+	Reg:=0
+	MIENTRAS NFDS(SecSoc) HACER
+		Reg:=Reg+1
+		AVZ(SecSoc,Nro)
+	FIN MIENTRAS
+ESCRIBIR("Hay registrados: ",Reg," socios)
+CERRAR(SecSoc)
+FIN ACCION

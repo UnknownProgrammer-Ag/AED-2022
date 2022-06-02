@@ -1,0 +1,22 @@
+ACCION 1.1.27 (FuncCuad9999) ES
+AMBIENTE
+	X,Y,i,a,b,c:ENTERO
+	Procedimiento Aviso() ES	
+		ESCRIBIR("Si desea terminar este programa debe ingresar en el valor a 9999")
+	FIN Procedimiento
+PROCESO
+Aviso()
+ESCRIBIR("Ingrese el valor del coeficiente a")
+Leer(a)
+MIENTRAS a<>9999 HACER
+	ESCRIBIR("Ingrese los valores de los coeficientes b,c")
+	Leer(b,c)
+	PARA i:=20 hasta -20,-2 HACER
+		X:=i
+		Y:=((a*X**2)+(b*X)+(c))
+		ESCRIBIR("Las coordenadas son {X,Y}= ",X,",",Y)
+	FIN PARA
+	ESCRIBIR("Ingrese el valor del coeficiente a")
+	Leer(a)
+FIN MIENTRAS
+FIN ACCION

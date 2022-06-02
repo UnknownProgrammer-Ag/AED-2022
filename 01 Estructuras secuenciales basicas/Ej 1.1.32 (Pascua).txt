@@ -1,0 +1,18 @@
+ACCION 1.1.32 (Pascua) ES
+AMBIENTE
+	A,B,C,D,E,N,year:Entero
+PROCESO
+	Para year:=1990 hasta 2010 HACER
+		A:=year mod 19
+		B:=year mod 4
+		C:=year mod 7
+		D:=(19*A+24) mod 30
+		E:=(2*B+4*C+6*D+5) mod 7
+		N:=(22+D+E)
+		SI N>31 ENTONCES
+			ESCRIBIR("El dia ",N-31," de abril es el domingo de pascua")
+		CONTRARIO
+			ESCRIBIR("El dia ",N," de marzo es el domingo de pascua")
+		FIN SI
+	FIN Para
+FIN ACCION

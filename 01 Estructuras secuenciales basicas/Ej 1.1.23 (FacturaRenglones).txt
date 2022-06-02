@@ -1,0 +1,23 @@
+ACCION 1.1.23(FacturaRenglones) ES
+AMBIENTE
+	ValUnit,CantVent,Total,i,n:ENTERO
+	
+	Procedimiento Error() ES
+		ESCRIBIR("ERROR 8230, el valor unitario posee un valor negativo o nulo")
+	FIN Procedimiento
+	
+PROCESO
+	ESCRIBIR(Ingrese la cantidad de renglones a trabajar)
+	Leer(n)
+	Total:=0
+	Para i:=1 hasta n HACER
+		ESCRIBIR("Ingrese el valor unit y la cantidad Vendida")
+		LEER(ValUnit,CantVent)
+		SI ValUnit<=0 ENTONCES
+			Error()
+		CONTRARIO
+			Total:=Total+(ValUnit*CantVent)
+		FIN SI
+	FIN Para
+	ESCRIBIR("El valor total de la factura es: ",Total)
+FIN ACCION

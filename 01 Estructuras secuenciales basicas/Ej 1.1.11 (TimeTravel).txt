@@ -1,0 +1,14 @@
+ACCION 1.1.11(ViajeEnElTiempo) ES
+AMBIENTE
+	Año,AñoActual:N(4)
+	
+PROCESO
+	ESCRIBIR("Ingrese un año y el año actual")
+	LEER(Año, AñoActual)
+	SEGUN Año HACER
+	>AñoActual: ESCRIBIR("El año es en el FUTURO")
+	=AñoActual: ESCRIBIR ("El año es el ACTUAL")
+	<AñoActual: ESCRIBIR ("El año es en el PASADO")
+	FIN SEGUN
+FIN SI
+	

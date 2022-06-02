@@ -1,0 +1,34 @@
+ACCION 1.2.4 (Claves) ES
+AMBIENTE
+	X,T,ID:Entero
+	FUNCION Clave(N:Entero):Entero ES
+	AMBIENTE
+		Ml,Ct,Dc,Ud,SumaDig:Entero
+	PROCESO	
+		SI N<0 ENTONCES
+			Clave:=-1
+		CONTRARIO
+			Ml:=N DIV 1000
+			Ct:=(N DIV 100) MOD 10
+			Dc:=(N DIV 10) MOD 10
+			SI N>99 ENTONCES
+				Ct:=N DIV 100
+			CONTRARIO
+				DC:=N DIV 10
+			FIN SI
+			Ud:=N MOD 10
+			SumaDig:=Ml+Ct+Dc+Ud
+			Clave:=SumaDig mod 7
+		FIN SI
+	FIN FUNCION
+PROCESO
+T:=1
+MIENTRAS T=1 HACER
+	ESCRIBIR("Ingrese el numero")
+	Leer(X)
+	ID:=Clave(X)
+	ESCRIBIR("La clave que le corresponde es: ",ID)
+	ESCRIBIR("Determine si quiere repetir el programa 1|0")
+	Leer(T)
+FIN MIENTRAS	
+FIN ACCION

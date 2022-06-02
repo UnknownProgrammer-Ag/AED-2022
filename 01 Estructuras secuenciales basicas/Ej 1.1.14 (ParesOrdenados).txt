@@ -1,0 +1,59 @@
+ACCION 1.1.14 (ParesOrdenados) ES
+AMBIENTE
+	S,V,Res_S,Res_May,Prod:Real
+	Cont_Dobl,Cont_Igual: Entero
+	Pares: AN(1)
+PROCESO
+	Res_S:=0
+	Res_May:=0
+	Prod:=1
+	Cont_Dobl:=0
+	Cont_Igual:=0
+
+	Escribir("Ingrese el primer par de valores")
+	Leer(S,V)
+	Res_S:=S
+	
+	SI S > V ENTONCES
+		Res_May:=S
+	FIN SI
+	
+	SI (S=2*V) ENTONCES
+		Cont_Dobl:=Cont_Dobl+1
+	FIN SI
+	
+	SI (S <>0) Y (V=0) ENTONCES
+		Prod:=Prod*S
+	FIN SI
+	
+	Repetir 
+		Escribir("Ingrese el siguiente par de valores")
+		Leer(S,V)
+		
+		SI S=Res_S ENTONCES
+			Cont_Igual:=Cont_Igual+1
+		FIN SI
+		
+		SI (Res_May=0) Y (S>V) ENTONCES
+			Res_May:=S
+		FIN SI
+		
+		SI S=2*V ENTONCES
+			Cont_Dobl:=Cont_Dobl+1
+		FIN SI
+		
+		SI (S<>0) Y (V=0) ENTONCES
+			Prod:=Prod*S
+		FIN SI
+		
+		Escribir("Posee otro par de valores a ingresar? Y/N")
+		Leer(Pares)
+	HASTA QUE Pares=N
+	
+	Escribir("Cantidad de pares con valor de S igual al primer S",Cont_Igual)
+	Escribir("Cantidad de pares con valor de S el doble al valor de V",Cont_Dobl)
+	Escribir("Primer valor de S mayor que V",Res_May)
+	Escribir("Productoria de los valores de S no nulos y V nulos",Prod)
+FIN ACCION
+
+	

@@ -1,0 +1,34 @@
+ACCION Ej 2.2.02 (Facturas) ES
+AMBIENTE
+	Fecha=registro de
+		AÑO:N(4)
+		MES:N(2)
+		DIA:N(2)
+	FIN REGISTRO
+	
+	Factura=registro de
+		NRO:N(6)
+		FactFecha:Fecha
+		Total:N(6)
+	FIN REGISTRO
+	
+FACTURASTIENDA:Archivo de Factura ordenado por NRO
+Fact:Factura
+Date:Fecha
+
+PROCESO
+ABRIR E/(FACTURASTIENDA)
+LEER(FACTURASTIENDA,Fact)
+
+ESCRIBIR("Ingrese fecha minima limite")
+LEER(Date)
+
+MIENTRAS NFDA(FACTURASTIENDA) HACER
+	SI (Fact.FactFecha>Date) Y (Fact.Total<1000) ENTONCES
+		ESCRIBIR("|Nro_Factura|",Fact.NRO,"|Fecha|",Fact.FactFecha,"|Importe Total|",Fact.Total)
+	FIN SI
+	LEER(FACTURASTIENDA,Fact)
+FIN MIENTRAS
+
+CERRAR(FACTURASTIENDA)
+FIN ACCION

@@ -1,0 +1,28 @@
+ACCION 1.1.29 (PrimosMenores) ES
+AMBIENTE
+N,i,j:ENTERO
+bandera:booleano
+
+PROCESO
+	
+	ESCRIBIR("INGRESE EL NUMERO A TRABAJAR")
+	LEER(N)
+	
+	PARA i:=1 HASTA (N-1) HACER
+	
+		bandera:VERDADERO
+		j:=2
+		MIENTRAS bandera y (j<i)
+			SI  (i MOD j=0) ENTONCES
+				bandera:=FALSO
+			FIN SI
+			j:=j+1
+		FIN MIENTRAS
+		
+		SI bandera ENTONCES
+			ESCRIBIR(i)
+		FIN SI
+	FIN PARA
+
+FIN ACCION 
+	

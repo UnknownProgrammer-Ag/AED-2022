@@ -1,0 +1,23 @@
+ACCION 1.2.12 (ProcDescuento) ES
+AMBIENTE
+.... 
+	Procedimiento Compra() ES
+	AMBIENTE
+		Ud,PrcU,PrecioFinal:Real
+	PROCESO
+		ESCRIBIR("INGRESE LAS UNIDADES Y EL PRECIO DE ELLAS")
+		LEER(Ud,PrcU)
+		SI Ud>6 ENTONCES
+			SI Ud>12 ENTONCES	
+				PrecioFinal:=Prcu+(PrcU*(-0.10))
+			CONTRARIO
+				PrecioFinal:=Prcu+(PrcU*(-0.04))
+			FIN SI
+		CONTRARIO
+			PrecioFinal:=PrcU
+		FIN SI
+		ESCRIBIR("El precio final a pagar es: ",PrecioFinal)
+	FIN Procedimiento
+PROCESO
+.....
+FIN ACCION

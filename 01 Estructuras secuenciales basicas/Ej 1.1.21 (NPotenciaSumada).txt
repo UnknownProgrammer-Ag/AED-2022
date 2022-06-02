@@ -1,0 +1,20 @@
+ACCION 1.1.21 (NPotenciaSumada) ES
+AMBIENTE
+	V,Cuad,Cub,i,SumaCuad:ENTERO
+PROCESO
+MIENTRAS Bandera='Y' HACER
+	ESCRIBIR("Ingrese el valor de V")
+	LEER(V)
+	ESCRIBIR("Ingrese la cantidad de veces (mayores a 1) que desea incrementar V (Ej:V=2 y desea incrementar 30, debe introducir 30")
+	LEER(i)
+		Para V HASTA (V+i),1 HACER
+			Cuad:=V*V
+			SumaCuad:=SumaCuad+Cuad
+			Cub:=V*V*V
+			ESCRIBIR("Valor de V| Cuadrado de V| Cubo de V|",V,Cuad,Cub)
+		FIN PARA
+	ESCRIBIR("Indicar si desea repetir el programa [Y|N]")
+	LEER(Bandera)
+FIN MIENTRAS
+	ESCRIBIR("La suma de los cuadrados: ",SumaCuad)
+FIN ACCION

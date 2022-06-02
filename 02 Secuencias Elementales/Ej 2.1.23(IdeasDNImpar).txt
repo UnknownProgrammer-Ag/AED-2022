@@ -1,0 +1,72 @@
+ACCION 2.1.23 (IdeasDNImpar) ES
+AMBIENTE
+	NombresEmpleados,DNIEmpleados,SalidaDNIImpar:Secuencia de Caracteres
+	Name,Number:Caracter
+	i,FirstDnI:Entero
+
+	FUNCION ChartoNumb(Number:Caracter):Entero
+		SEGUN Number HACER
+		"0":ChartoNumb:=0
+		"1":ChartoNumb:=1
+		"2":ChartoNumb:=2
+		"3":ChartoNumb:=3
+		"4":ChartoNumb:=4
+		"5":ChartoNumb:=5
+		"6":ChartoNumb:=6
+		"7":ChartoNumb:=7
+		"8":ChartoNumb:=8
+		"9":ChartoNumb:=9
+		FIN SEGUN
+	FIN FUNCION
+		
+		
+PROCESO
+ARR(NombresEmpleados)
+ARR(DNIEmpleados)
+CREAR(SalidaEmpleadoImpar)
+AVZ(NombresEmpleados,Name)
+AVZ(DNIEmpleados,Number)
+
+
+MIENTRAS NFDS(NombresEmpleados) HACER
+
+	MIENTRAS (Name= " ") HACER
+		AVZ(NombresEmpleados,Name)
+	FIN MIENTRAS
+	
+	FirstDnI:=ChartoNumb(Number)
+	
+	SI (FirstDnI mod 2)=0 ENTONCES
+		
+		MIENTRAS (Name <>" ") y NFDS(NombresEmpleados) HACER
+			AVZ(NombresEmpleados,Name)
+		FIN MIENTRAS
+		
+		PARA i:=1 hasta 8 HACER
+			AVZ(DNIEmpleados,Number)
+		FIN PARA
+		
+	CONTRARIO
+	
+		Para i:=1 Hasta 8 HACER
+			ESCRIBIR(SalidaEmpleadoImpar,Number)
+			AVZ(DNIEmpleados,Number)
+		FIN PARA
+		
+		ESCRIBIR(SalidaEmpleadoImpar,",")
+		
+		MIENTRAS (Name<>" ") HACER
+			ESCRIBIR(SalidaEmpleadoImpar,Name)
+			AVZ(NombresEmpleados,Name)
+		FIN MIENTRAS
+		
+		ESCRIBIR(SalidaEmpleadoImpar,"#")
+	FIN Si
+	
+FIN MIENTRAS
+
+CERRAR(NombresEmpleados)
+CERRAR(DNIEmpleados)
+CERRAR(SalidaEmpleadoImpar)
+
+FIN ACCION

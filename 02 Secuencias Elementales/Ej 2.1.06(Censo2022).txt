@@ -1,0 +1,48 @@
+ACCION 2.1.6 (Censo2022) ES
+AMBIENTE
+	Capit_23:Secuencia de Enteros
+	tot,V17,M17,V19,M19,Hab:Entero
+	porcM,porcF,porc19,porc17:Real
+PROCESO
+ARR(Capit_23)
+AVZ(Capit_23,Hab)
+tot:=0
+V17:=0
+V19:=0
+M17:=0
+M19:=0
+
+MIENTRAS NFDS(Capit_23) HACER
+//Cargar acumuladores de habitantes (orden estimado de Varon Mujer menores y varon mujer mayores)
+	V17:=V17+Hab
+	tot:=tot+Hab
+	AVZ(Capit_23,Hab)
+	
+	M17:=M17+Hab
+	tot:=tot+Hab
+	AVZ(Capit_23,Hab)
+	
+	V19:=V19+Hab
+	tot:=tot+Hab
+	AVZ(Capit_23,Hab)
+	
+	M19:=M19+Hab
+	tot:=tot+Hab
+	AVZ(Capit_23,Hab)
+FIN MIENTRAS
+
+//Realizar porcentajes
+porcM:=(((V17+V19)*100)/tot)
+porcF:=(((M17+M19)*100)/tot)	
+porc17:=(((V17+M17)*100)/tot)
+porc19:=(((V19+M19)*100)/tot)
+
+
+Escribir("El total de habitantes es: ",tot)
+Escribir("El porcentaje de varones es: ",porcM)
+Escribir("El porcentaje de mujeres es: ",porcF)
+Escribir("El porcentaje de habitantes menores de 18 es:",porc17)
+Escribir("El porcentaje de habitantes mayores de 18 es:",porc19)
+
+Cerrar(Capit_23)
+FIN ACCION

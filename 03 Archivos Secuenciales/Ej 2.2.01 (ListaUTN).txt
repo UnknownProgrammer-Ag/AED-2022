@@ -1,0 +1,38 @@
+ACCION Ej 2.2.01 (ListaUTN) ES
+AMBIENTE
+	
+	Fecha=Registro de
+		Año:N(4)
+		Mes:(1..12)
+		Dia:N(2)
+	Fin Registro
+	
+	Alumnos=Registro de
+		Legajo:N(5)
+		Carrera:('ISI','IEM','IQ','LAR')
+		FullName:AN(35)
+		Nacimiento:Fecha
+		Ingreso:Fecha
+		DNI:N(8)
+		Sexo:('M','F')
+		UltAprob:Fecha
+		Nota:N(2)
+	Fin Registro
+
+Facu:Archivo de Alumnos ordenado por Nro Legajo
+List:Alumnos
+
+PROCESO
+ABRIR E/(Facu)
+Leer(Facu,List)
+
+MIENTRAS NFDA(Facu) HACER
+	ESCRIBIR("Nro. Legajo: ",List.Legajo,"|Apellido y Nombre: ",List.Apellido," ",List.Nombre,"| Documento: ",List.DNI,"| Carrera: ",List.Carrera,"|")
+	LEER(Facu,List)
+FIN MIENTRAS
+
+CERRAR(Facu)
+
+FIN ACCION
+
+	

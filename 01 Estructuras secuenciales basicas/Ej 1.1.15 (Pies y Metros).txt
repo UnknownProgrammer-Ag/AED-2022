@@ -1,0 +1,26 @@
+ACCION 1.1.15(Pies Y Metros) ES
+AMBIENTE
+	ConvMetroaPies= 3.28
+	CantPisos,i:Entero
+	AltPromPiso,AltEdif:Real
+	Edif:AN(1)
+PROCESO
+	//VERSION CONTADOR A 50 EDIFICIOS
+	//PARA i:=1 hasta 50 HACER
+	//	Escribir("Ingrese la cantidad de pisos del edificio y su altura promedio (en metros) de c/u")
+	//	Leer(CantPisos,AltPromPiso)
+	//	AltEdif:=CantPisos*AltPromPiso
+	//	AltEdif:=AltEdif*ConvMetroaPies
+	//	Escribir("La altura aproximada en pies del edificio es ",AltEdif)
+	//FIN PARA
+	Edif:=Y
+	Mientras Edif='Y' HACER
+		Escribir("Ingrese la cantidad de pisos del edificio y su altura promedio (en metros) de c/u")
+		Leer(CantPisos,AltPromPiso)
+		AltEdif:=CantPisos*AltPromPiso
+		AltEdif:=AltEdif*ConvMetroaPies
+		Escribir("La altura aproximada en pies del edificio es ",AltEdif)
+		Escribir("Desea calcular otro edificio? Y/N")
+		Leer(Edif)
+	FIN Mientras
+FIN ACCION

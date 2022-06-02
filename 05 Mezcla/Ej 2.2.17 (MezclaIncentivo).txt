@@ -1,0 +1,90 @@
+ACCION Ej 2.2.17 (MezclaIncentivo) ES
+AMBIENTE
+	
+	Fecha=registro de	
+		Año:N(4)
+		Mes:N(2)
+		Dia:N(2)
+	fin registro
+	
+	Chicos=registro de
+		DNI:N(8)
+		FullName:AN(45)
+		Carrera:{'ISI','IEM','IQ','LAR'}
+		Born:Fecha
+		Email:AN(30)
+		ColegioSec:AN(45)
+		Inscript:Fecha
+		Aprobado:{'SI','NO'}
+	fin registro
+	
+	Seg=registro de
+		DNI:N(8)
+		FullName:=AN(45)
+		Email:AN(30)
+		ColegioSec:AN(45)
+	fin registro
+	
+AspirantesAgosto,AspirantesFebrero:Archivo de Chicos ordenado por DNI
+Ag,Fb:Chicos
+Seguimiento:Archivo de Seg ordenado por DNI
+Sal:Seg
+
+ContAspirantes:Entero
+	PROCEDIMIENTO CargarAgosto() ES	
+		SI Ag.Aprobado='NO' ENTONCES
+			Sal.DNI:=Ag.DNI
+			Sal.FullName:=Ag.FullName
+			Sal.Email:=Ag.Email
+			Sal.ColegioSec:=Ag.ColegioSec
+			Grabar(Seguimiento,Sal)
+			ContAspirantes:=ContAspirantes+1
+		FIN SI
+		LEER(AspirantesAgosto,Ag)	
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO CargarFebrero() ES
+		SI Fb.Aprobado='NO' ENTONCES
+			Sal.DNI:=Fb.DNI
+			Sal.FullName:=Fb.FullName
+			Sal.Email:=Fb.Email
+			Sal.Email:=Fb.ColegioSec
+			ContAspirantes:=ContAspirantes+1
+			Grabar(Seguimiento,Sal)
+		FIN SI
+		LEER(AspirantesFebrero,Fb)
+	FIN PROCEDIMIENTO
+	
+PROCESO
+ABRIR E/(AspirantesAgosto,AspirantesFebrero)
+LEER(AspirantesAgosto,Ag)
+LEER(AspirantesFebrero,Fb)
+ABRIR S/(Seguimiento)
+
+ContAspirantes:=0
+
+MIENTRAS NFDA(AspirantesAgosto) Y NFDA(AspirantesFebrero) HACER
+	SI Ag.DNI<Fb.DNI ENTONCES
+		CargarAgosto()
+	CONTRARIO
+		SI Ag.DNI>Fb.DNI ENTONCES
+			CargarFebrero()
+		FIN SI
+	FIN SI
+FIN MIENTRAS
+
+MIENTRAS NFDA(AspirantesAgosto) HACER
+	CargarAgosto()
+FIN MIENTRAS
+
+MIENTRAS NFDA(AspirantesFebrero) HACER
+	CargarFebrero()
+FIN MIENTRAS
+
+ESCRIBIR("Total de Estudiantes: ",ContAspirantes)
+
+CERRAR(AspirantesAgosto)
+CERRAR(AspirantesFebrero)
+CERRAR(Seguimiento)
+
+FIN ACCION

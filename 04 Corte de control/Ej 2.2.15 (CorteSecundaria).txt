@@ -1,0 +1,146 @@
+ACCION Ej 2.2.15 (CorteSecundaria) ES
+AMBIENTE
+	
+	Instit=registro de
+		Escuela:N(7)
+		Año:N(1)
+		Division:N(1)
+		Nombre:AN(35)
+		Inasistencias:N(2)
+	fin registro
+	
+ALUMNOS:Archivo de Instit ordenado por Escuela,Año,Division
+Stud:Instit
+
+Distrito,DiasDictados,DiasAsistidos,ContFaltas:Entero
+ContAlumnos,ContAñoAlumnos,ContEscuelaAlumnos:Entero
+ContDivLibre,ContDivRegular,ContAñoLibre,ContAñoRegular,ContEscuelaLibre,ContEscuelaRegulares:Entero
+TotalAlumnos,TotalLibres,TotalRegulares:Entero
+PorcInasistencia,PorcLibre,PromFaltas:Real
+
+ResgDiv:N(1)
+ResgAño:N(1)
+ResgEscuela:N(7)
+	
+	PROCEDIMIENTO CalcularInasistencia() ES
+		DiasAsistidos:=DiasDictados-Stud.Inasistencias
+		PorcInasistencia:=100-((DiasAsistidos/DiasDictados)*100)
+		
+		ContFaltas:=ContFaltas+Stud.Inasistencias
+		
+		SI PorcInasistencia>20 ENTONCES
+			ContDivLibre:=ContDivLibre+1
+		CONTRARIO
+			ContDivRegular:=ContDivRegular+1
+		FIN SI
+		
+		ContAlumnos:=ContAlumnos+1
+		
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Division() ES
+		ESCRIBIR("Cantidad de alumnos de la division ",ResgDiv," es de: ",ContAlumnos)
+		
+		ContAñoAlumnos:=ContAñoAlumnos+ContAlumnos
+		ContAñoLibre:=ContAñoLibre+ContDivLibre
+		ContAñoRegular:=ContAñoRegular+ContDivRegular
+		
+		ContAlumnos:=0
+		ContDivLibre:=0
+		ContDivRegular:=0
+		
+		ResgDiv:=Stud.Division
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Año() ES
+		Corte_Division()
+		
+		ESCRIBIR("Cantidad de Alumnos Libres del año ",ResgAño, "es de: ",ContAñoLibre)
+		ESCRIBIR("Cantidad de Alumnos Regulares del año ",ResgAño, "es de: ",ContAñoRegular)
+		ESCRIBIR("Cantidad de Alumnos del año ",ResgAño, "es de: ",ContAñoAlumnos)
+		
+		ContEscuelaAlumnos:=ContEscuelaAlumnos+ContAñoAlumnos
+		ContEscuelaLibre:=ContEscuelaLibre+ContAñoLibre
+		ContEscuelaRegulares:=ContEscuelaRegulares+ContAñoRegular
+		
+		ContAñoAlumnos:=0
+		ContAñoLibre:=0
+		ContAñoRegular:=0
+		
+		ResgAño:=Stud.Año
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Escuela() ES
+		Corte_Año()
+		
+		TotalAlumnos:=TotalAlumnos+ContEscuelaAlumnos
+		TotalLibres:=TotalLibres+ContEscuelaLibre
+		TotalRegulares:=TotalRegulares+ContEscuelaRegulares
+		
+		ContEscuelaAlumnos:=0
+		ContEscuelaLibre:=0
+		ContEscuelaRegulares:=0
+		
+		ResgEscuela:=Stud.Escuela
+		
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Distrito() ES
+		Corte_Escuela()
+	
+		ESCRIBIR("Total de Alumnos en todas las escuelas del distrito ",Distrito," es de: ",TotalAlumnos)
+		
+		PorcLibre:=(TotalLibres/TotalAlumnos)*100
+		ESCRIBIR("El porcentaje de alumnos libres del total de alumnos es de: ",PorcLibre)
+		
+		PromFaltas:=(ContFaltas/TotalAlumnos)
+		ESCRIBIR("El promedio de inasistencias por alumnos es de: ",PromFaltas)
+	
+	FIN PROCEDIMIENTO
+
+PROCESO
+ABRIR E/(ALUMNOS)	
+LEER(ALUMNOS,Stud)
+
+ResgAño:=Stud.Año
+ResgDiv:=Stud.Division
+ResgEscuela:=Stud.Escuela
+
+ContFaltas:=0
+ContAlumnos,ContAñoAlumnos,ContEscuelaAlumnos:=0
+ContDivLibre,ContDivRegular,ContAñoLibre,ContAñoRegular,ContEscuelaLibre,ContEscuelaRegulares:=0
+TotalAlumnos,TotalLibres,TotalRegulares:=0
+
+ESCRIBIR("Ingrese el numero de distrito")
+LEER(Distrito)
+ESCRIBIR("Ingrese numero de dias dictados")
+LEER(DiasDictados)
+
+MIENTRAS NFDA(ALUMNOS) HACER
+	SI ResgEscuela<>Stud.Escuela ENTONCES
+		Corte_Escuela
+	CONTRARIO
+		SI ResgAño<>Stud.Año ENTONCES
+			Corte_Año
+		CONTRARIO
+			SI ResgDiv<> Stud.Division ENTONCES
+				Corte_Division
+			FIN SI	
+		FIN SI
+	FIN SI
+	
+	CalcularInasistencia()
+
+	LEER(ALUMNOS,Stud)
+
+FIN MIENTRAS
+
+Corte_Distrito()
+
+CERRAR(ALUMNOS)
+
+FIN ACCION
+
+	
+
+	

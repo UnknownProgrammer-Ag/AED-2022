@@ -1,0 +1,15 @@
+Una empresa X solicita un programa que devuelva el monto total a pagar de una compra.
+ Ademas cuenta con una promoción, si el monto supera los $1000, se realiza un descuento del 15%
+
+ACCION Ej0.0.0 ES
+AMBIENTE
+monto_compra:entero
+descuento=0.85
+promo=1000
+PROCESO
+LEER(monto_compra)
+SI monto_compra> promo ENTONCES
+	monto_compra:=monto_compra*descuento
+FIN SI
+ESCRIBIR(monto_compra)
+FIN ACCION

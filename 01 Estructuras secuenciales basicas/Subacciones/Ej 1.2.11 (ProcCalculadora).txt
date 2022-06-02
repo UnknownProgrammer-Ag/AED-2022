@@ -1,0 +1,76 @@
+ACCION 1.2.11 (Calculadora) ES
+AMBIENTE
+	A,B:Real
+	Opc,X:Entero
+	
+	Procedimiento AVISO() ES
+		ESCRIBIR("Si desea finalizar la calculadora ingrese 9999")
+	FIN Procedimiento
+	
+	FUNCION Suma(X,Y:Real):Real ES
+		Suma:=X+Y
+	FIN FUNCION
+	
+	FUNCION Rest(X,Y:Real):Real ES
+		Rest:=X-Y
+	FIN FUNCION
+	
+	FUNCION Mult(X,Y:Real):Real ES
+		SI X=0 O Y=0 ENTONCES
+			Mult:=0
+		CONTRARIO
+			Mult:=X*Y
+		FIN SI
+	FIN FUNCION
+	
+	Procedimiento ERROR() ES
+		ESCRIBIR("NO EXISTE DIVISION CON UN DENOMINADOR 0")
+	FIN Procedimiento
+	
+	FUNCION Div(X,Y:Real):Real ES
+		SI Y=0 ENTONCES
+			ERROR()
+		CONTRARIO
+			Div:=X/Y
+		FIN SI
+	FIN FUNCION
+	
+	Procedimiento Menu() ES
+		ESCRIBIR("BIENVENIDO A CABACUS")
+		ESCRIBIR("Las opciones de calculos posibles con estos valores son:")
+		ESCRIBIR("[1] Suma")
+		ESCRIBIR("[2] Resta")
+		ESCRIBIR("[3] Multiplicacion")
+		ESCRIBIR("[4] Division")
+		ESCRIBIR("Ingrese el numero correspondiente a la operacion")
+	FIN Procedimiento
+	
+	Procedimiento Llamar(Opc:Entero;A,B:Real) ES
+	AMBIENTE
+		Result:Real
+	PROCESO
+		Segun Opc HACER
+			=1:Result:=Suma(A,B)
+			=2:Result:=Rest(A,B)
+			=3:Result:=Mult(A,B)
+			=4:Result:=Div(A,B)
+		FIN SEGUN
+		ESCRIBIR("El resultado de la operacion es ", Result)
+	FIN Procedimiento
+PROCESO
+X:=1
+MIENTRAS X<>9999 HACER	
+	ESCRIBIR("Ingrese los valores a calcular")
+	Leer(A,B)
+	Menu()
+	Leer(Opc)
+	Llamar(Opc,A,B)
+	ESCRIBIR("---------------------------------------------")
+	AVISO()
+	ESCRIBIR("Desea realizar otra operacion? ")
+	Leer(X)
+FIN MIENTRAS
+FIN ACCION
+		
+
+	

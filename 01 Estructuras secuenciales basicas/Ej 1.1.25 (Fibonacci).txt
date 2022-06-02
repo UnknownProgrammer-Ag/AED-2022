@@ -1,0 +1,21 @@
+ACCION 1.1.25 (Fibonacci) ES
+AMBIENTE
+	A,resA,resB,B,F,i:Entero
+PROCESO
+	A:=0
+	B:=1
+	resA:=A
+	resB:=B
+	Escribir(A)
+	Escribir(B)
+	PARA i:=3 Hasta 50 HACER
+		F:=resA+resB
+		A:=resB+F
+		B:=F+A
+		resA:=A
+		resB:=B
+		Escribir(F)
+		Escribir(A)
+		Escribir(B)
+	FIN PARA
+FIN ACCION

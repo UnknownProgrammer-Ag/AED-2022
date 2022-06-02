@@ -1,0 +1,29 @@
+ACCION 2.1.9 (LasAlgopalabras) ES
+AMBIENTE
+	Palabras:Secuencia de Caracteres
+	Let:Caracter
+	Cont:Entero
+	X:Caracter
+PROCESO
+ARR(Palabras)
+AVZ(Palabras,Let)
+Cont:=0
+ESCRIBIR("Ingrese una letra con la que las palabras inicien ")
+LEER(X)
+
+MIENTRAS NFDS(Palabras) HACER
+	SI Let=X ENTONCES
+		Cont:=Cont+1
+	FIN SI
+	MIENTRAS Let<>" " Y NFDS(Palabras) HACER
+		AVZ(Palabras,Let)
+	FIN MIENTRAS
+	
+	MIENTRAS Let=" " HACER
+		AVZ(Palabras,Let)
+	FIN MIENTRAS
+FIN MIENTRAS
+
+ESCRIBIR("La cantidad de palabras con inicial ",X," es: ", Cont)
+Cerrar(Palabras)
+FIN ACCION

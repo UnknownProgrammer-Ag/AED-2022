@@ -1,0 +1,53 @@
+ACCION 2.1.22 (IdeasS.A) ES
+AMBIENTE
+	NombresEmpleados,DNIEmpleados,SalidaEmpleadoImpar:Secuencia de Caracteres
+	Name,Number:Caracter
+	i,contName:Entero
+PROCESO
+ARR(NombresEmpleados)
+ARR(DNIEmpleados)
+CREAR(SalidaEmpleadoImpar)
+AVZ(NombresEmpleados,Name)
+AVZ(DNIEmpleados,Number)
+contName:=0
+
+MIENTRAS NFDS(NombresEmpleados) HACER
+	MIENTRAS (Name= " ") HACER
+		AVZ(NombresEmpleados,Name)
+	FIN MIENTRAS
+	
+	contName:=contName+1
+	
+	Si (contName mod 2)=0 ENTONCES
+		MIENTRAS (Name <>" ") y NFDS(NombresEmpleados) HACER
+			AVZ(NombresEmpleados,Name)
+		FIN MIENTRAS
+		
+		PARA i:=1 hasta 8 HACER
+			AVZ(DNIEmpleados,Number)
+		FIN PARA
+		
+	CONTRARIO
+	
+		Para i:=1 Hasta 8 HACER
+			ESCRIBIR(SalidaEmpleadoImpar,Number)
+			AVZ(DNIEmpleados,Number)
+		FIN PARA
+		
+		ESCRIBIR(SalidaEmpleadoImpar,",")
+		
+		MIENTRAS (Name<>" ") HACER
+			ESCRIBIR(SalidaEmpleadoImpar,Name)
+			AVZ(NombresEmpleados,Name)
+		FIN MIENTRAS
+		
+		ESCRIBIR(SalidaEmpleadoImpar,"#")
+	FIN Si
+	
+FIN MIENTRAS
+
+CERRAR(NombresEmpleados)
+CERRAR(DNIEmpleados)
+CERRAR(SalidaEmpleadoImpar)
+
+FIN ACCION

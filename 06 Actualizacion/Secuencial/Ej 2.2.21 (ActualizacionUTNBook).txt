@@ -1,0 +1,137 @@
+ACCION Ej 2.2.22 (Actualizacion_UTNBOOK) ES
+AMBIENTE
+
+	Fecha=registro de
+		Año:N(4)
+		Mes:N(2)
+		Dia:N(2)
+	fin registro
+	
+	Clave=registro de
+		Cod_Usuario:N(6)
+		Cod_Amigo:N(6)
+	fin registro
+	
+	Contactos=registro de
+		ID:Clave
+		Amistad:Fecha
+		Mensaje:AN(60)
+	fin registro
+	
+	Changes=registro de
+		IDMov:Clave
+		Cod_Mov:{'A','B','M'} //Alta,Baja,Modificacion
+		Amistad:Fecha
+		Mensaje:AN(60)
+	fin registro
+
+AMIGOS,AMIGOSACTUALIZADOS:Archivo de Contactos ordenado por ID
+NOTIFICACIONES:Archivo de Changes ordenado por IDMov
+Mast,NewMast:Contactos
+Mov:Changes
+	
+	PROCEDIMIENTO LEER_AMIGOS() ES
+		LEER(AMIGOS,Mast)
+		SI FDA(AMIGOS) ENTONCES
+			Mast.ID:=HV
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO LEER_NOTIF() ES
+		LEER(NOTIFICACIONES,Mov)
+		SI FDA(NOTIFICACIONES) ENTONCES
+			Mov.IDMov:=HV
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO CargarMaestro() ES
+		GRABAR(AMIGOSACTUALIZADOS,Mast)
+		LEER_AMIGOS()
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO SolicitudAmistad() ES
+		NewMast.ID:=Mov.ID
+		NewMast.Amistad:=Fecha_Actual()
+		NewMast.Mensaje:=Mov.Mensaje
+		GRABAR(AMIGOSACTUALIZADOS,NewMast)
+
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO EliminarAmigo() ES
+		Eliminar(AMIGOS,Mast)
+	FIN PROCEDIMIENTO
+
+	PROCEDIMIENTO NuevoMensaje() ES
+		Mast.Mensaje:=Mov.Mensaje
+		GRABAR(AMIGOSACTUALIZADOS,Mast)
+	FIN PROCEDIMIENTO
+	
+ResgUsuario,Resg:=N(6)
+ContAmigos,ResgMayor:Entero	
+
+	PROCEDIMIENTO CONTAR_AMIGOS() ES //ESTO FUNCIONA O NO FUNCIONA NO ES SEGURO
+		SI ResgUsuario=Mast.ID.Cod_Usuario ENTONCES
+			ContAmigos:=ContAmigos+1
+		CONTRARIO
+			SI ResgMayor<ContAmigos ENTONCES
+				ResgMayor:=ContAmigos
+				Resg:=ResgUsuario
+			FIN SI
+			ContAmigos:=0
+			ResgUsuario:=Mast.ID.Cod_Usuario
+			ContAmigos:=ContAmigos+1
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+PROCESO
+ABRIR E/(AMIGOS,NOTIFICACIONES)
+ABRIR S/(AMIGOSACTUALIZADOS)
+
+LEER_NOTIF()
+LEER_AMIGOS()
+
+ResgMayor:=0 //Cont Mayor a este lo reemplaza y asi hasta obtener el que sea mayor
+ContAmigos:=0
+ResgUsuario:=Mast.ID.Cod_Usuario
+
+MIENTRAS (Mast.ID<>HV) o (Mov.IDMov<>HV) HACER
+	SI (Mast.ID<Mov.IDMov) ENTONCES
+		CargarMaestro()
+		CONTAR_AMIGOS()
+	CONTRARIO
+		SI (Mast.ID=Mov.IDMov) ENTONCES
+			SEGUN (Mov.Cod_Mov) HACER
+			='A':
+				ESCRIBIR("Error de Alta, ya existe este amigo")
+				CONTAR_AMIGOS()
+			='B':
+				EliminarAmigo()
+			='M':
+				NuevoMensaje()
+				CONTAR_AMIGOS()
+			FIN SEGUN
+			LEER_NOTIF()
+			LEER_AMIGOS()
+		CONTRARIO
+			SEGUN (Mov.Cod_Mov) HACER
+			='A':
+				SolicitudAmistad()
+				CONTAR_AMIGOS()
+			='B': 
+				ESCRIBIR("Error de Baja, no existe un amigo registrado")
+			='M': 
+				ESCRIBIR("Error de Modificacion, no existe un amigo registrado")
+			FIN SEGUN
+			LEER_NOTIF()
+		FIN SI
+	FIN SI
+FIN MIENTRAS
+
+ESCRIBIR("El usuario ",Resg," posee el mayor numero con: ",ResgMayor," amigos")
+CERRAR(AMIGOS)
+CERRAR(AMIGOSACTUALIZADOS)
+CERRAR(NOTIFICACIONES)
+
+FIN ACCION
+
+	

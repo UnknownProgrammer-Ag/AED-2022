@@ -1,0 +1,17 @@
+ACCION 1.1.33 (SucesionParInversa) ES
+AMBIENTE
+N,cont,i,j,Div:ENTERO
+PROCESO
+	ESCRIBIR("INGRESE EL VALOR PAR")
+	LEER(N)
+	Div:=N DIV 2
+	cont:=0
+	PARA i:=1 Hasta Div HACER
+		PARA j:=(2+cont) HASTA N,2 HACER 
+			ESCRIBIR(j)
+		FIN PARA
+		cont:=cont+2
+		ESCRIBIR("-----------------------------------") //Dividir la sucesion
+	FIN PARA
+FIN ACCION
+	

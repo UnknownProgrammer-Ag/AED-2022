@@ -1,0 +1,126 @@
+ACCION Ej 2.2.19 (Actualizacion_Remedios) ES
+AMBIENTE
+	Fecha=registro de
+		Año:N(4)
+		Mes:N(2)
+		Dia:N(2)
+	fin registro
+	
+	Clave=registro de	
+		Farmacia:N(6)
+		Medicamento:AN(15)
+	fin registro
+	
+	Remedios=registro de
+		ID:Clave
+		CantActual:N(5)
+		Vencimiento:Fecha
+	fin registro
+	
+	Changes=registro de
+		IDMov:Clave
+		Cod_Mov:{1..3}
+		Recibido:N(4)
+	fin registro
+	
+	OldMed=registro de	
+		Medicamento:AN(15)
+		Vencida:N(4)
+	fin registro
+	
+MAESTRO,MAESTROACTUALIZADO:Archivo de Remedios ordenado por ID
+MOVIMIENTOS:Archivo de Changes ordenado por IDMov, Cod_Mov
+VENCIDOS:Archivo de OldMed ordenado por Medicamento
+
+Mast,NewMast:Remedios
+Mov:Changes
+Expd:OldMed
+
+//Un solo mov por cada master
+
+	PROCEDIMIENTO LEER_MAESTRO() ES
+		LEER(MAESTRO,Mast)
+		SI FDA(MAESTRO) ENTONCES
+			Mast.ID:=HV
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO LEER_MOVIMIENTO() ES
+		LEER(MOVIMIENTOS,Mov)
+		SI FDA(MOVIMIENTOS) ENTONCES
+			Mov.IDMov:=HV
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO CargarMaestro() ES
+		NewMast:=Mast
+		GRABAR(MAESTROACTUALIZADO,NewMast)
+		LEER_MAESTRO()
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO CargarNuevoMov() ES
+		SEGUN Mov.Cod_Mov HACER
+		=1:
+			NewMast.ID:=Mov.IDMov
+			NewMast.CantActual:=Mov.Recibido
+			NewMast.Vencimiento:=FechaActual()+30
+			GRABAR(MAESTROACTUALIZADO,NewMast)
+		=2:
+			ESCRIBIR("ERROR 002: NO EXISTE REGISTRO DE ESE MEDICAMENTO")
+		=3:
+			ESCRIBIR("ERROR 003: NO EXISTE REGISTRO DE ESE MEDICAMENTO, NO SE PUEDE MODIFICAR LA CANTIDAD")
+		FIN SEGUN
+		LEER_MOVIMIENTO()
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO CambiarMaestro() ES
+		Segun Mov.Cod_Mov HACER
+		=1:
+			ESCRIBIR("ERROR 001: YA EXISTE REGISTRO DE ESTE MEDICAMENTO,NO SE DEBE CARGAR NUEVAMENTE")
+		=2:
+			Expd.Medicamento:=Mast.ID.Medicamento
+			Expd.Cant_Vencida:=Mov.Recibido
+			GRABAR(VENCIDOS,Expd)
+		=3:
+			NewMast.ID:=Mov.IDMov
+			NewMast.CantActual:=Mast.CantActual+Mov.Recibido
+			NewMast.Vencimiento:=Mast.Vencimiento
+			GRABAR(MAESTROACTUALIZADO,NewMast)
+		FIN SEGUN
+		LEER_MAESTRO()
+		LEER_MOVIMIENTO()
+	FIN PROCEDIMIENTO
+
+
+PROCESO
+ABRIR E/(MAESTRO,MOVIMIENTOS)
+ABRIR S/(VENCIDOS,MAESTROACTUALIZADO)
+
+LEER_MAESTRO()
+LEER_MOVIMIENTO()
+
+MIENTRAS (Mast.ID<>HV) o (Mov.IDMov<>HV) HACER
+	SI (Mast.ID<Mov.IDMov) ENTONCES
+		CargarMaestro()
+	CONTRARIO	
+		SI (Mast.ID=Mov.IDMov) ENTONCES
+			CambiarMaestro()
+		CONTRARIO
+			CargarNuevoMov()
+		FIN SI
+	FIN SI
+FIN MIENTRAS
+
+CERRAR(MAESTRO)
+CERRAR(MOVIMIENTOS)
+CERRAR(MAESTROACTUALIZADO)
+CERRAR(VENCIDOS)
+
+FIN ACCION
+
+	
+
+	
+	
+	
+	

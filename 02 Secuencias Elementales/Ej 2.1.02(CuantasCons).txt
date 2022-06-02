@@ -1,0 +1,19 @@
+ACCION 2.1.2 (CuantasCons) ES
+AMBIENTE
+	Vocal={'a','e','i','o','u'}
+	Cont:Entero
+	Alph:Secuencia de Caracteres
+	Lt:Caracter
+PROCESO
+	Cont:=0
+	ARR(Alph)
+	AVZ(Alph,Lt)
+	Repetir 
+		Si NO (Lt en Vocal) ENTONCES
+			Cont:=Cont+1
+		FIN Si
+		AVZ(Alph,Lt)
+	HASTA QUE Lt='Z'
+	ESCRIBIR("EL numero de consonantes en la secuencia es: ",Cont)
+	Cerrar(Alph)
+FIN ACCION

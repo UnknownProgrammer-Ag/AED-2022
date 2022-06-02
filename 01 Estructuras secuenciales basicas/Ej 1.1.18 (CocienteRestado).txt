@@ -1,0 +1,14 @@
+ACCION 1.1.18 (CocienteRestado) ES
+AMBIENTE
+	F,G,Resto,Coc:Entero
+PROCESO
+	Coc:=0
+	ESCRIBIR("Ingrese los valores")
+	LEER(F,G)
+	MIENTRAS F>=G HACER
+		F:=F-G
+		Coc:=Coc+1
+	FIN MIENTRAS
+	Resto:=F
+	ESCRIBIR("El cociente entre los valores ",F," y ",G," es igual a ",Coc," y el resto es ", resto)
+FIN ACCION

@@ -1,0 +1,59 @@
+ACCION 2.1.19 (Palabra3) ES
+AMBIENTE
+	AnyWord,Palabras3Char:Secuencia de Caracteres
+	Char,Res1,Res2,Res3:Caracter
+	Porc3Char:Real
+	cont,TotWord,Total:Entero
+PROCESO
+ARR(AnyWord)
+AVZ(AnyWord,Char)
+CREAR(Palabras3Char)	
+TotWord:=0
+Total:=0
+MIENTRAS NFDS(AnyWord) HACER
+	Mientras Char=" " HACER
+		AVZ(AnyWord,Char)
+	FIN MIENTRAS
+	
+	Total:=Total+1
+	cont:=0
+	
+	Si (Char<>" ") y (NFDS(AnyWord)) ENTONCES
+		Res1:=Char
+		cont:=cont+1
+		AVZ(AnyWord,Char)
+	Fin Si
+	
+	Si (Char<>" ") y (NFDS(AnyWord)) ENTONCES
+		Res2:=Char
+		cont:=cont+1
+		AVZ(AnyWord,Char)
+	Fin Si
+	Si (Char<>" ") y (NFDS(AnyWord)) ENTONCES
+		Res3:=Char
+		cont:=cont+1
+		AVZ(AnyWord,Char)
+	Fin Si
+	
+	MIENTRAS Char <>" " Y NFDS(AnyWord) HACER //si ENTRA al mientras ya se anula el resguardo
+		cont:=cont+1
+		AVZ(AnyWord,Char)
+	Fin Mientras
+	
+	Si cont=3 HACER
+		TotWord:=TotWord+1
+		ESCRIBIR(Palabras3Char,Res1)
+		ESCRIBIR(Palabras3Char,Res2)
+		ESCRIBIR(Palabras3Char,Res3)
+		ESCRIBIR(Palabras3Char," ")
+	Fin si
+	
+FIN MIENTRAS
+
+CERRAR(AnyWord)
+CERRAR(Palabras3Char)
+Porc3Char:=((TotWord*100)/Total)
+ESCRIBIR("El porcentaje de palabras con 3 caracteres es: ", Porc3Char)
+FIN ACCION
+
+

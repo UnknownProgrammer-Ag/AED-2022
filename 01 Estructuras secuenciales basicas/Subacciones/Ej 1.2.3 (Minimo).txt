@@ -1,0 +1,26 @@
+ACCION 1.2.3 (Minimo) ES
+AMBIENTE
+	X,Y,Z,T,Menor:Entero
+
+	FUNCION Minimo(A,B,C:Entero):Entero ES
+		SI A<B Y A<C ENTONCES
+			Minimo:=A
+		CONTRARIO
+			SI B<A Y B<C ENTONCES
+				Minimo:=B
+			CONTRARIO
+				Minimo:=C
+			FIN SI
+		FIN SI
+	FIN FUNCION
+PROCESO
+T:=1
+MIENTRAS T=1 HACER
+	ESCRIBIR("Ingrese los tres valores")
+	Leer(X,Y,Z)
+	Menor:=Minimo(X,Y,Z)
+	ESCRIBIR("El menor valor es ",Menor)
+	ESCRIBIR("Determine si quiere repetir el programa 1|0")
+	Leer(T)
+FIN MIENTRAS
+FIN ACCION

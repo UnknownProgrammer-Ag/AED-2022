@@ -1,0 +1,87 @@
+ACCION Ej 1.1.05.1(Inflacion) ES
+AMBIENTE
+	C,P:Real
+	N,A:Entero
+	R=0.04
+PROCESO
+	ESCRIBIR("Ingrese el precio del producto")
+	Leer(C)
+	ESCRIBIR("Ingrese el año actual y el año al cual quiere calcular")
+	LEER(A,N)
+	P:=C*(1+R)^(N-A)
+	ESCRIBIR("El precio para el año ",N," es de ",P)
+FIN ACCION
+
+ACCION 1.1.05.2 (Raices) ES
+AMBIENTE
+	a,b,c,Result:Entero
+PROCESO
+	ESCRIBIR("Ingrese los valores")
+	LEER(a,b,c)
+	Result:=(b^2-4*a*c)
+	ESCRIBIR("El resultado del disciriminante es ",Result)
+FIN ACCION
+
+ACCION 1.1.05.3 (Entre Tinta y PC) ES
+AMBIENTE
+	Iva=1,21
+	GPC=1,12
+	GIMp=1,07
+	PrPC,PrImp,Total:Real
+PROCESO
+	ESCRIBIR("Ingrese costos de PC e Impresora")
+	LEER(PrImp,PrPC)
+	PrPC:=PrPc*GPC
+	PrImp:=PrImp*GIMp
+	Total:=PrImp+PrPC
+	ESCRIBIR("El total es ",Total*Iva)
+FIN ACCION
+
+ACCION 1.1.05.4 (Trapecius) ES
+AMBIENTE
+	BMay,Bmen,Alt,Surf:Real
+PROCESO
+	ESCRIBIR("Ingrese los valores del trapecio")
+	LEER(BMay,Bmen,Alt)
+	Surf:=(((BMay+Bmen)*Alt)/2)
+	ESCRIBIR("La superficie de el trapecio es ",Surf)
+FIN ACCION
+
+ACCION 1.1.05.5 (Electric) ES
+AMBIENTE
+	S,C,I:Real
+	Secure=1.25
+PROCESO
+	ESCRIBIR("Ingrese los datos de conductividad y la corriente electrica")
+	LEER(C,I)
+	S:=(I*C)*Secure
+	ESCRIBIR("El valor de la seccion es ",S)
+FIN ACCION
+
+ACCION 1.1.05.6 (Complex) ES
+AMBIENTE
+a,b,c,d,ac,db,ad,bc,X,Y:Real
+PROCESO
+	ESCRIBIR("Ingrese los valores complejos")
+	LEER(a,b,c,d)
+	ac:=a*c
+	db:=d*b
+	ad:=a*d
+	bc:=b*c
+	X:=(ac-db)
+	Y:=(ad+bc)
+	ESCRIBIR("El producto de complejos es (",X,";",Y,")")
+FIN ACCION
+
+ACCION 1.1.05.7 (Geometric Mid)ES
+AMBIENTE
+	X,Y,Z,Half:Real
+PROCESO
+	ESCRIBIR("Ingrese los valores")
+	LEER(X,Y,Z)
+	Half:=(X*Y*Z)/3
+	ESCRIBIR("Valor X",X)
+	ESCRIBIR("Valor Y",Y)
+	ESCRIBIR("Valor Z",Z)
+	ESCRIBIR("La media geometrica es ",Half)
+FIN ACCION

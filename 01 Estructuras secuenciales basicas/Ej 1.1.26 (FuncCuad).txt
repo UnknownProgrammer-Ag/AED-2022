@@ -1,0 +1,18 @@
+ACCION 1.1.26 (FuncCuad) ES
+AMBIENTE
+	X,Y,i,a,b,c:ENTERO
+	Bandera:Alfanumerica
+PROCESO
+Bandera:='Y'
+MIENTRAS Bandera='Y' HACER
+	ESCRIBIR("Ingrese los valores de los coeficientes a,b,c")
+	Leer(a,b,c)
+	PARA i:=20 hasta -20,-2 HACER
+		X:=i
+		Y:=((a*X**2)+(b*X)+(c))
+		ESCRIBIR("Las coordenadas son {X,Y}= ",X,",",Y)
+	FIN PARA
+ESCRIBIR("Informe si desea cambiar de ecuacion [Y|N]")
+LEER(Bandera)
+FIN MIENTRAS
+FIN ACCION

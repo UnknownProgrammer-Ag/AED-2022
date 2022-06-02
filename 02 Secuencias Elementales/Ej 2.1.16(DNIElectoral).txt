@@ -1,0 +1,19 @@
+ACCION 2.1.16 (DNIElectoral) ES
+AMBIENTE
+	DNIMult3,CircuitoElec:Secuencia de Enteros
+	Dnis:Entero
+PROCESO
+ARR(CircuitoElec)
+AVZ(CircuitoElec,Dnis)
+CREAR(DNIMult3)
+
+MIENTRAS NFDS(CircuitoElec) HACER
+	SI (Dnis mod 3)=0 ENTONCES
+		ESCRIBIR(DNIMult3,Dnis)
+	FIN SI
+	AVZ(CircuitoElec,Dnis)
+FIN MIENTRAS
+
+CERRAR(CircuitoElec)
+CERRAR(DNIMult3)
+FIN ACCION

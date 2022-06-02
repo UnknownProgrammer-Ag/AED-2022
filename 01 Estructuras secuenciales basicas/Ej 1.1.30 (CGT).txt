@@ -1,0 +1,27 @@
+ACCION 1.1.30 (CGT) ES
+AMBIENTE
+	Premio=200
+	Ant=0.02
+	Cat,WorkYear,i:Entero
+	Sueld:Real
+	Asistencia:('si','no')
+PROCESO
+	PARA i:=1 HASTA 100 HACER
+		ESCRIBIR("INGRESE CATEGORIA Y ASISTENCIA")
+		LEER(Cat,Asistencia)
+		ESCRIBIR("Ingrese años trabajados")
+		LEER(WorkYear)
+		SI Cat=1 ENTONCES
+			Sueld:=700+(700*Ant*WorkYear)
+		CONTRARIO
+			Sueld:=500+(500*Ant*WorkYear)
+		FIN SI
+		
+		SI Asistencia='si' ENTONCES
+			Sueld:=Sueld+200
+		CONTRARIO
+			ESCRIBIR("No recibe el bono. RAZON: La asistencia no es perfecta")
+		FIN SI
+		ESCRIBIR("El sueldo a pagar es de: ",Sueld)
+	FIN PARA
+FIN ACCION

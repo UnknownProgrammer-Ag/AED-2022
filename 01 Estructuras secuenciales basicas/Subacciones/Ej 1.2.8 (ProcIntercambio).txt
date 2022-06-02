@@ -1,0 +1,14 @@
+ACCION 1.2.8 (ProcIntercambio) ES
+AMBIENTE
+....
+	Procedimiento Change(A,B:Real) ES	
+	AMBIENTE
+		resA:Real
+	PROCESO
+		resA:=A
+		A:=B
+		B:=resA
+	FIN Procedimiento
+PROCESO
+....
+FIN ACCION

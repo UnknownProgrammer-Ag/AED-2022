@@ -1,0 +1,26 @@
+ACCION 2.1.9 (LasIpalabras) ES
+AMBIENTE
+	Palabras:Secuencia de Caracteres
+	LetI:Caracter
+	ContI:Entero
+PROCESO
+ARR(Palabras)
+AVZ(Palabras,LetI)
+ContI:=0
+
+MIENTRAS NFDS(Palabras) HACER
+	MIENTRAS LetI=" " HACER
+		AVZ(Palabras,LetI)
+	FIN MIENTRAS
+	
+	SI LetI='I' o LetI='i' ENTONCES
+		ContI:=ContI+1
+	FIN SI
+	MIENTRAS LetI<>" " Y NFDS(Palabras) HACER
+		AVZ(Palabras,LetI)
+	FIN MIENTRAS
+FIN MIENTRAS
+
+ESCRIBIR("La cantidad de palabras con inicial I es: ", ContI)
+Cerrar(Palabras)
+FIN ACCION

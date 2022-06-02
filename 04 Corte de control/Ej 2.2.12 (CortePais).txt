@@ -1,0 +1,78 @@
+ACCION Ej 2.2.12 (CortePais) ES
+AMBIENTE
+
+	Censo=registro de
+		Clave=registro de
+			Provincia:AN(20)
+			Departamento:AN(25)
+			Ciudad:AN(20)
+			Barrio:AN(15)
+			IDCasa:N(6)
+		fin registro
+		Habitantes:N(2)
+	fin registro
+	
+	Salida=registro de
+		Clave_Sal=registro de
+			Provincia=AN(20)
+			Departamento=AN(25)
+		fin registro
+		Habitantes=N(7)
+	fin registro
+	
+Poblacion:Archivo de Censo ordenado por Clave
+Prov:Censo
+Poblacion_Salida:Archivo de Salida ordenado por Clave_Sal
+Sal:Salida
+
+ResgProv:AN(20)
+ResgDep:AN(25)
+ContHabitantes:ENTERO
+
+	PROCEDIMIENTO Corte_Provincia() ES
+		Corte_Departamento()
+		ResgProv:=Prov.Clave.Provincia
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Departamento() ES
+	
+		Sal.Clave_Sal.Provincia:=ResgProv
+		Sal.Clave_Sal.Departamento:=ResgDep
+		Sal.Habitantes:=ContHabitantes
+	
+		Grabar(Poblacion_Salida,Sal)
+
+		ContHabitantes:=0
+		ResgDep:=Prov.Clave.Departamento
+	FIN PROCEDIMIENTO
+	
+PROCESO
+ABRIR E/(Poblacion)
+ABRIR S/(Poblacion_Salida)
+LEER(Poblacion,Prov)
+
+ResgProv:=Prov.Clave.Provincia	
+ResgDep:=Prov.Clave.Departamento
+ContHabitantes:=0
+
+MIENTRAS NFDA(Poblacion) HACER
+
+	SI ResgProv<>Prov.Clave.Provincia ENTONCES
+		Corte_Provincia()
+	CONTRARIO
+		SI ResgDep<>Prov.Clave.Departamento ENTONCES
+			Corte_Departamento()
+		FIN SI
+	FIN SI
+		
+	ContHabitantes:=ContHabitantes+Prov.Habitantes
+
+	LEER(Poblacion,Prov)
+FIN MIENTRAS
+
+Corte_Provincia()
+
+CERRAR(Poblacion)
+CERRAR(Poblacion_Salida)
+
+FIN ACCION

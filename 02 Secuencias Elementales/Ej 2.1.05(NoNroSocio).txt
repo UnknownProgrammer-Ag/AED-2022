@@ -1,0 +1,21 @@
+ACCION 2.1.5 (NoNroSocio) ES
+AMBIENTE
+	SecSoc,SecNoSoc:Secuencia de Enteros
+	resg,Nro:Entero
+PROCESO
+ARR(SecSoc)
+AVZ(SecSoc,Nro)
+CREAR(SecNoSoc)
+resg:=0
+	MIENTRAS NFDS(SecSoc) HACER
+		resg:=resg+1
+		SI Nro<>resg ENTONCES
+			ESCRIBIR(SecNoSoc,resg)
+		CONTRARIO
+			AVZ(SecS,Nro)
+		FIN SI
+	FIN MIENTRAS
+	CERRAR(SecNoSoc)
+	CERRAR(SecSoc)
+FIN ACCION
+

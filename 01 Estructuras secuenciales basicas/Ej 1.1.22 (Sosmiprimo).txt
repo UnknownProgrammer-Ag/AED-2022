@@ -1,0 +1,27 @@
+ACCION 1.1.22 (Sosmiprimo) ES
+AMBIENTE
+	N,j:Entero
+	Bandera:Alfanumerico
+	Primo:Booleano
+PROCESO
+	Mientras (Bandera='Y') HACER
+		ESCRIBIR("Ingrese el numero")
+		LEER(N)
+		Primo:VERDADERO
+		j:=2
+		MIENTRAS (Primo) y (j<N) HACER
+			SI  (N MOD j=0) ENTONCES
+				bandera:=FALSO
+			FIN SI
+			j:=j+1
+		FIN MIENTRAS
+		
+		SI bandera ENTONCES
+			ESCRIBIR("Es un numero primo")
+		Contrario
+			ESCRIBIR("No es primo")
+				
+		ESCRIBIR("Indicar si desea repetir el programa [Y|N]")
+		LEER(Bandera)
+	FIN Mientras
+FIN ACCION

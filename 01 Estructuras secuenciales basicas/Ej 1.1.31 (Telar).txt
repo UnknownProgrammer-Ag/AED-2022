@@ -1,0 +1,35 @@
+ACCION 1.1.31 (Telar) ES
+AMBIENTE
+	AprestoSeda=1.02
+	AprestoAlg=1.07
+	Carton1=400
+	Carton2=300
+	Cald:Entero
+	Peso,Neto,PesoM2,Long:Real
+	Mat,Fin: Alfanumerico
+PROCESO
+FIN:='No'
+MIENTRAS FIN='NO' HACER
+	ESCRIBIR("Ingrese el peso de la tela en 1 m2 y su longitud")
+	LEER(PesoM2,Long)
+	Neto:=PesoM2*Long
+	ESCRIBIR("Ingrese la calidad de la tela y que material [S=Seda,C=Algodon")
+	LEER(Cald,Mat)
+	
+	SI Mat='S ENTONCES
+		Peso:=Neto*AprestoSeda
+	CONTRARIO
+		Peso:=Neto*AprestoAlg
+	FIN SI
+	
+	SI Cald=1 ENTONCES
+		Peso:=Peso+Carton1
+	CONTRARIO
+		Peso:=Peso+Carton2
+	FIN SI
+	
+	ESCRIBIR("El peso de la tela es ",Peso)
+	ESCRIBIR("¿Desea finalizar el programa?´[SI|NO] ")
+	LEER(Fin)
+FIN MIENTRAS
+FIN ACCION

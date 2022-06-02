@@ -1,0 +1,30 @@
+ACCION 1.1.8(Edades) ES
+AMBIENTE
+ Dia_Actual:N(2)
+ Mes_Actual=[1...12]
+ Año_Actual:N(4)
+ Dia_Nac:N(2)
+ Mes_Nac=[1...12]
+ Año_Nac:N(4)
+ Edad:N(2)
+PROCESO
+	Escribir("Ingresar tu fecha de nacimiento-Formato DD/MM/AA")
+	Leer(Dia_Nac)
+	Leer(Mes_Nac)
+	Leer(Año_Nac)
+	Escribir("Ingresar la fecha actual")
+	Leer(Dia_Actual)
+	Leer(Mes_Actual)
+	Leer(Año_Actual)
+	Edad:=Año_Actual-Año_Nac
+	SI Mes_Actual<Mes_Nac ENTONCES
+		Edad:=Edad-1
+	CONTRARIO 
+		SI Mes_Actual= Mes_Nac ENTONCES
+			Si Dia_Actual<Dia_Nac ENTONCES
+				Edad:=Edad-1
+			FIN SI
+	Fin SI
+	Escribir("La edad actual es",Edad)
+FIN ACCION
+	

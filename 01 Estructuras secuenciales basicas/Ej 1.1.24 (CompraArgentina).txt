@@ -1,0 +1,29 @@
+ACCION 1.1.24 (CompraArgentina) ES
+AMBIENTE
+	Imp=1.10
+	DOSCUOTAS=[501...1000]
+	Import,Cuotas:Real
+	Procedimiento AVISO() ES
+		ESCRIBIR("El siguiente programa calculara el importe que desee con el valor agregado del 10% del impuesto, luego realizara el calculo de cuantas cuotas se le permite pagar y sus valores")
+		ESCRIBIR("Si desea cerrar el programa debera ingresar 9999 como importe")
+		ESCRIBIR("                            ")
+	FIN Procedimiento	
+PROCESO
+	AVISO()
+	ESCRIBIR("Ingrese el importe de dinero")
+	LEER(Import)
+	Mientras Import<>9999 HACER
+		Import:=Import*Imp
+		SI Import EN DOSCUOTAS ENTONCES
+			Cuotas:=Import/2
+			ESCRIBIR("El importe a pagar es: ",Import," y se debera pagar en dos cuotas de: $",Cuotas," cada una")
+		CONTRARIO
+			Si Import>1000 ENTONCES
+				Cuotas:=Import/3
+				ESCRIBIR("El importe a pagar es: ",Import," y se debera pagar en tres cuotas de: $",Cuotas," cada una")
+			FIN SI
+		FIN SI
+		ESCRIBIR("Ingrese un nuevo importe")
+		Leer(Import)
+	FIN Mientras	
+FIN ACCION

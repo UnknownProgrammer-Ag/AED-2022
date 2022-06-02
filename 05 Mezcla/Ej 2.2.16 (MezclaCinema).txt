@@ -1,0 +1,51 @@
+ACCION Ej 2.2.16 (MezclaCinema) ES
+AMBIENTE
+	
+	Fecha=registro de	
+		Año:N(4)
+		Mes:N(2)
+		Dia:N(2)
+	fin registro
+	
+	Movie=registro de
+		NPelicula:N(6)
+		Titulo:AN(25)
+		Genero:AN(10)
+		Copias:N(2)
+		Estreno:Fecha
+	fin registro
+	
+Peliculas,PeliculasNuevas,Catalogo: Archivo de Movie ordenado por NPelicula
+OldMov,NewMov:Movie
+
+PROCESO
+ABRIR E/(Peliculas,PeliculasNuevas)
+ABRIR S/(Catalogo)
+LEER(Peliculas,OldMov)
+LEER(PeliculasNuevas,NewMov)
+
+MIENTRAS NFDA(Peliculas) Y NFDA(PeliculasNuevas) HACER
+	SI OldMov.NPelicula<NewMov.NPelicula ENTONCES
+		GRABAR(Catalogo,OldMov)
+		LEER(Peliculas,OldMov)
+	CONTRARIO
+		GRABAR(Catalogo,NewMov)
+		LEER(PeliculasNuevas,NewMov)
+	FIN SI
+FIN MIENTRAS
+
+MIENTRAS NFDA(Peliculas) HACER
+	GRABAR(Catalogo,OldMov)
+	LEER(Peliculas,OldMov)
+FIN MIENTRAS
+
+MIENTRAS NFDA(PeliculasNuevas) HACER
+	GRABAR(Catalogo,NewMov)
+	LEER(Catalogo,NewMov)
+FIN MIENTRAS
+
+CERRAR(Catalogo)
+CERRAR(Peliculas)
+CERRAR(PeliculasNuevas)
+
+FIN ACCION

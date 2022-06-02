@@ -1,0 +1,23 @@
+ACCION EJ1.1.9(CambioDolarEuro) ES
+AMBIENTE
+	CantEuro,CantDolar,ConvDolEuro,ConvEuroPeso,CEurDol,CEurPesos:Real
+PROCESO
+	ESCRIBIR("Ingresar Cantidad de Euros necesitados")
+	Leer(CantEuro)
+	ESCRIBIR("Ingresar Cantidad de Dolar ahorrados")
+	Leer(CantDolar)
+	ESCRIBIR("Ingresar cotizacion Dolar a Euro")
+	Leer(ConvDolEuro)
+	ESCRIBIR("Ingresar cotizacion Euro a Pesos")
+	Leer(ConvEuroPeso)
+	CEurDol:=CantDolar*ConvDolEuro
+	Segun CEurDol HACER
+		=CantEuro: Escribir("Tiene suficiente para viajar")
+		>CantEuro: CEurPesos:=CEurDol-CantEuro
+				   CEurPesos:=CEurPesos*ConvEuroPeso
+				   Escribir("Le sobran",CEurDol-CantEuro," euros. En pesos es",CEurPesos)
+		<CantEuro: CEurPesos:=CantEuro-CEurDol
+				   CEurPesos:=CEurPesos*ConvEuroPeso
+				   Escribir("Le faltan",CantEuro-CEurDol," euros. En pesos es",CEurPesos)
+	FIN Segun
+FIN ACCION

@@ -1,0 +1,20 @@
+ACCION Ej 1.1.12(Mult3) ES
+AMBIENTE
+ NumEnt:[101...999]
+ Ud,Dc,Ct,Mult:Entero
+PROCESO
+	Escribir("Ingrese un numero mayor a 100 menor a 1000")
+	Leer(NumEnt)
+	Ud:= NumEnt MOD 10
+	Dc:= (NumEnt DIV 10) MOD 10
+	Ct:= NumEnt DIV 100
+	Escribir("La unidad es",Ud,"la decena",Dc," y la centena",Ct)
+	Mult:=Ud+Dc+Ct
+	Si Mult Mod 3 =0 ENTONCES
+		Escribir("El numero es multiplo de 3")
+	CONTRARIO
+		Escribir("No es multiplo de 3")
+	FIN Si
+FIN ACCION
+ 
+ 

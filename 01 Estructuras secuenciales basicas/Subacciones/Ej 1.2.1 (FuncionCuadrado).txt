@@ -1,0 +1,9 @@
+ACCION 1.2.1 (FuncionCuadrado) ES
+AMBIENTE
+....
+	FUNCION Cuadrado(N:Entero):Entero ES
+		Cuadrado:=N*N
+	FIN FUNCION
+PROCESO
+....
+FIN ACCION

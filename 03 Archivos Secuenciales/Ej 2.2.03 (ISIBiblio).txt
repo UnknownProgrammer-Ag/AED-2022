@@ -1,0 +1,28 @@
+ACCION Ej 2.2.03 (ISIBiblio) ES
+AMBIENTE
+	Socios=registro de
+		NroSocio:N(6)
+		Telefono:N(10)
+		FullName:AN(35)
+		Carrera:{'ISI','IQ','IEM','LAR'}
+		Dom:AN(35)
+		Prestado:N(2)
+	fin registro
+	
+LibSocios,Sist4Prestados::Archivo de Socios ordenado por NroSocio
+ID:Socios
+PROCESO
+ABRIR E/(LibSocios)
+ABRIR S/(Sist4Prestados)
+LEER(LibSocios,ID)
+
+MIENTRAS NFDA(LibSocios) HACER
+	SI (ID.Carrera='ISI') Y (ID.Prestado>4) ENTONCES
+		GRABAR (Sist4Prestados,ID)
+	FIN SI
+	LEER(LibSocios,ID)
+FIN MIENTRAS
+
+CERRAR(LibSocios)
+CERRAR(Sist4Prestados)
+FIN ACCION

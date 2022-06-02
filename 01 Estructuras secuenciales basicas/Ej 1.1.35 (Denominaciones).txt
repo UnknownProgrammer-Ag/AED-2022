@@ -1,0 +1,21 @@
+ACCION 1.1.35 (Denominaciones) ES
+AMBIENTE
+Suma,Den500,Den100,Den50,Den20,Den10,Den5,Den1:ENTERO
+Bandera:Alfanumerico
+PROCESO
+	MIENTRAS Bandera HACER
+		ESCRIBIR("INGRESE SUMA DE DINERO")
+		LEER(Suma) 
+		
+		ESCRIBIR("El numero de billetes de 500 que deberia abonar seria ",Den500:=(Suma DIV 500))
+		ESCRIBIR("El numero de billetes de 100 que deberia abonar seria ",Den100:=(Suma DIV 100))
+		ESCRIBIR("El numero de billetes de 50 que deberia abonar seria ",Den50:=(Suma DIV 50))
+		ESCRIBIR("El numero de billetes de 20 que deberia abonar seria ",Den20:=(Suma DIV 20))
+		ESCRIBIR("El numero de billetes de 10 que deberia abonar seria ",Den10:=(Suma DIV 10))
+		ESCRIBIR("El numero de billetes de 5 que deberia abonar seria ",Den5:=(Suma DIV 5))
+		ESCRIBIR("El numero de billetes de 1 que deberia abonar seria ",Den1:=(Suma DIV 1))
+		ESCRIBIR("                       ")
+		ESCRIBIR("Repetir programa? [Y/N]")
+		LEER(Bandera)
+	FIN MIENTRAS
+FIN ACCION

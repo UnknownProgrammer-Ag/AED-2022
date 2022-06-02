@@ -1,0 +1,17 @@
+ACCION 2.1.3 (Sin$) ES
+AMBIENTE
+	Char,Char$:Secuencia de Caracteres
+	V:Caracter
+PROCESO
+CREAR(Char)
+ARR(Char$)
+AVZ(Char$,V)
+	MIENTRAS NFDS(Char$) HACER
+		SI V<>'$' ENTONCES
+			ESCRIBIR(Char,V)
+		FIN SI
+			AVZ(Char$,v)
+	FIN MIENTRAS
+	CERRAR(Char)
+	CERRAR(Char$)
+FIN ACCION

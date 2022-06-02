@@ -1,0 +1,19 @@
+ACCION 2.1.7 (CUIT) ES
+AMBIENTE
+	DNI={0..3}
+	Empleados,Doc0123:Secuencia de Enteros
+	CUIT:Entero
+PROCESO
+ARR(Empleados)
+AVZ(Empleados,CUIT)
+CREAR(Doc0123)
+
+	MIENTRAS NFDS(Empleados) HACER
+		SI ((CUIT MOD 100) DIV 10) EN DNI ENTONCES 
+			ESCRIBIR(Doc0123,CUIT)
+		FIN SI
+		AVZ(Empleados,CUIT)
+	FIN MIENTRAS
+	CERRAR(Empleados)
+	CERRAR(Doc0123)
+FIN ACCION

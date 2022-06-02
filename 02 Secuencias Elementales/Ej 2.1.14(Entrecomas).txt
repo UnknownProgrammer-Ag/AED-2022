@@ -1,0 +1,33 @@
+ACCION 2.1.14 (Entrecomas) ES
+AMBIENTE
+	ComaWord:Secuencia de Caracteres
+	Wor:Caracter
+	CantChar:Entero
+PROCESO
+ARR(ComaWord)
+AVZ(ComaWord,Wor)
+
+	Mientras Wor<>',' HACER //Es la primera palabra, no cumple la condición
+		AVZ(ComaWord,Wor)
+	FIN MIENTRAS
+	
+MIENTRAS NFDS(ComaWord) HACER
+
+	Mientras Wor=',' HACER
+		AVZ(ComaWord,Wor)
+	FIN MIENTRAS
+	
+	CantChar:=0
+	
+	MIENTRAS Wor<>',' Y NFDS(ComaWord) HACER
+		CantChar:=CantChar+1
+		AVZ(ComaWord,Wor)
+	FIN MIENTRAS
+	
+	SI NFDS(ComaWord) ENTONCES
+		ESCRIBIR("La cantidad de caracteres entre esta coma y la anterior es: ",CantChar)
+	FIN SI
+	
+FIN MIENTRAS
+CERRAR(ComaWord)
+FIN ACCION

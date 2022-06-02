@@ -1,0 +1,96 @@
+ACCION Ej 2.2.20 (ActualizacionParcial) ES
+AMBIENTE
+	
+	Fecha=Registro de
+		Año:N(4)
+		Mes:(1..12)
+		Dia:N(2)
+	Fin Registro
+	
+	Alumnos=Registro de
+		Legajo:N(5)
+		Carrera:{'ISI','IEM','IQ','LAR'}
+		FullName:AN(35)
+		Nacimiento:Fecha
+		Ingreso:Fecha
+		DNI:N(8)
+		Sexo:{'M','F'}
+		UltAprob:Fecha
+		Nota:N(2)
+	Fin Registro
+	
+	Test=registro de	
+		Legajo:N(5)
+		Carrera:{'ISI','IEM','IQ','LAR'}
+		Cod_Materia:N(2)
+		Parcial:Fecha
+		Nota:N(2)
+	fin registro
+	
+Examen:Archivo de Test ordenada por Legajo
+Facu,FacuActualizada:Archivo de Alumnos ordenado por Legajo
+List,NewList:Alumnos
+Parc:Test
+	
+	PROCEDIMIENTO LEER_FACU() ES
+		LEER(Facu,List)
+		SI FDA(Facu) ENTONCES
+			List.Legajo:=HV
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO LEER_Examen() ES
+		LEER(Examen,Parc)
+		SI FDA(Examen) ENTONCES
+			Parc.Legajo:=HV
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO CargarAlumno() ES
+		NewList:=List
+		GRABAR(FacuActualizada,NewList)
+		LEER_FACU()
+	FIN PROCEDIMIENTO
+ 
+	PROCEDIMIENTO CambiarAlumno() ES
+		NewList.Legajo:=Parc.Legajo
+		NewList.Carrera:=Parc.Carrera
+		NewList.FullName:=List.FullName
+		NewList.Nacimiento:=List.Nacimiento
+		NewList.Ingreso:=List.Ingreso
+		NewList.DNI:=List.DNI
+		NewList.Sexo:=List.Sexo
+		NewList.UltAprob:=Parc.Parcial
+		NewList.Nota:=Parc.Nota
+		GRABAR(FacuActualizada,NewList)
+		LEER_FACU()
+		LEER_Examen()
+	FIN PROCEDIMIENTO
+	
+PROCESO
+ABRIR E/(Facu,Examen)
+ABRIR S/(FacuActualizada)
+
+LEER_FACU()
+LEER_Examen()
+
+MIENTRAS (List.Legajo<>HV) o (Parc.Legajo<>HV) HACER
+	SI List.Legajo<Parc.Legajo ENTONCES
+		CargarAlumno()
+	CONTRARIO
+		SI List.Legajo=Parc.Legajo ENTONCES
+			CambiarAlumno()
+		CONTRARIO
+			ESCRIBIR("ERROR, NO SE CUENTA CON LA INFORMACION DE ESE ALUMNO")
+			LEER_Examen()
+		FIN SI
+	FIN SI
+FIN MIENTRAS
+	
+CERRAR(FacuActualizada)
+CERRAR(Examen)
+CERRAR(Facu)
+
+FIN ACCION
+
+	

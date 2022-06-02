@@ -1,0 +1,37 @@
+ACCION 2.1.17 (Telegram) ES
+AMBIENTE
+	Mensaje:Secuencia de Caracteres
+	Char:Caracter
+	Palabras,Letras,V1,V2,Promedio,Costo:Entero
+PROCESO
+ARR(Mensaje)
+AVZ(Mensaje,Char)
+Palabras:=0
+Letras:=0
+ESCRIBIR("Ingrese los costos por palabra")
+LEER(V1,V2)
+MIENTRAS NFDS(Mensaje)
+	MIENTRAS Char<>'.' HACER
+		Mientras Char=" " HACER
+			AVZ(Mensaje,Char)
+		FIN MIENTRAS
+		
+		Mientras Char <>"" Y Char<>'.' HACER
+			Letras:=Letras+1
+			AVZ(Mensaje,Char)
+		FIN MIENTRAS
+		
+		Palabras:=Palabras+1
+	FIN MIENTRAS
+FIN MIENTRAS
+
+Promedio:=Letras DIV Palabras
+
+SI Promedio>5 ENTONCES
+	Costo:=Palabras*V2
+CONTRARIO
+	Costo:=Palabras*V1
+FIN SI
+ESCRIBIR("El costo del telegrama es: ",Costo)
+Cerrar(Mensaje)
+FIN ACCION

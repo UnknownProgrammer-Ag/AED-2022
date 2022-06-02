@@ -1,0 +1,16 @@
+ACCION 1.1.20 (AutoPotencia) ES
+AMBIENTE
+	V,Cuad,Cub,i:ENTERO
+PROCESO
+MIENTRAS Bandera='Y' HACER
+	ESCRIBIR("Ingrese el valor de V")
+	LEER(V)
+		Para V HASTA (V+10),1 HACER
+			Cuad:=V*V
+			Cub:=V*V*V
+			ESCRIBIR("Valor de V| Cuadrado de V| Cubo de V|",V,Cuad,Cub)
+		FIN PARA
+	ESCRIBIR("Indicar si desea repetir el programa [Y|N]")
+	LEER(Bandera)
+FIN MIENTRAS
+FIN ACCION

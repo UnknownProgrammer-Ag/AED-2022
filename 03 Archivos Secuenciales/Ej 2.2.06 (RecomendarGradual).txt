@@ -1,0 +1,44 @@
+ACCION Ej 2.2.06 (RecomendarGradual) ES
+AMBIENTE
+	Alumnos=registro de 
+		FullName:AN(45)
+		Promedio:N(2)
+	fin registro
+	
+Graduados:Archivo de Alumnos ordenado por FullName 
+Dat:Alumnos
+Recom:AN(2)
+ContGrad,ContNO,ContSI,ContF,ContMF:Entero
+
+PROCESO
+ABRIR E/(Graduados)
+LEER(Graduados,Dat)
+ContF:=0
+ContGrad:=0
+ContMF:=0
+ContNO:=0
+ContSI:=0
+
+MIENTRAS NFDA(Graduados) HACER
+	SEGUN Dat.Promedio HACER
+	<7: Recom:='NO'
+		ContNO:=ContNO+1
+	<8: Recom:='SI'
+		ContSI:=ContSI+1
+	<9: Recom:='F'
+		ContF:=ContF+1
+	>9: Recom:='MF'
+		ContMF:=ContMF+1
+	fin segun
+	ContGrad:=ContGrad+1
+	ESCRIBIR("|Apellido y Nombre|",Dat.FullName,"|Promedio|",Dat.Promedio,"|Recomendación|",Recom)
+	LEER(Graduados,Dat)
+Fin MIENTRAS
+ESCRIBIR("El total de graduados NO Recomendados ",ContNO)
+ESCRIBIR("El total de graduados Recomendados con Si ",ContSI)
+ESCRIBIR("El total de graduados Recomendados con Favorable ",ContF)
+ESCRIBIR("El total de graduados Recomendados con Muy Favorable ",ContMF)
+
+CERRAR(Graduados)
+FIN ACCION
+

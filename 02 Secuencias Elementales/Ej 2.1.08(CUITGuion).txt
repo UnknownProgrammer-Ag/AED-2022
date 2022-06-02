@@ -1,0 +1,59 @@
+ACCION 2.1.8 (CUITGuion) ES
+AMBIENTE
+	DNI={0..3}
+	Empleados:Secuencia de Enteros
+	Doc0123: Secuencia de Caracteres
+	CUIT:Entero
+	Char:Caracter
+	
+	Procedimiento Cuit_a_char(CUITEm) ES
+	AMBIENTE 
+		i,Dig:=Entero
+	PROCESO
+		Para i:=1 Hasta 10 HACER
+			Dig:=CUIT DIV (10**(11-i))
+			SEGUN Dig HACER
+				0 : Char:= "0";
+				1 : Char:= "1";
+				2 : Char:= "2";
+				3 : Char:= "3";
+				4 : Char:= "4";
+				5 : Char:= "5";
+				6 : Char:= "6";
+				7 : Char:= "7";
+				8 : Char:= "8";  
+				9 : Char:= "9";
+			FIN SEGUN
+			ESCRIBIR(Doc0123,Char)
+			CUIT:=CUIT MOD (10**(11-i))
+		FIN PARA
+		Segun CUIT HACER
+			0 : Char:= "0";
+			1 : Char:= "1";
+			2 : Char:= "2";
+			3 : Char:= "3";
+			4 : Char:= "4";
+			5 : Char:= "5";
+			6 : Char:= "6";
+			7 : Char:= "7";
+			8 : Char:= "8";  
+			9 : Char:= "9";
+		FIN SEGUN
+		ESCRIBIR(Doc0123,Char)
+		ESCRIBIR(Doc0123,'-')
+	FIN PROCEDIMIENTO
+	
+PROCESO
+ARR(Empleados)
+AVZ(Empleados,CUIT)
+CREAR(Doc0123)
+
+	MIENTRAS NFDS(Empleados) HACER
+		SI ((CUIT MOD 100) DIV 10) EN DNI ENTONCES 
+			Cuit_a_char(CUIT)
+		FIN SI
+		AVZ(Empleados,CUIT)
+	FIN MIENTRAS
+	CERRAR(Empleados)
+	CERRAR(Doc0123)
+FIN ACCION

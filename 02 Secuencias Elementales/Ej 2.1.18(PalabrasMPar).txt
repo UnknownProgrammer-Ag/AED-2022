@@ -1,0 +1,38 @@
+ACCION 2.1.18 (PalabrasMPar) ES
+AMBIENTE
+	TextoEntrada,SalidaMPar:Secuencia de Caracteres
+	Char:Caracter
+	cont:Entero
+PROCESO
+ARR(TextoEntrada)
+AVZ(TextoEntrada,Char)
+CREAR(SalidaMPar)
+cont:=1
+
+MIENTRAS NFDS(TextoEntrada) HACER
+	Mientras Char <>'.' HACER	
+	
+		Mientras Char=" " HACER
+			AVZ(Parrafo,Char)
+		FIN MIENTRAS
+		
+		SI (Char='M'o Char='m') Y (cont mod 2)=0 ENTONCES
+			Mientras Char <>"" Y Char<>'.' HACER
+				ESCRIBIR(SalidaMPar,Char)
+				AVZ(Parrafo,Char)
+			FIN MIENTRAS
+		CONTRARIO
+			Mientras Char <>"" Y Char<>'.' HACER
+				AVZ(Parrafo,Char)
+			FIN MIENTRAS
+		FIN SI
+		cont:=cont+1
+	FIN MIENTRAS
+	cont:=1
+	
+	AVZ(TextoEntrada,Char)
+FIN MIENTRAS
+ESCRIBIR(SalidaMPar,'.')
+CERRAR(TextoEntrada)
+CERRAR(SalidaMPar)
+FIN ACCION

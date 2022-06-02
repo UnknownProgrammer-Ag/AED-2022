@@ -1,0 +1,69 @@
+ACCION 0.0.0 (Asistencia8va) ES
+AMBIENTE
+	SecuenciaTexto:Secuencia de Caracteres
+	Char:Caracter
+	ContPalabras,ContText,ContCap,ContHoj,ContParr,ContOra,:Entero
+PROCESO
+ARR(SecuenciaTexto)
+AVZ(SecuenciaTexto,Char)
+ContText:=0
+
+MIENTRAS Char<>"!" HACER //FIN TEXTO
+	ContCap:=0
+	
+	MIENTRAS Char<>"$" HACER //FIN CAPITULO	
+		ContHoj:=0
+		
+		MIENTRAS Char<>"&" HACER //FIN HOJA
+			ContParr:=0
+			
+			MIENTRAS Char<>"#" HACER //FIN PARRAFO
+				ContOra:=0
+				ContPalabras:=0
+				
+				MIENTRAS Char<>"." HACER //FIN ORACIÓN
+				
+					Mientras Char=" " HACER
+						AVZ(SecuenciaTexto,Char)
+					FIN MIENTRAS
+					
+					ContPalabras:=ContPalabras+1	
+					
+					Mientras Char <>" " Y Char <>"." HACER //ANALIZA LA PALABRA
+						SI Char="Ñ" ENTONCES
+							ContOra:=ContOra+1
+						FIN SI
+						AVZ(SecuenciaTexto,Char)
+					FIN MIENTRAS
+					
+				FIN MIENTRAS
+				
+				AVZ(SecuenciaTexto,Char) //AVANZA MARCA DE ORACION
+				ESCRIBIR("La cantidad de Ñ en la oración es: ", ContOra)
+				ContParr:=ContParr+ContOra
+				ESCRIBIR("La cantidad de palabras de la oración es: ",ContPalabras)
+			
+			FIN MIENTRAS
+			
+			AVZ(SecuenciaTexto,Char) //AVANZA MARCA DE PARRAFO
+			ESCRIBIR("La cantidad de Ñ en el parrafo es: ", ContParr)
+			ContHoj:=ContHoj+ContParr	
+			
+		FIN MIENTRAS
+		
+		AVZ(SecuenciaTexto,Char) //AVANZA LA MARCA DE HOJA
+		ESCRIBIR("La cantidad de Ñ en la hoja es: ", ContHoj)
+		ContCap:=ContCap+ContHoj
+		
+	FIN MIENTRAS
+	
+	AVZ(SecuenciaTexto,Char) //AVANZA LA MARCA DE CAPITULO
+	ESCRIBIR("La cantidad de Ñ en el capitulo es: ", ContCap)
+	ContText:=ContText+ContCap
+	
+FIN MIENTRAS
+
+ESCRIBIR("La cantidad de letras Ñ en el texto es: ",ContText)
+
+CERRAR(SecuenciaTexto)
+FIN ACCION		

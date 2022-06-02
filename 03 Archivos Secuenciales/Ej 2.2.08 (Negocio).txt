@@ -1,0 +1,59 @@
+ACCION Ej 2.2.08 (Negocio) ES
+AMBIENTE
+	Fecha=registro de	
+		AÑO:N(4)
+		MES:N(2)
+		DIA:N(2)
+	fin registro
+	
+	Buys=registro de
+		Numero:N(6)
+		UltimaCompra:Fecha
+		Monto:N(6)
+	fin registro
+	
+	Customer=registro de		
+		Numero:N(6)
+		FullName:AN(45)
+		Dom:AN(35)
+		Phone:N(10)
+		DNI:N(8)
+	fin registro
+
+Compras:Archivo de Buys ordenado por Numero
+Clientes:Archivo de Customer ordenado por Numero
+ID:Customer
+Dat:Buys
+Date:Fecha
+Amount:Entero
+
+PROCESO
+ABRIR E/(Compras,Clientes)
+LEER(Compras,Dat)
+LEER(Clientes,ID)
+
+ESCRIBIR("Ingrese la fecha minima")
+LEER(Date)
+ESCRIBIR("Ingrese el monto minimo")
+LEER(Amount)
+
+Mientras NFDA(Compras) Y NFDA(Clientes) HACER
+	SI (Dat.UltimaCompra>Date) Y (Dat.Monto>Amount) ENTONCES
+		ESCRIBIR("|Nombre del Cliente|",ID.FullName,"|Fecha de Compra|",Dat.UltimaCompra,"|Monto|",Dat.Monto)
+	FIN SI
+	LEER(Compras,Dat)
+	LEER(Clientes,ID)
+FIN Mientras
+
+Mientras NFDA(Compras) HACER
+	LEER(Compras,Dat)
+FIN Mientras
+
+Mientras NFDA(Clientes,ID) HACER
+	LEER(Clientes,ID)
+FIN Mientras
+
+CERRAR(Compras)
+CERRAR(Clientes)
+
+FIN ACCION

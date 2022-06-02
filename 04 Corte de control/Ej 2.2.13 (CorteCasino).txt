@@ -1,0 +1,135 @@
+ACCION Ej 2.2.13 (CorteCasino) ES
+AMBIENTE
+
+	Fecha=registro de	
+		Año:N(4)
+		Mes:N(2)
+		Dia:N(2)
+	fin registro
+	
+	Mantenimiento=registro de
+		Cod_Sucursal:N(6)
+		Marca:AN(10)
+		Modelo:AN(10)
+		Cod_Traga:N(6)
+		Reparacion:Fecha
+		CostoRep:N(6)
+	fin registro
+
+Reparaciones:Archivo de Mantenimiento ordenado por Cod_Sucursal,Marca,Modelo,Cod_Traga
+Rep:Mantenimiento
+
+ResgTraga:N(6)
+ResgModelo:AN(10)
+ResgMarca:AN(10)
+ResgSucursal:N(6)
+
+ContRep,ContCosto,ContModRep,ContModCosto,ContMarcRep,ContMarcCosto,ContSucRep,ContSucCosto,TotalRep,TotalCosto:Entero
+
+	PROCEDIMIENTO Corte_Traga() ES
+		ESCRIBIR("Total de Reparaciones del tragamonedas ",ResgTraga,": ",ContRep)
+		ESCRIBIR("Total Costos de Reparaciones del tragamonedas ",ResgTraga,": ",ContCosto)
+		
+		ContModRep:=ContModRep+ContRep
+		ContModCosto:=ContModCosto+ContCosto
+		
+		ContRep:=0
+		ContCosto:=0
+		
+		ResgTraga:=Rep.Cod_Traga
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Modelo() ES
+		Corte_Traga()
+		
+		ESCRIBIR("Total de Reparaciones del Modelo ",ResgModelo,": ",ContModRep)
+		ESCRIBIR("Total Costos de Reparaciones del Modelo ",ResgModelo,": ",ContModCosto)
+		
+		ContMarcRep:=ContMarcRep+ContModRep
+		ContMarcCosto:=ContMarcCosto+ContModCosto
+		
+		ContModCosto:=0
+		ContModRep:=0
+		
+		ResgModelo:=Rep.Modelo
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Marca() ES
+		Corte_Modelo() 
+		
+		ESCRIBIR("Total de Reparaciones de la marca ",ResgMarca,": ",ContMarcRep)
+		ESCRIBIR("Total Costos de Reparaciones de la marca ",ResgMarca,": ",ContMarcCosto)
+		
+		ContSucRep:=ContSucRep+ContMarcRep
+		ContSucCosto:=ContSucCosto+ContMarcCosto
+		
+		ContMarcCosto:=0
+		ContMarcRep:=0
+		
+		ResgMarca:=Rep.Marca
+	
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Sucursal() ES	
+		Corte_Marca() 
+		
+		ESCRIBIR("Total de Reparaciones de la sucursal ",ResgSucursal,": ",ContSucRep)
+		ESCRIBIR("Total Costos de Reparaciones de la sucursal ",ResgSucursal,": ",ContSucCosto)	
+		
+		TotalRep:=TotalRep+ContSucRep
+		TotalCosto:=TotalCosto+ContSucCosto
+		
+		ContSucCosto:=0
+		ContSucRep:=0
+		
+		ResgSucursal:=Rep.Cod_Sucursal
+	
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO MostrarTotales() ES
+		ESCRIBIR("Total de Reparaciones: ",TotalRep)
+		ESCRIBIR("Total de Costos de Reparaciones", TotalCosto)
+	FIN PROCEDIMIENTO
+	
+PROCESO
+ABRIR E/(Reparaciones)
+LEER(Reparaciones,Rep)
+
+ContCosto,ContRep,ContMarcCosto,ContMarcRep,ContModCosto,ContModRep,ContSucCosto,ContSucRep,TotalCosto,TotalRep:=0
+
+ResgTraga:=Rep.Cod_Traga
+ResgModelo:=Rep.Modelo
+ResgMarca:=Rep.Marca
+ResgSucursal:=Rep.Cod_Sucursal
+
+MIENTRAS NFDA(Reparaciones) HACER
+	SI ResgSucursal<> Rep.Cod_Sucursal ENTONCES
+		Corte_Sucursal()
+	CONTRARIO
+		Si ResgMarca<> Rep.Marca ENTONCES
+			Corte_Marca()
+		CONTRARIO
+			SI ResgModelo<>Rep.Modelo ENTONCES
+				Corte_Modelo()
+			CONTRARIO
+				SI ResgTraga<>Rep.Cod_Traga ENTONCES
+					Corte_Traga()
+				FIN SI
+			FIN SI
+		FIN SI
+	FIN SI
+	
+	ContCosto:=ContCosto+Rep.CostoRep
+	ContRep:=ContRep+1
+	
+	LEER(Reparaciones,Rep)
+FIN MIENTRAS
+
+Corte_Sucursal()
+
+MostrarTotales()
+
+CERRAR(Reparaciones)
+FIN ACCION
+
+

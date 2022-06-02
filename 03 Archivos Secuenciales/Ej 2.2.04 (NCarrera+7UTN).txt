@@ -1,0 +1,45 @@
+ACCION Ej 2.2.04 (NCarrera+7UTN) ES
+AMBIENTE
+	
+	Fecha:=Registro de
+		Año:N(4)
+		Mes:(1..12)
+		Dia:N(2)
+	Fin Registro
+	
+	Alumnos:=Registro de
+		Legajo:N(5)
+		FullName:AN(35)
+		Carrera:{'ISI','IEM','IQ'}
+		Nacimiento:Fecha
+		Ingreso:Fecha
+		DNI:N(8)
+		Sexo:('M','F')
+		UltAprob:Fecha
+		Nota:N(2)
+	Fin Registro
+
+Facu,Aprobados_7:Archivo de Alumnos ordenado por Legajo
+List:Alumnos
+Asign:{'ISI','IEM','IQ'}
+
+PROCESO
+ABRIR E/(Facu)
+ABRIR S/(Aprobados_7)
+Leer(Facu,List)
+
+ESCRIBIR("Ingresar carrera buscada")
+LEER(Asign)
+
+MIENTRAS NFDA(Facu) HACER
+	SI (List.Carrera=Asign) Y (List.Nota>7) Y (List.UltAprob.Año=2022) ENTONCES
+		GRABAR(Aprobados_7,List)
+	FIN SI
+	Leer(Facu,List)
+FIN MIENTRAS
+
+CERRAR(Facu)
+CERRAR(Aprobados_7)
+FIN ACCION
+
+	

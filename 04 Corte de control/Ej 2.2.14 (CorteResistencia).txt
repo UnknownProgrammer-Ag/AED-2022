@@ -1,0 +1,79 @@
+ACCION Ej 2.2.14 (CorteResistencia) ES
+AMBIENTE
+	
+	Resist=registro de
+		Radio:N(2)
+		Manzana:N(3)
+		Vivienda:N(4)
+		Condicion:{'MB','B','M'}
+		Habitantes:N(2)
+	fin registro
+
+Censo:Archivo de Resist ordenado por Radio,Manzana,Vivienda
+Dat:Resist
+
+ContRadMB,ContMznaMB,TotalMB:Entero
+ResgRad:N(2)
+ResgMzna:N(3)
+
+	PROCEDIMIENTO Corte_Manzana() ES
+		ESCRIBIR("Total de personas de la Manzana ",ResgMzna," que habitan en viviendas 'Muy buenas' es de: ",ContMznaMB)
+		
+		ContRadMB:=ContRadMB+ContMznaMB
+		
+		ContMznaMB:=0
+				
+		ResgMzna:=Dat.Manzana
+	
+	FIN PROCEDIMIENTO	
+	
+	PROCEDIMIENTO Corte_Radio() ES
+		Corte_Manzana()
+		
+		ESCRIBIR("Total de Personas del Radio ",ResgRad," que habitan en viviendas 'Muy buenas' es de: ",ContRadMB)
+		
+		TotalMB:=TotalMB+ContRadMB
+		
+		ContRadMB:=0
+		
+		ResgRad:=Dat.Radio
+		
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO MOSTRARTOTAL() ES
+		ESCRIBIR("Total de personas de la ciudad que habitan en viviendas 'Muy buenas' es de: ",TotalMB)
+	FIN PROCEDIMIENTO
+
+PROCESO
+
+ABRIR E/(Censo)
+LEER(Censo,Dat)
+
+ResgMzna:=Dat.Manzana
+ResgRad:=Dat.Radio
+
+ContMznaMB:=0
+ContRadMB:=0
+TotalMB:=0
+
+MIENTRAS NFDA(Censo) HACER
+	SI ResgRad<>Dat.Radio ENTONCES
+		Corte_Radio
+	CONTRARIO
+		SI ResgMzna<>Dat.Manzana ENTONCES
+			Corte_Manzana
+		FIN SI
+	FIN SI
+	
+	SI Dat.Condicion='MB' ENTONCES
+		ContMznaMB:=ContMznaMB+1
+	FIN SI
+	
+	LEER(Censo,Dat)
+FIN MIENTRAS
+
+MOSTRARTOTAL()
+
+CERRAR(Censo)	
+
+FIN ACCION

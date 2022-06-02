@@ -1,0 +1,49 @@
+ACCION Ej 2.2.10 (LesserCorteUTN) ES
+AMBIENTE
+	Alumnos=Registro de
+		Carrera:{'ISI','IQ','LAR','IEM'}
+		Legajo:N(5)
+		FullName:AN(35)
+		DNI:N(8)
+		Sexo:('M','F')
+	Fin Registro
+
+Facu:Archivo de Alumnos ordenado por Carrera
+List:Alumnos
+ContCarr,Total:Entero
+ResgCarr:{'ISI','IQ','LAR','IEM'}
+
+	PROCEDIMIENTO Corte_Carrera() ES
+		ESCRIBIR("Total de alumnos de la Carrera ",ResgCarr," es: ",ContCarr) //Mostrar Informacion PostCambio
+		Total:=Total+ContCarr //Acumular siguiente nivel
+		ContCarr:=0 //Inicializar acumulador basico
+		ResgCarr:=List.Carrera //Cambiar resguardo
+	Fin PROCEDIMIENTO
+	
+PROCESO
+ABRIR E/(Facu)
+Leer(Facu,List)
+
+ResgCarr:=List.Carrera
+ContCarr:=0
+Total:=0
+
+MIENTRAS NFDA(Facu) HACER
+	SI List.Carrera<>ResgCarr ENTONCES
+		Corte_Carrera
+	FIN SI
+	
+	SI List.Carrera=ResgCarr ENTONCES
+		ContCarr:=ContCarr+1
+	FIN SI
+	
+	LEER(Facu,List)
+	
+FIN MIENTRAS
+
+Corte_Carrera()
+
+ESCRIBIR("Total de Alumnos de la UTN ",Total)
+
+CERRAR(Facu)
+FIN ACCION

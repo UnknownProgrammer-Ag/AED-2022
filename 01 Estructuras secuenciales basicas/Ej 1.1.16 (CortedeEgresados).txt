@@ -1,0 +1,58 @@
+ACCION 1.1.16 (CortedeEgresados) ES
+AMBIENTE
+	Egre,ISI,IQ,IEM,TGral,TISI,TIQ,TIEM:Entero
+	PISI,PIQ,PIEM:Real
+	Bandera,Facultad,Carrera:Alfanumerico
+PROCESO
+	//Inicializar totalizadores
+	TGral:=0
+	TISI:=0
+	TIQ:=0
+	TIEM:=0
+MIENTRAS Facultad='Y' HACER
+	//Inicializar contadores
+	Egre:=0
+	ISI:=0
+	IQ:=0
+	IEM:=0
+	
+	//Inicializar ciclo de facultad
+	Bandera:=Y
+	Mientras Bandera='Y' HACER
+		ESCRIBIR("Ingrese la carrera a la que pertenece el alumno")
+		Leer(Carrera)
+	
+	//Cargar Contadores
+		Segun Carrera HACER
+			='ISI': ISI:=ISI+1
+			='IEM': IEM:=IEM+1
+			='IQ': IQ:=IQ+1
+		FIN Segun
+		Egre:=Egre+1
+
+		ESCRIBIR("Indicar si desea agregar mas alumnos [Y|N]")
+		LEER(Bandera)
+	FIN MIENTRAS
+	
+	//Cargar Totalizadores
+	TISI:=TISI+ISI
+	TIEM:=TIEM+IEM
+	TIQ:=TIQ+IQ
+	TGral:=TGral+Egre
+	
+	//Realizar porcentajes
+	PISI:=((ISI*100)/Egre)
+	PIEM:=((IEM*100)/Egre)
+	PIQ:=((IQ*100)/Egre)
+	ESCRIBIR("Del total de egresados ",Egre,": el ",PISI," % de alumnos son de ISI")
+	ESCRIBIR("El",PIEM," % son de alumnos de IEM")
+	ESCRIBIR("El ",PIQ," % son de alumnos de IQ")
+	
+	ESCRIBIR("Indicar si existe otra facultad que trabajar [Y|N]")
+	LEER(Facultad)
+FIN MIENTRAS
+	
+ESCRIBIR("Total General: ",TGral,"| Total ISI: ",TISI,"| Total IEM: ",TIEM,"| Total IQ: ",TIQ"|)
+FIN ACCION
+	
+	

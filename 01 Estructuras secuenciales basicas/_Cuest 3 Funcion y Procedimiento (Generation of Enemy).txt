@@ -1,0 +1,24 @@
+Funcion enemigos (dificultad:entero):entero ES
+	Ambiente
+	cant:entero
+	
+	Proceso
+	cant:=10
+	Segun dificultad HACER
+		=1: enemigos:=cant
+		=2: enemigos:=cant*2.5
+		=3: enemigos:= cant*3.5
+	Fin Segun
+
+Fin Funcion
+
+Procedimiento eleccion ES
+	Escribir("Seleccione la dificultad en la que desee jugar. [1:Facil|2:Medio|3:Dificil]")
+	Leer(choice)	
+	enemigos(choice)
+	Segun choice HACER
+		=1:Escribir("Eligio la dificultad Facil")
+		=2:Escribir("Eligio la dificultad Media")
+		=3:Escribir("Eligio la dificultad Dificil")
+	FIN Segun
+FIN Procedimiento

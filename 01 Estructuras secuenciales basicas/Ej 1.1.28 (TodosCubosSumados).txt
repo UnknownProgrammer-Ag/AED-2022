@@ -1,0 +1,14 @@
+ACCION 1.1.28 (TodosCubosSumados) ES
+AMBIENTE
+	N,Ct,Dc,Ud,K:Entero
+PROCESO
+	PARA N:=100 HASTA 999 HACER
+		Ct:=N DIV 100
+		Dc:=(N DIV 10) MOD 10
+		Ud:= N MOD 10
+		K:=(Ct**3)+(Dc**3)+(Ud**3)
+		SI K=N ENTONCES
+			ESCRIBIR("Valido ",N)
+		FIN SI
+	FIN PARA
+FIN ACCION

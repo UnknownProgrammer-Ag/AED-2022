@@ -1,0 +1,32 @@
+ACCION 2.1.15 (Oraciones) ES
+AMBIENTE
+	Parrafo:Secuencia de Caracteres
+	Char:Caracter
+	Oraciones,Palabras,Promedio:Entero
+PROCESO
+ARR(Parrafo)
+AVZ(Parrafo,Char)
+Oraciones:=0
+Palabras:=0
+MIENTRAS NFDS (Parrafo) HACER
+
+	MIENTRAS Char<>'.' HACER
+		Mientras Char=" " HACER
+			AVZ(Parrafo,Char)
+		FIN MIENTRAS
+		
+		Palabras:=Palabras+1
+		
+		Mientras Char <>"" Y Char<>'.' HACER
+			AVZ(Parrafo,Char)
+		FIN MIENTRAS
+		
+		
+	FIN MIENTRAS
+	Oraciones:=Oraciones+1
+	AVZ(Parrafo,Char)
+FIN MIENTRAS
+Promedio:=Palabras DIV Oraciones
+ESCRIBIR("La cantidad promedio de palabras por oraciones es: ",Promedio)
+CERRAR(Parrafo)
+FIN ACCION

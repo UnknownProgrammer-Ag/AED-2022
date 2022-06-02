@@ -1,0 +1,56 @@
+ACCION 2.1.24 (IdeasNovocales) ES
+AMBIENTE
+	NombresEmpleados,DNIEmpleados,SalidaNombreNovocal:Secuencia de Caracteres
+	Name,Number:Caracter
+	i:Entero
+	Vocales={'a','e','i','o','u'}
+		
+PROCESO
+ARR(NombresEmpleados)
+ARR(DNIEmpleados)
+CREAR(SalidaEmpleadoImpar)
+AVZ(NombresEmpleados,Name)
+AVZ(DNIEmpleados,Number)
+
+
+MIENTRAS NFDS(NombresEmpleados) HACER
+
+	MIENTRAS (Name= " ") HACER
+		AVZ(NombresEmpleados,Name)
+	FIN MIENTRAS
+	
+		
+	SI (Name EN Vocales) ENTONCES
+		
+		MIENTRAS (Name <>" ") y NFDS(NombresEmpleados) HACER
+			AVZ(NombresEmpleados,Name)
+		FIN MIENTRAS
+		
+		PARA i:=1 hasta 8 HACER
+			AVZ(DNIEmpleados,Number)
+		FIN PARA
+		
+	CONTRARIO
+	
+		Para i:=1 Hasta 8 HACER
+			ESCRIBIR(SalidaEmpleadoImpar,Number)
+			AVZ(DNIEmpleados,Number)
+		FIN PARA
+		
+		ESCRIBIR(SalidaEmpleadoImpar,",")
+		
+		MIENTRAS (Name<>" ") HACER
+			ESCRIBIR(SalidaEmpleadoImpar,Name)
+			AVZ(NombresEmpleados,Name)
+		FIN MIENTRAS
+		
+		ESCRIBIR(SalidaEmpleadoImpar,"#")
+	FIN Si
+	
+FIN MIENTRAS
+
+CERRAR(NombresEmpleados)
+CERRAR(DNIEmpleados)
+CERRAR(SalidaEmpleadoImpar)
+
+FIN ACCION

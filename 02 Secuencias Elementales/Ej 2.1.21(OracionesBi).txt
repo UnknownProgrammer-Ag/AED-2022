@@ -1,0 +1,81 @@
+ACCION 2.1.21 (OracionesBi) ES
+AMBIENTE
+	Oraciones1,Oraciones2,Oraciones12:Secuencia de Caracteres
+	Tx1,Tx2:Caracter
+	ContOrac1,ContOrac2,ContOrac12:Entero
+PROCESO
+ARR(Oraciones1)
+ARR(Oraciones2)
+CREAR(Oraciones12)
+AVZ(Oraciones1,Tx1)
+AVZ(Oraciones2,Tx2)
+
+ContOrac1:=0
+ContOrac2:=0
+ContOrac12:=0
+
+MIENTRAS NFDS(Oraciones1) Y NFDS(Oraciones2) HACER
+
+	MIENTRAS Tx2<>"," HACER
+		ESCRIBIR(Oraciones12,Tx2)
+		AVZ(Oraciones2,Tx2)
+	FIN MIENTRAS
+
+	MIENTRAS Tx2<>"." HACER 
+		AVZ(Oraciones2,Tx2)
+	FIN MIENTRAS
+	ContOrac2:=ContOrac2+1
+	AVZ(Oraciones2,Tx2)
+	
+	MIENTRAS Tx1 <> "," HACER
+		AVZ(Oraciones1,Tx1)
+	FIN MIENTRAS
+	
+	ESCRIBIR(Oraciones12,Tx1)
+	AVZ(Oraciones1,Tx1)
+	
+	MIENTRAS Tx1 <> "." HACER
+		ESCRIBIR(Oraciones12,Tx1)
+		AVZ(Oraciones1,Tx1)
+	FIN MIENTRAS
+	
+	ContOrac1:=ContOrac1+1
+	ESCRIBIR(Oraciones12,Tx1)
+	ContOrac12:=ContOrac12+1
+	AVZ(Oraciones1, Tx1)
+
+FIN MIENTRAS
+
+MIENTRAS NFDS(Oraciones1) HACER
+	MIENTRAS Tx1<>"." HACER
+		MIENTRAS (Tx1=" ")HACER
+			AVZ(Oraciones1,Tx1)
+		FIN MIENTRAS
+		MIENTRAS (Tx1<>" ") Y (Tx1<>".")HACER
+			AVZ(Oraciones1,Tx1)
+		FIN MIENTRAS
+	FIN MIENTRAS
+	ContOrac1:=ContOrac1+1
+	AVZ(Oraciones1,Tx1)
+FIN MIENTRAS
+	
+MIENTRAS NFDS(Oraciones2) HACER
+	MIENTRAS Tx2<>"." HACER
+		MIENTRAS (Tx2=" ")HACER
+			AVZ(Oraciones2,Tx2)
+		FIN MIENTRAS
+		MIENTRAS (Tx2<>" ") Y (Tx2<>".")HACER
+			AVZ(Oraciones2,Tx2)
+		FIN MIENTRAS
+	FIN MIENTRAS
+	ContOrac2:=ContOrac2+1
+	AVZ(Oraciones2,Tx2)
+FIN MIENTRAS
+
+CERRAR(Oraciones1)
+CERRAR(Oraciones2)
+CERRAR(Oraciones12)
+
+ESCRIBIR("La secuencia 1 tiene ",ContOrac1," oraciones")
+ESCRIBIR("La secuencia 2 tiene ",ContOrac2," oraciones")
+ESCRIBIR("La secuencia de salida tiene ",ContOrac12," oraciones")

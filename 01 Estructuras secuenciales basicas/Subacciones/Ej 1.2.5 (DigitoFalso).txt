@@ -1,0 +1,16 @@
+ACCION 1.2.5 (DigitoFalso) ES
+AMBIENTE
+....
+	FUNCION Escaner(N:Alfanumerico):Booleano ES
+	AMBIENTE
+		Digito=['0','1','2','3','4','5','6','7','8','9']
+	PROCESO
+		SI N EN Digito ENTONCES
+			Escaner:=Verdadero
+		CONTRARIO
+			Escaner:=Falso
+		FIN SI
+	FIN FUNCION
+PROCESO
+....
+FIN ACCION

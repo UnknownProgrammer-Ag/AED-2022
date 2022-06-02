@@ -1,0 +1,22 @@
+ACCION 1.2.6 (Descuento) ES
+AMBIENTE
+.... 
+	FUNCION Compra():Real ES
+	AMBIENTE
+		Ud,PrcU:Real
+	PROCESO
+		ESCRIBIR("INGRESE LAS UNIDADES Y EL PRECIO DE ELLAS")
+		LEER(Ud,PrcU)
+		SI Ud>6 ENTONCES
+			SI Ud>12 ENTONCES	
+				Compra:=PrcU*0.10
+			CONTRARIO
+				Compra:=PrcU*0.04
+			FIN SI
+		CONTRARIO
+			Compra:=0
+		FIN SI
+	FIN FUNCION
+PROCESO
+.....
+FIN ACCION

@@ -1,0 +1,65 @@
+ACCION 2.1.25 (NumeralVocal) ES
+AMBIENTE
+	Palabras,SalidaVocal:Secuencia de Caracteres
+	SalidaCantVocal:Secuencia de Enteros
+	Word:Caracter
+	contvocal,TotalOrac,TotalPalabras:Entero
+	Prom:Entero
+	Vocales={'a','e','i','o','u','A','E','I','O','U'}
+	
+	Procedimiento Reemplazar_vocal() ES
+		ESCRIBIR(SalidaVocal,"#")
+		contvocal:=contvocal+1		
+	FIN Procedimiento
+	
+	
+PROCESO
+ARR(Palabras)
+AVZ(Palabras,Word)
+CREAR(SalidaVocal)
+CREAR(SalidaCantVocal)
+TotalOrac:=0
+TotalPalabras:=0
+
+MIENTRAS NFDS(Palabras) HACER
+	Mientras (Word<>".") Y NFDS(Palabras) HACER
+		MIENTRAS (Word=" ") HACER
+			AVZ(Palabras,Word)
+		FIN MIENTRAS
+		
+		TotalPalabras:=TotalPalabras+1
+		contvocal:=0
+		
+		SI (Word EN Vocales) ENTONCES //Siempre sera la inicial
+			Reemplazar_vocal()
+			AVZ(Palabras,Word) 
+			
+			MIENTRAS (Word<>" ") Y NFDS(Palabras) HACER
+				SI (Word EN Vocales) ENTONCES
+					Reemplazar_vocal()
+				CONTRARIO
+					ESCRIBIR(SalidaVocal,Word)
+				FIN SI
+				AVZ(Palabras,Word)
+			FIN MIENTRAS
+			
+			ESCRIBIR(SalidaCantVocal,contvocal)
+		CONTRARIO
+			MIENTRAS (Word<>" ") Y NFDS(Palabras) HACER
+				AVZ(Palabras,Word)
+			FIN MIENTRAS
+		FIN SI
+		
+	FIN MIENTRAS
+	ESCRIBIR(SalidaVocal,Word)
+	AVZ(Palabras,Word)
+	TotalOrac:=TotalOrac+1
+
+FIN MIENTRAS
+Prom:=TotalPalabras DIV TotalOrac
+ESCRIBIR("El promedio de palabras por oración es de: ",Prom)
+CERRAR(Palabras)
+CERRAR(SalidaCantVocal)
+CERRAR(SalidaVocal)
+FIN ACCION
+

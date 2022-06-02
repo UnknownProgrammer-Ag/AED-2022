@@ -1,0 +1,15 @@
+ACCION 1.1.19 (Cuadrados y Cubos) ES
+AMBIENTE
+	V,Cuad,Cub:Entero
+	Bandera:Alfanumerico
+PROCESO
+Mientras Bandera='Y' HACER
+	ESCRIBIR("Ingrese el valor de V")
+	LEER(V)
+	Cuad:=V*V
+	Cub:=V*V*V
+	ESCRIBIR("Valor de V| Cuadrado de V| Cubo de V|",V,Cuad,Cub)
+	ESCRIBIR("Indicar si desea repetir el programa [Y|N]")
+	LEER(Bandera)
+FIN Mientras
+FIN ACCION

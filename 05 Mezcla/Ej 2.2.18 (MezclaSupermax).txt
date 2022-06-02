@@ -1,0 +1,74 @@
+ACCION Ej 2.2.18 (MezclaSupermax) ES
+AMBIENTE
+	
+	Articulo=registro de
+		Cod_Prod:N(6)
+		Tipo:N(2)
+		Marca:AN(10)
+		Descripcion:AN(20)
+		Unidades:N(3)
+	fin registro
+	
+FirstSucursal,SecondSucursal,Salida:Archivo de Articulo ordenado por Cod_Prod
+One,Two,Sal:Articulo
+
+	PROCEDIMIENTO CargaProductoOne() ES
+		GRABAR(Salida,One)
+		ESCRIBIR("|Cod.Producto|",One.Cod_Prod,"|Tipo|",One.Tipo,"|Marca|",One.Marca,"|Descripcion|",One.Descripcion,"|Cant_Suc1|",One.Unidades,"|Cant_Suc2|",Two.Unidades,"|Total Unidades|",One.Unidades))
+		LEER(FirstSucursal,One)
+	FIN PROCEDIMIENTO
+	
+	
+	PROCEDIMIENTO CargaProductoTwo() ES
+		GRABAR(Salida,Two)
+		ESCRIBIR("|Cod.Producto|",Two.Cod_Prod,"|Tipo|",Two.Tipo,"|Marca|",Two.Marca,"|Descripcion|",Two.Descripcion,"|Cant_Suc1|",Two.Unidades,"|Cant_Suc2|",Two.Unidades,"|Total Unidades|",Two.Unidades)
+		LEER(SecondSucursalSucursal,Two)
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO CargaProductoEqual() ES
+		Sal.Cod_Prod:=One.Cod_Prod
+		Sal.Tipo:=Two.Tipo
+		Sal.Marca:=One.Marca
+		Sal.Descripcion:=Two.Descripcion
+		Sal.Unidades:=(One.Unidades+Two.Unidades)
+		GRABAR(Salida,Sal)
+		ESCRIBIR("|Cod.Producto|",One.Cod_Prod,"|Tipo|",One.Tipo,"|Marca|",One.Marca,"|Descripcion|",One.Descripcion,"|Cant_Suc1|",One.Unidades,"|Cant_Suc2|",Two.Unidades,"|Total Unidades|",Sal.Unidades)
+		LEER(FirstSucursal,One)
+		LEER(SecondSucursalSucursal,Two)
+	FIN PROCEDIMIENTO
+	
+
+PROCESO
+ABRIR E/(FirstSucursal,SecondSucursal)
+ABRIR S/(Salida)
+LEER(FirstSucursal,One)
+LEER(SecondSucursal,Two)
+
+MIENTRAS NFDA(FirstSucursal) Y NFDA(SecondSucursal)
+	
+	SI One.Cod_Prod<Two.Cod_Prod ENTONCES
+		CargaProductoOne()
+	CONTRARIO
+		SI One.Cod_Prod=Two.Cod_Prod ENTONCES
+			CargaProductoEqual()
+		CONTRARIO
+			CargaProductoTwo()
+		FIN SI
+	FIN SI
+
+FIN MIENTRAS
+
+
+MIENTRAS NFDA(FirstSucursal) HACER
+	CargaProductoOne()
+FIN MIENTRAS
+
+MIENTRAS NFDA(SecondSucursal) HACER
+	CargaProductoTwo()
+FIN MIENTRAS
+
+CERRAR(Salida)
+CERRAR(FirstSucursal)
+CERRAR(SecondSucursal)
+
+FIN ACCION
