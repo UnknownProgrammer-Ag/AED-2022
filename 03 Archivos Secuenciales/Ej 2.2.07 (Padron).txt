@@ -20,7 +20,6 @@ AMBIENTE
 		Sel.FullName:=Dat.ID.FullName
 		Sel.DNI:=Dat.ID.DNI
 		Sel.Direc:=Dat.ID.Direc
-		GRABAR(PartC,Sel)
 	FIN Procedimiento
 	
 Padron:Archivo de Habitantes ordenado por FullName
@@ -29,22 +28,24 @@ PartC,NoPart:Archivo de Identi ordenado por FullName
 Sel:Identi
 
 PROCESO
-ABRIR E/(Habitantes)
+ABRIR E/(Padron)
 ABRIR S/(PartC,NoPart)
-LEER(Habitantes,Dat)
+LEER(Padron,Dat)
 
-MIENTRAS NFDA(Habitantes) HACER
+MIENTRAS NFDA(Padron) HACER
 	Si (Dat.Partido=3) ENTONCES
 		Insertar()
+		GRABAR(PartC,Sel)
 	CONTRARIO
 		SI (Dat.Partido=0) Y (Dat.Clase>1940) ENTONCES
 			Insertar()
+			GRABAR(NoPart,Sel)
 		FIN SI
 	FIN SI
-	LEER(Habitantes,Dat)
+	LEER(Padron,Dat)
 FIN MIENTRAS
 
-CERRAR(Habitantes)
+CERRAR(Padron)
 CERRAR(PartC)
 CERRAR(NoPart)
 FIN ACCION
