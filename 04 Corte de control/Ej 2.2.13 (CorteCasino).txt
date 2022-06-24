@@ -16,7 +16,7 @@ AMBIENTE
 		CostoRep:N(6)
 	fin registro
 
-Reparaciones:Archivo de Mantenimiento ordenado por Cod_Sucursal,Marca,Modelo,Cod_Traga
+Reparaciones:Archivo de Mantenimiento ordenado por Cod_Sucursal,Marca,Modelo,Cod_Traga, Reparacion
 Rep:Mantenimiento
 
 ResgTraga:N(6)
