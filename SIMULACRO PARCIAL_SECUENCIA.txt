@@ -1,0 +1,109 @@
+ACCION Alpha.E (Simulacro Parcial) ES
+AMBIENTE
+	
+	//Creamos las secuencias
+	
+	EscultoresGlobal, AmericanEscultors, AfricansEscultors, EuropeanEscultors: Secuencia de Caracteres
+	Esclt: Caracter
+	PorcError:Real
+	TotalEsc,TotalError,ContPost2000A,ContPost2000E,ContPost2000F:Entero
+	Vocal={'a','e','i'}
+	
+	PROCEDIMIENTO Reemplazar_vocal() ES
+		SEGUN Esclt HACER
+			='a': Esclt:='1'
+			='e': Esclt:='2'
+			='i': Esclt:='3'
+		FIN SEGUN
+		ESCRIBIR(EuropeanEscultors,Esclt)
+		AVZ(EscultoresGlobal,Esclt)
+	FIN PROCEDIMIENTO
+	
+	
+PROCESO
+ARR(EscultoresGlobal)
+AVZ(EscultoresGlobal,Esclt)
+
+//Crear las salidas
+CREAR(AmericanEscultors)
+CREAR(AfricansEscultors)
+CREAR(EuropeanEscultors)
+
+//Inicializar totalizadores
+TotalEsc:=0
+ContPost2000A:=0
+ContPost2000E:=0
+ContPost2000F:=0
+TotalError:=0
+
+//Separado por "|" 
+
+MIENTRAS NFDS(EscultoresGlobal) HACER
+	MIENTRAS Esclt<>'|' HACER
+		//Nos encontramos en el continente
+		SI (Esclt='A') ENTONCES
+			MIENTRAS (Esclt<>'1' o Esclt<>'2') HACER
+				ESCRIBIR(AmericanEscultors,Esclt)
+				AVZ(EscultoresGlobal,Esclt)
+			FIN MIENTRAS	
+			//LLEGA AL AÑO
+			SI (Esclt='2') ENTONCES
+				ContPost2000A:=ContPost2000A+1
+			FIN SI
+			MIENTRAS Esclt<>'|' HACER
+				ESCRIBIR(AmericanEscultors,Esclt)
+				AVZ(EscultoresGlobal,Esclt)
+			FIN MIENTRAS
+		SINO
+			SI (Esclt='F') ENTONCES
+				MIENTRAS (Esclt<>'1' o Esclt<>'2') HACER
+					ESCRIBIR(AfricansEscultors,Esclt)
+					AVZ(EscultoresGlobal,Esclt)
+				FIN MIENTRAS	
+				//LLEGA AL AÑO
+				SI (Esclt='2') ENTONCES
+					ContPost2000F:=ContPost2000F+1
+				FIN SI
+				MIENTRAS Esclt<>'|' HACER
+					ESCRIBIR(AfricansEscultors,Esclt)
+					AVZ(EscultoresGlobal,Esclt)
+				FIN MIENTRAS
+			SINO
+				MIENTRAS (Esclt<>'1' o Esclt<>'2') HACER
+					ESCRIBIR(EuropeanEscultors,Esclt)
+					AVZ(EscultoresGlobal,Esclt)
+				FIN MIENTRAS	
+				SI (Esclt='2') ENTONCES
+					ContPost2000E:=ContPost2000E+1
+				FIN SI
+				MIENTRAS (Esclt<>'|') HACER
+					SI Esclt NO Vocal ENTONCES
+						Escribir(EuropeanEscultors,Esclt)
+					SINO
+						TotalError:=TotalError+1
+						Reemplazar_vocal()
+					FIN SI
+					AVZ(EscultoresGlobal,Esclt)
+				FIN MIENTRAS
+			FIN SI
+		FIN SI
+	FIN MIENTRAS
+	TotalEsc:=TotalEsc+1
+	AVZ(EscultoresGlobal,Esclt)
+FIN MIENTRAS
+
+PorcError:=(TotalError/TotalEsc)*100
+
+ESCRIBIR ("Cantidad de escultores por continente que comenzaron despues de los 2000")
+ESCRIBIR("Africa: ",ContPost2000F)
+ESCRIBIR("America: ",ContPost2000A)
+ESCRIBIR("Europa: ",ContPost2000E)
+ESCRIBIR("Porcentaje de errores sobre el total: ",PorcError)
+
+
+CERRAR(EscultoresGlobal)
+CERRAR(AmericanEscultors)
+CERRAR(AfricansEscultors)
+CERRAR(EuropeanEscultors)
+
+FIN ACCION

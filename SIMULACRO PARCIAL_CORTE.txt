@@ -1,0 +1,94 @@
+ACCION CorteUrunday ES
+AMBIENTE
+	
+	Esculturas=registro de
+		Año:N(4)
+		Mes:N(2)
+		Material:{'M','D'}
+		Cod:AN(12)
+		Nombre:AN(20)
+	FIN registro
+	
+ECL: archivo de Esculturas ordenado por Año, Mes,Material,Codigo
+Stat:Esculturas
+
+	Escult2015=registro de
+		Mes:N(2)
+		Material:{'M','D'}
+		Cant:N(3)
+	Fin registro
+
+EMPL: Archivo de Escult2015 ordenado por Mes, Material
+Year2015:Escult2015
+
+TotalYear,TotalMes,TotalMaterial,TotalGeneral:Entero
+ResgYear:N(4)
+ResgMes:N(2)
+ResgMaterial:{'M','D'}
+
+	PROCEDIMIENTO Corte_Año() ES
+		Corte_Mes()
+		ESCRIBIR("Del año ",ResgYear," se colocaron ",TotalYear," esculturas en la ciudad")
+		TotalGeneral:=TotalGeneral+TotalYear
+		TotalYear:=0
+		ResgYear:=Stat.Año
+	FIN PROCEDIMIENTO
+
+	PROCEDIMIENTO Corte_Mes() ES
+		Corte_Material()
+		ESCRIBIR("Del mes ", ResgMes," se colocaron ",TotalMes," esculturas en la ciudad")
+		TotalYear:=TotalYear+TotalMes
+		TotalMes:=0
+		ResgMes:=Stat.Mes
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO Corte_Material() ES
+	
+		SI (ResgYear=2015) ENTONCES
+			Year2015.Mes:=ResgMes
+			Year2015.Material:=ResgMaterial
+			Year2015.Cant:=TotalMaterial
+			GRABAR(EMPL,Year2015)
+		FIN SI
+	
+		ESCRIBIR("Del material ",ResgMaterial," se colocaron ",TotalMaterial," esculturas en la ciudad")
+		TotalMes:=TotalMes+TotalMaterial
+		TotalMaterial:=0
+		ResgMaterial:=Stat.Material
+	FIN PROCEDIMIENTO
+
+PROCESO
+ABRIR E/(ECL)
+AVZ(ECL,Stat)
+ABRIR S/(EMPL)
+
+TotalGeneral,TotalMaterial,TotalMes,TotalYear:=0
+ResgMaterial:=Stat.Material
+ResgMes:=Stat.Mes
+ResgYear:=Stat.Año
+
+MIENTRAS NFDA(ECL) HACER
+
+	SI Stat.Año<> ResgYear ENTONCES
+		Corte_Año()
+	SINO
+		SI Stat.Mes<> ResgMes ENTONCES
+			Corte_Mes()
+		SINO
+			Corte_Material()
+		FIN SI
+	FIN SI
+	
+	SI ResgMaterial=Stat.Material ENTONCES
+		TotalMaterial:=TotalMaterial+1
+	FIN SI
+	LEER(ECL,Stat)
+FIN MIENTRAS
+
+Corte_Año()
+ESCRIBIR("Total general de esculturas: ",TotalGeneral)
+
+CERRAR(ECL)
+CERRAR(EMPL)
+
+FIN ACCION
