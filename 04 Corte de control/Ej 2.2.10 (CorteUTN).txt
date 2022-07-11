@@ -32,7 +32,7 @@ MIENTRAS NFDA(Facu) HACER
 	SI List.Carrera<>ResgCarr ENTONCES
 		Corte_Carrera
 	FIN SI
-	
+
 	SI List.Carrera=ResgCarr ENTONCES
 		ContCarr:=ContCarr+1
 	FIN SI

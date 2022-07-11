@@ -73,7 +73,7 @@ MIENTRAS NFDA(Alumnos) HACER
 			Corte_Carrera()
 		FIN SI
 	FIN SI
-	
+	----
 	SI (ID.Ingreso.Año=2009) ENTONCES
 		SI (ID.MateriasAprobadas<20) ENTONCES
 			ContCarrno20:=ContCarrno20+1
