@@ -59,7 +59,7 @@ ResgMaterial:{'M','D'}
 
 PROCESO
 ABRIR E/(ECL)
-AVZ(ECL,Stat)
+LEER(ECL,Stat)
 ABRIR S/(EMPL)
 
 TotalGeneral,TotalMaterial,TotalMes,TotalYear:=0
