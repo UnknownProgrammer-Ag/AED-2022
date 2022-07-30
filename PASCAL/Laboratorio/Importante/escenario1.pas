@@ -99,34 +99,11 @@ begin
                     c:=0;
                     while v<>'#' do
                         begin
-                            c:=carent(v)*100000;
-                            writeln(c);
-                            read(sec,v);
-                            c:=c+carent(v)*10000;
-                            writeln(c);
-                            read(sec,v);      
-                            c:=c+carent(v)*1000;
-                            writeln(c);
-                            read(sec,v);
-                            c:=c+carent(v)*100;
-                            writeln(c);
-                            read(sec,v);
-                            c:=c+carent(v)*10;
-                            writeln(c);
-                            read(sec,v);
-                            c:=c+carent(v);
-                            writeln(c);
+							c:=carent(v)+c*10;
                             read(sec,v);
                         end;
-                    {+while v<>'#' do
-                        begin
-                            writeln(v);
-                            c:=carent(v)+c*10;
-                            writeln(c:2);
-                            read(sec,v);
-                        end;*}
                     c:=c/lbs;
-                    writeln(c:2,' Kg');
+                    writeln(c:5:1,' Kg');
                 end
             else
                 begin
@@ -162,35 +139,11 @@ begin
                     c:=0;
                     while v<>'#' do
                         begin
-                            c:=carent(v)*100000;
-                            writeln(c);
-                            read(sec,v);
-                            c:=c+carent(v)*10000;
-                            writeln(c);
-                            read(sec,v);      
-                            c:=c+carent(v)*1000;
-                            writeln(c);
-                            read(sec,v);
-                            c:=c+carent(v)*100;
-                            writeln(c);
-                            read(sec,v);
-                            c:=c+carent(v)*10;
-                            writeln(c);
-                            read(sec,v);
-                            c:=c+carent(v);
-                            writeln(c);
+                            c:=carent(v)+c*10;
                             read(sec,v);
                         end;
-                    writeln(v);
-                    {*while v<>'#' do
-                        begin
-                            writeln(v);
-                            c:=carent(v)+c*10;
-                            writeln(c);
-                            read(sec,v);
-                        end;*}
                     c:=c/lbs;
-                    writeln(c:2,' Kg');
+                    writeln(c:5:1,' Kg');
                 end;
             if c4=2019 then
                 begin
@@ -215,16 +168,16 @@ begin
     close(sec);
     writeln(' ');
     writeln(' Informe mensual del anio 2019 ');
-    writeln('Mes de Enero de 2019     ', m1:2, ' Kg');
-    writeln('Mes de Febrero de 2019   ', m2:2, ' Kg');
-    writeln('Mes de Marzo de 2019     ', m3:2, ' Kg');
-    writeln('Mes de Abril de 2019     ', m4:2, ' Kg');
-    writeln('Mes de Mayo de 2019      ', m5:2, ' Kg');
-    writeln('Mes de Junio de 2019     ', m6:2, ' Kg');
-    writeln('Mes de Julio de 2019     ', m7:2, ' Kg');
-    writeln('Mes de Agosto de 2019    ', m8:2, ' Kg');
-    writeln('Mes de Septiembre de 2019', m9:2, ' Kg');
-    writeln('Mes de Octubre de 2019   ', m10:2, ' Kg');
-    writeln('Mes de Noviembre de 2019 ', m11:2, ' Kg');
-    writeln('Mes de Diciembre de 2019 ', m12:2, ' Kg');
+    writeln('Mes de Enero de 2019     ', m1:5:1, ' Kg');
+    writeln('Mes de Febrero de 2019   ', m2:5:1, ' Kg');
+    writeln('Mes de Marzo de 2019     ', m3:5:1, ' Kg');
+    writeln('Mes de Abril de 2019     ', m4:5:1, ' Kg');
+    writeln('Mes de Mayo de 2019      ', m5:5:1, ' Kg');
+    writeln('Mes de Junio de 2019     ', m6:5:1, ' Kg');
+    writeln('Mes de Julio de 2019     ', m7:5:1, ' Kg');
+    writeln('Mes de Agosto de 2019    ', m8:5:1, ' Kg');
+    writeln('Mes de Septiembre de 2019', m9:5:1, ' Kg');
+    writeln('Mes de Octubre de 2019   ', m10:5:1, ' Kg');
+    writeln('Mes de Noviembre de 2019 ', m11:5:1, ' Kg');
+    writeln('Mes de Diciembre de 2019 ', m12:5:1, ' Kg');
 end.
