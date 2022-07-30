@@ -3,7 +3,7 @@ var
 AntSustancias:file of char;
 Pointer:char;
 i:integer;
-op,element: integer;
+element: integer;
 
 procedure cargarSecuencia();
 begin
@@ -16,16 +16,13 @@ begin
 		readln(Pointer);
 		write(AntSustancias,Pointer);
 	end;
-	writeln('Ingrese el nombre del elemento');
-	op:=1;
-	While (op=1) do
+	writeln('Ingrese el nombre del elemento y al final para terminar #');
+	Repeat
 	begin 
 		readln(Pointer);
 		write(AntSustancias,Pointer);
-	    writeln('Si termino de colocar  el nombre coloque 0');
-	    readln(op);
 	end;
-	write(AntSustancias,'#');
+	Until Pointer='#';
 	writeln('Ingrese el codigo');
 	for i:=1 to 6 do
 	begin

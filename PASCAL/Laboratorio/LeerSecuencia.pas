@@ -16,7 +16,9 @@ Begin
 
 	While not eof(AntSustancias) do
 	begin
+		write(AntSustancias,Pointer);
 		read(AntSustancias,Pointer);
+
 	end;
 	readKey();
 	close(AntSustancias);
