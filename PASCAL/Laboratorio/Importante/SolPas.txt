@@ -1,0 +1,134 @@
+Accion escenario1 es
+    Ambiente
+        sec, salaux: Secuencia de caracteres
+        v: Caracter
+        c2, c3, c4, i: Entero
+        c, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12: Real
+        fecha = registro
+            dia: N(2)
+            mes: N(2)
+            anio: N(4)
+        fin registro
+        NoTer = registro
+            fecha: fecha
+            nombre: AN(10)
+        fin registro
+        Arch: Archivo de NoTer
+        reg: NoTer
+        Funcion carent(a: Caracter): Entero
+            Segun a hacer
+                ='1': carent:=1
+                ='2': carent:=2
+                ='3': carent:=3
+                ='4': carent:=4
+                ='5': carent:=5
+                ='6': carent:=6
+                ='7': carent:=7
+                ='8': carent:=8
+                ='9': carent:=9
+                ='0': carent:=0
+            Fin Segun
+        Fin Funcion
+
+    Proceso
+        ARR(sec)
+        AVZ(sec, v)
+        Abrir /S(Arch)
+        m1:= m2:= m3:= m4:= m5:= m6:= m7:= m8:= m9:= m10:= m11:= m12:= 0
+        Mientras NFDS(sec) hacer
+            Si v='N' entonces
+                AVZ(sec, v)
+                c2:=0
+                Para i=1 hasta 2 hacer
+                    c2:=carent(v)+c2*10
+                    AVZ(sec, v)
+                Fin Para
+                reg.fecha.dia:=c2
+                c3:=0
+                Para i=1 hasta 2 hacer
+                    c3:=carent(v)+c3*10
+                    AVZ(sec, v)
+                Fin Para
+                reg.fecha.mes:=c3
+                c4:=0
+                Para i=1 hasta 4 hacer
+                    c4:=carent(v)+c4*10
+                    AVZ(sec, v)
+                Fin Para
+                reg.fecha.anio:=c4
+                Crear(salaux)
+                Mientras v<>'#' hacer
+                    Escribir(v)
+                    Grabar(salaux, v)
+                    AVZ(sec, v)
+                Fin Mientras
+                Cerrar(salaux)
+                reg.nombre:=salaux
+                Grabar(Arch, reg)
+            Sino
+                AVZ(sec, v)
+                Para i=1 hasta 2 hacer
+                    AVZ(sec, v)
+                Fin Para
+                c3:=0
+                Para i=1 hasta 2 hacer
+                    c3:=carent(v)+c3*10
+                    AVZ(sec, v)
+                Fin Para
+                reg.fecha.mes:=c3
+                c4:=0
+                Para i=1 hasta 4 hacer
+                    c4:=carent(v)+c4*10
+                    AVZ(sec, v)
+                Fin Para
+                reg.fecha.anio:=c4
+                Mientras v<>'#' hacer
+                    Escribir(v)
+                    AVZ(sec, v)
+                Fin Mientras
+            Fin Si
+            AVZ(sec, v)
+            Mientras v <>'#'hacer
+                AVZ(sec, v)
+            Fin Mientras
+            AVZ(sec, v)
+            c:=0
+            Mientras v<>'#' hacer
+                c:=carent(v)+c*10         --Llamada a la funcion
+                AVZ(sec, v)
+            Fin Mientras
+            c:=c/2.20462
+            Escribir(c, kilogramos)
+            Si c4=2019 entonces
+                Segun c3 hacer
+                    =01: m1:=m1+c
+                    =02: m2:=m2+c
+                    =03: m3:=m3+c
+                    =04: m4:=m4+c
+                    =05: m5:=m5+c
+                    =06: m6:=m6+c
+                    =07: m7:=m7+c
+                    =08: m8:=m8+c
+                    =09: m9:=m9+c
+                    =10: m10:=m10+c
+                    =11: m11:=m11+c
+                    =12: m12:=m12+c
+                Fin Segun
+            Fin Si
+            AVZ(sec, v)
+        Fin Mientras
+        Cerrar(Arch)
+        Escribir('Informe mensual del año 2019 ')
+        Escribir('Mes de Enero de 2019', m1, 'Kg')
+        Escribir('Mes de Febrero de 2019', m2, 'Kg')
+        Escribir('Mes de Marzo de 2019', m3, 'Kg')
+        Escribir('Mes de Abril de 2019', m4, 'Kg')
+        Escribir('Mes de Mayo de 2019', m5, 'Kg')
+        Escribir('Mes de Junio de 2019', m6, 'Kg')
+        Escribir('Mes de Julio de 2019', m7, 'Kg')
+        Escribir('Mes de Agosto de 2019', m8, 'Kg')
+        Escribir('Mes de Septiembre de 2019', m9, 'Kg')
+        Escribir('Mes de Octubre de 2019', m10, 'Kg')
+        Escribir('Mes de Noviembre de 2019', m11, 'Kg')
+        Escribir('Mes de Diciembre de 2019', m12, 'Kg')
+Fin Accion
