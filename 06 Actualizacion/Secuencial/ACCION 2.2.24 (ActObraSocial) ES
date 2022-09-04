@@ -1,0 +1,108 @@
+ACCION 2.2.24 (ActObraSocial) ES
+AMBIENTE
+	
+	Fecha=registro de
+		Año:{1930..2022}
+		Mes:{1..12}
+		Dia:{1..31}
+	Fin registro
+
+	Afiliados=registro de
+		CodAf:N(6)
+		Alta:Fecha
+		Baja:Fecha
+		CantServ:N(2)
+		Costo:N(6)
+	Fin registro
+
+	Semanal=registro de
+		CodAf:N(6)
+		Atencion:Fecha
+		CodServ:AN(3)
+		Costo:N(3)
+	Fin	registro
+HV=999999	
+ActCostosAf,CostosAf:Archivo de Afiliados ordenado por CodAf	
+ServSem:Archivo de Semanal ordenado por CodAf
+
+Mast,NewMast,Aux:Afiliados
+Mov:Semanal
+
+
+Procedimiento LEER_Mast ES 
+		Leer(CostosAf,Mast)
+	SI FDA(CostosAf) ENTONCES
+		Mast.CodAf:=HV
+	FIN SI 
+FIN Procedimiento
+
+Procedimiento LEER_Mov ES 
+		Leer(ServSem,Mov)
+	SI FDA(ServSem) ENTONCES
+		Mov.CodAf:=HV
+	FIN SI 
+FIN Procedimiento
+
+Procedimiento LoteMov() HACER
+	SI Mov.CodServ«»'000' ENTONCES
+		Aux.CantServ:=Aux.CantServ+1
+		Aux.Costo:=Aux.Costo+Mov.Costo
+	CONTRARIO
+	 	Aux.Baja:=Mov.Atencion
+	FIN SI  
+FIN Procedimiento
+ 
+Procedimiento SinMaestro HACER
+	Aux.CodAf:=Mov.CodAf
+	Aux.Alta:=Mov.Atencion
+	Aux.CantServ:=0
+	Aux.Costo:=0
+FIN Procedimiento
+
+PROCESO
+ABRIR E/(CostosAf)
+ABRIR S/(ActCostosAf)
+ABRIR E/(ServSem)
+
+LEER_Mov
+LEER_Mast
+
+ResgCosto=0
+
+MIENTRAS (Mast.CodAf«»HV) o (Mov.CodAf«» HV) HACER
+	SI Mast.CodAf« Mov.CodAf ENTONCES //No cambios
+		NewMast:=Mast
+		Grabar (ActCostosAf,NewMast)
+		LEER_Mast
+	CONTRARIO
+		SI Mast.CodAf=Mov.CodAf ENTONCES
+			Aux:=Mast 
+			MIENTRAS (Mast.CodAf=Mov.CodAf) HACER
+				LoteMov()
+				LEER_Mov()
+			FIN MIENTRAS	
+			NewMast:=Aux
+			GRABAR(ActCostosAf,NewMast)
+			LEER_Mast
+		CONTRARIO
+			SI Mov.CodServ='001' ENTONCES	
+				SinMaestro
+				LEER_Mov	
+				MIENTRAS (Aux.CodAf=Mov.CodAf) HACER
+					LoteMov
+					LEER_Mov
+				FIN MIENTRAS
+				NewMast:=Aux
+				GRABAR(ActCostosAf,NewMast)
+			CONTRARIO
+				ESCRIBIR('ERROR, No EXISTE ESTE AFILIADO EN EL MAESTRO Y NO SE PUEDE REALIZAR UNA MODIFICACION SOBRE EL')	
+			FIN SI 
+		FIN SI 
+	FIN SI 
+FIN MIENTRAS
+
+CERRAR(ActCostosAf)
+CERRAR(CostosAf)
+CERRAR(ServSem)
+
+FIN ACCION

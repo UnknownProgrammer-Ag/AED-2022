@@ -1,0 +1,71 @@
+ACCION Ej 2.2.23 (ActualizacionDpec) ES
+AMBIENTE
+	
+	Fecha=registro de
+		Año:N(4)
+		Mes:N(2)
+		Dia:N(2)
+	fin registro
+
+	Medidor=registro de
+		Casa:N(6)
+		UltLectura:Fecha
+		CantLectura:N(3)
+		PromLectura:N(5)
+		Consumidor:{'A','B','C'}
+	fin registro
+	
+	Changes=registro de
+		Casa:N(6)
+		Medicion:Fecha
+		Consumo:N(5)
+	fin registro
+
+CLIENTE,ACTUALIZADO:Archivo de Medidor ordenado por Casa
+MEDICIONES:Archivo de Changes ordenado por Casa
+Mast,NewMast:Medidor
+Mov:Changes
+
+	PROCEDIMIENTO LEER_CLIENTE ES
+		LEER(CLIENTE,Mast)
+		SI FDA(CLIENTE) ENTONCES
+			Mast.Casa:=HV
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO LEER_MEDICIONES ES
+		LEER(MEDICIONES,Mov)
+		SI FDA(MEDICIONES) ENTONCES
+			Mov.Casa:=HV
+		FIN SI
+	FIN PROCEDIMIENTO
+	
+	PROCEDIMIENTO ActualizarMaestro ES  
+		NewMast.Casa:=Mast.Casa
+		NewMast.UltLectura:=Mov.
+
+		SEGUN () HACER
+			<20000: NewMast.Consumidor:='A'
+			<40000: NewMast.Consumidor:='B'
+			>=40000:NewMast.Consumidor:='C'
+		Fin SEGUN
+
+	FIN PROCEDIMIENTO		
+		
+ABRIR E/(CLIENTE,MEDICIONES)
+ABRIR S/(ACTUALIZADO)
+
+LEER_CLIENTE
+LEER_MEDICIONES
+
+
+MIENTRAS (Mast.Casa<>HV) o (Mov.Casa<>HV) HACER
+	MIENTRAS (Mov.Medicion.Mes«»02) Y (Mov.Medicion.Año«»2015) HACER
+
+
+
+
+
+
+
+
