@@ -4,7 +4,7 @@ uses CRT;
 var
 
 Global,Interno:array [1..10,1..10] of char;
-i,j,cont,Est,B4,B3,B2:integer;
+i,j,cont,Est,B4,B3,B2,BiB4,BiB3,BiB2,contJ2:integer;
 J1,J2:string;
 
 	procedure MostrarGlobal;
@@ -127,21 +127,82 @@ J1,J2:string;
 		readln(i);
 		writeln('Coordenada j de ataque (1 a 10)');
 		readln(j);
-		
-
-
-
-
-
-
+		if (Interno<>' ') then
+			Global[i,j]:='X';
+		else
+			Global[i,j]:=' ';
+	end;
+	
 
 	procedure FaseDeJuego;
 	begin
-
-
-
-
-
+		cont:=5;
+		contJ2:=5;
+		B4:=4;
+		BiB4:=4;
+		B3:=6;
+		BiB3:=6;
+		B2:=4;
+		BiB2:=4;
+		
+		while cont<>0 and contJ2<>0 do
+		begin
+		
+			writeln('Ataque de ',J1);
+			TurnoDeAtaque;
+			if (Interno[i,j]<>' ') then
+			begin
+				writeln('Golpeo una nave');
+				if (Interno[i,j]='@') then	
+					BiB4:=BiB4-1;
+				else
+				begin
+					if (Interno[i,j]='$') then
+						BiB3:=BiB3-1;
+					else
+					begin
+						if (Interno[i,j]='#');
+							BiB2:=BiB2-1;
+					end
+				end
+			end
+			else
+				writeln('Fallaste, diste al agua');
+			
+			writeln('Ataque de ',J2);
+			TurnoDeAtaque;
+			if (Interno[i,j]<>' ') then
+			begin
+				writeln('Golpeo una nave');
+				if (Interno[i,j]='@') then	
+					B4:=B4-1;
+				else
+				begin
+					if (Interno[i,j]='$') then
+						B3:=B3-1;
+					else
+					begin
+						if (Interno[i,j]='#');
+							B2:=B2-1;
+					end
+				end
+			end
+			else
+				writeln('Fallaste, diste al agua');
+			end
+			
+			MostrarGlobal;
+			ClrScr;
+			
+			if (B4=0) or (B3=3) or (B3=0) or (B2=2) or (B2=0) then
+				cont:=cont-1;
+			end
+			
+			if (BiB4=0) or (BiB3=3) or (BiB3=0) or (BiB2=2) or (BiB2=0)
+				contJ2:=cont-1;
+			end
+		end
+	end;
 begin
 	IniciarArrays;
 
@@ -177,10 +238,15 @@ begin
 	writeln('		FASE DE JUEGO		');
 	ReadKey;
 	ClrScr;
-
-
-
-
+	
+	FaseDeJuego;
+	
+	if cont=0 then
+		writeln('¡Felicidades! ',J2,', ganaste la partida.');
+	else
+		writeln('¡Felicidades! ',J1,', ganaste la partida.');
+	
+	writeln('Esperamos la revancha.');
 
 end.
-		
+	

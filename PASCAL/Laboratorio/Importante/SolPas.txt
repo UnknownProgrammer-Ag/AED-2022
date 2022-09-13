@@ -1,6 +1,6 @@
 Accion escenario1 es
     Ambiente
-        sec, salaux: Secuencia de caracteres
+        sec, Secuencia de caracteres
         v: Caracter
         c2, c3, c4, i: Entero
         c, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12: Real
@@ -15,7 +15,10 @@ Accion escenario1 es
         fin registro
         Arch: Archivo de NoTer
         reg: NoTer
-        Funcion carent(a: Caracter): Entero
+        
+		sal:AN(10)
+		
+		Funcion carent(a: Caracter): Entero
             Segun a hacer
                 ='1': carent:=1
                 ='2': carent:=2
@@ -56,14 +59,13 @@ Accion escenario1 es
                     AVZ(sec, v)
                 Fin Para
                 reg.fecha.anio:=c4
-                Crear(salaux)
+				sal:=' '
                 Mientras v<>'#' hacer
                     Escribir(v)
-                    Grabar(salaux, v)
+					sal:=sal+v
                     AVZ(sec, v)
                 Fin Mientras
-                Cerrar(salaux)
-                reg.nombre:=salaux
+                reg.nombre:=sal
                 Grabar(Arch, reg)
             Sino
                 AVZ(sec, v)
