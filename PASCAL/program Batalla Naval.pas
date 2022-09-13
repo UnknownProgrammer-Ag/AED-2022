@@ -118,7 +118,9 @@ J1,J2:string;
 					end
 				end
 			end
-		end
+		end;
+		writeln('');
+		writeln('Termino su fase de construccion. Presione ENTER para continuar');
 	end;
 
 	procedure TurnoDeAtaque;
@@ -127,8 +129,8 @@ J1,J2:string;
 		readln(i);
 		writeln('Coordenada j de ataque (1 a 10)');
 		readln(j);
-		if (Interno<>' ') then
-			Global[i,j]:='X';
+		if (Interno[i,j]<>' ') then
+			Global[i,j]:='X'
 		else
 			Global[i,j]:=' ';
 	end;
@@ -145,7 +147,7 @@ J1,J2:string;
 		B2:=4;
 		BiB2:=4;
 		
-		while cont<>0 and contJ2<>0 do
+		while (cont<>0) and (contJ2<>0) do
 		begin
 		
 			writeln('Ataque de ',J1);
@@ -154,14 +156,14 @@ J1,J2:string;
 			begin
 				writeln('Golpeo una nave');
 				if (Interno[i,j]='@') then	
-					BiB4:=BiB4-1;
+					BiB4:=BiB4-1
 				else
 				begin
 					if (Interno[i,j]='$') then
-						BiB3:=BiB3-1;
+						BiB3:=BiB3-1
 					else
 					begin
-						if (Interno[i,j]='#');
+						if (Interno[i,j]='#') then
 							BiB2:=BiB2-1;
 					end
 				end
@@ -169,38 +171,38 @@ J1,J2:string;
 			else
 				writeln('Fallaste, diste al agua');
 			
+			writeln('');
 			writeln('Ataque de ',J2);
 			TurnoDeAtaque;
 			if (Interno[i,j]<>' ') then
 			begin
 				writeln('Golpeo una nave');
 				if (Interno[i,j]='@') then	
-					B4:=B4-1;
+					B4:=B4-1
 				else
 				begin
 					if (Interno[i,j]='$') then
-						B3:=B3-1;
+						B3:=B3-1
 					else
 					begin
-						if (Interno[i,j]='#');
+						if (Interno[i,j]='#') then
 							B2:=B2-1;
 					end
 				end
 			end
 			else
 				writeln('Fallaste, diste al agua');
-			end
-			
+			delay(2000);
+			writeln('');
 			MostrarGlobal;
+			ReadKey;
 			ClrScr;
 			
 			if (B4=0) or (B3=3) or (B3=0) or (B2=2) or (B2=0) then
 				cont:=cont-1;
-			end
 			
-			if (BiB4=0) or (BiB3=3) or (BiB3=0) or (BiB2=2) or (BiB2=0)
+			if (BiB4=0) or (BiB3=3) or (BiB3=0) or (BiB2=2) or (BiB2=0) then
 				contJ2:=cont-1;
-			end
 		end
 	end;
 begin
@@ -229,20 +231,21 @@ begin
 	ReadKey;
 	ClrScr;
 
-	writeln('TURNO de', J2);
+	writeln('TURNO de ', J2);
 	writeln('Le corresponde de la fila 6 a la fila 10. POR FAVOR Jugador 1 alejarse de la pantalla');
 	CargadeMapa;
 	ReadKey;
 	ClrScr;
 
 	writeln('		FASE DE JUEGO		');
+	writeln('Presione ENTER para continuar');
 	ReadKey;
 	ClrScr;
 	
 	FaseDeJuego;
 	
 	if cont=0 then
-		writeln('¡Felicidades! ',J2,', ganaste la partida.');
+		writeln('¡Felicidades! ',J2,', ganaste la partida.')
 	else
 		writeln('¡Felicidades! ',J1,', ganaste la partida.');
 	
