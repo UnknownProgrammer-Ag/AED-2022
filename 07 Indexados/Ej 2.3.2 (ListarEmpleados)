@@ -1,0 +1,130 @@
+ACCION Ej 2.3.2 (ListarEmpleados) ES
+AMBIENTE
+	
+	Fecha=registro de
+		Año:(1950..2022)
+		Mes:(1..12)
+		Dia:(1..31)
+	fin registro
+
+	Servicio=registro de	
+		CodCurso:N(6)
+		Nombre:AN(30)
+		FechaCurso:Fecha
+		CantHoras:N(2)
+	fin registro
+	
+	Personal=registro de
+		NroSucursal:N(2)
+		Categoria:('A','B','C')
+		NombreEmpl:AN(45)
+		CodCurso:N(6)
+		Tecnico:('Si','No')
+	fin registro
+
+Empleados:Archivo de Personal ordenado por NroSucursal,Categoria
+
+Curso:Archivo de Servicio indexado por CodCurso
+
+RegEmpl:Personal
+RegCurs:Servicio
+
+Tecnico,NoTecnico,General,TecnicoCat,NoTecnicoCat,GeneralCat,TecnicoSuc,NoTecnicoSuc,GeneralSuc:Entero
+ResgCat:('A','B','C')
+ResgSuc:N(2)
+
+Procedimiento Corte_Categoria ES
+	ESCRIBIR('En la categoria ',ResgCat)
+	ESCRIBIR('Hay ', TecnicoCat,' tecnicos')
+	ESCRIBIR('Hay ', NoTecnicoCat,' no-tecnicos')
+	ESCRIBIR('Hay ', GeneralCat,' empleados')		
+	
+	TecnicoSuc:=TecnicoSuc+TecnicoCat
+	NoTecnicoSuc:=NoTecnicoSuc+NoTecnicoCat
+	GeneralSuc:=GeneralSuc+GeneralCat
+
+	GeneralCat:=0
+	TecnicoCat:=0
+	NoTecnicoCat:=0
+
+	ResgCat:=RegEmpl.Categoria
+
+Fin Procedimiento
+
+Procedimiento Corte_Sucursal ES 
+	Corte_Categoria
+	ESCRIBIR('En la sucursal ',ResgSuc)
+	ESCRIBIR('Hay ', TecnicoSuc,' tecnicos')
+	ESCRIBIR('Hay ', NoTecnicoSuc,' no-tecnicos')
+	ESCRIBIR('Hay ', GeneralSuc,' empleados')		
+	
+	Tecnico:=Tecnico+TecnicoSuc
+	NoTecnico:=NoTecnico+NoTecnicoSuc
+	General:=General+GeneralSuc
+
+	GeneralSuc:=0
+	TecnicoSuc:=0
+	NoTecnicoSuc:=0
+
+	ResgSuc:=RegEmpl.NroSucursal	
+
+Fin Procedimiento
+
+Procedimiento Corte_General ES 
+	Corte_Sucursal
+	ESCRIBIR('En la empresa ')
+	ESCRIBIR('Hay ', Tecnico,' tecnicos')
+	ESCRIBIR('Hay ', NoTecnico,' no-tecnicos')
+	ESCRIBIR('Hay ', General,' empleados')			
+Fin Procedimiento
+
+PROCESO
+Abrir E/(Empleados)
+Abrir E/(Curso)
+LEER(Empleados,RegEmpl)
+
+Tecnico,TecnicoCat,TecnicoSuc:=0
+NoTecnico,NoTecnicoCat,NoTecnicoSuc:=0
+General,GeneralCat,GeneralSuc:=0
+ResgCat:=RegEmpl.Categoria
+ResgSuc:=RegEmpl.NroSucursal
+
+ESCRIBIR('Sucursal|Categoria|NombreEmpleado|NombreCurso')
+Mientras NFDA(Empleados) HACER
+	SI ResgSuc«»RegEmpl.NroSucursal ENTONCES
+		ESCRIBIR('--------CORTE SUCURSAL------')
+		Corte_Sucursal
+		ESCRIBIR('------FIN CORTE SUCURSAL-----')
+	CONTRARIO
+		SI ResgCat«»RegEmpl.Categoria ENTONCES
+			ESCRIBIR('--------CORTE CATEGORIA------')
+			Corte_Categoria
+			ESCRIBIR('--------FIN CORTE CATEGORIA------')
+		FIN SI
+	FIN SI 
+	
+	RegCurs.CodCurso:=RegEmpl.CodCurso
+	LEER(Curso,RegCurs)
+	
+	SI EXISTE ENTONCES
+	
+		SI RegEmpl.Tecnico ='Si' ENTONCES
+			TecnicoCat:=TecnicoCat+1
+		CONTRARIO
+			NoTecnicoCat:=NoTecnicoCat+1
+		FIN SI 
+		GeneralCat:=GeneralCat+1
+
+		ESCRIBIR(RegEmpl.NroSucursal,'|',RegEmpl.Categoria,'|',RegEmpl.Nombre,'|',RegCurs.NombreCurso)
+	CONTRARIO
+		ESCRIBIR('NO EXISTE ESE CURSO')
+	FIN SI 
+FIN Mientras
+ESCRIBIR('')
+Corte_General
+CERRAR(Empleados)
+CERRAR(Curso)
+FIN ACCCION
+
+	
+	

@@ -1,0 +1,59 @@
+Accion 2.3.1.b ListarClientes ES
+Ambiente
+	Fecha=registro de
+		Año:(1950..2022)
+		Mes:(1..12)
+		Dia:(1..31)
+	fin registro
+
+	Facturas=registro de
+		Nro_Cliente:N(6)
+		Nro_Factura:N(6)
+		FactDate:Fecha
+		Importe:N(6)
+	fin registro
+
+	Clientes=registro de 
+		Nro_Cliente:N(6)
+		Nombre:AN(30)
+		DNI:N(8)
+		CUIT:N(11)
+		Domicilio:AN(25)
+	fin registro
+
+Fact:Archivo ordenado por Nro_Cliente,Nro_Factura
+CLt:Archivo indexado por Nro_Cliente
+
+RegFact:Facturas
+RegClt:Clientes
+CantFact:Entero
+TotalFact:Real
+ResgNroClt:N(6)
+
+Proceso
+Abrir E/(Fact)
+Abrir E/(Clientes)
+LEER(Fact,RegFact)
+CantFact:=0
+TotalFact:=0
+ESC('NroCliente|NombreCliente|TotalFacturado|CantidadDeFacturas|')
+MIENTRAS NFDA(Fact) HACER
+	ResgNroClt:=RegFact.Nro_Cliente
+	Mientras ResgNroClt=RegFact.Nro_Cliente HACER
+		CantFact:=CantFact+1
+		TotalFact:=TotalFact+RegFact.Importe
+		LEER(Fact,RegFact)
+	Fin	Mientras
+	RegClt.Nro_Cliente:=ResgNroClt
+	Leer(CLt,RegClt)
+	SI EXISTE ENTONCES
+		ESC(ResgNroClt,'|',RegClt.Nombre,'|',TotalFact,'|',CantFact)
+	CONTRARIO
+		ESC('Eliminar las facturas del Nro de Cliente ',ResgNroClt,' Razon: NO EXISTE')
+	FIN SI
+FIN MIENTRAS
+
+CERRAR(Fact)
+CERRAR(Clt)
+FIN ACCION
+	
