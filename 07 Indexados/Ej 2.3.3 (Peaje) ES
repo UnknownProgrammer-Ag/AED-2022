@@ -1,0 +1,82 @@
+Accion Ej 2.3.3 (Peaje) ES
+AMBIENTE
+	
+Cat1=1,20
+Cat2=2,50
+Cat3=4
+Cat4=5
+
+	Datos=registro de 
+		Patente:AN(6)
+		FechaPaso:N(8)
+		UltHora:N(4)
+		Costo:N(3,2)
+	fin registro
+Peaje:Archivo de Datos indexado por Patente,FechaPaso
+RegPat:Datos
+
+CodPat:AN(6)
+FechaAct:N(8)
+HoraAct:N(4)
+Cat:(1..4)
+Bandera:('Si','No')
+
+Procedimiento CargaArchivo ES 
+	Escribir('Ingrese hora actual')
+	Leer(HoraAct)
+	Escribir('Ingrese categoria del vehiculo')
+	Leer(Cat)
+
+	Segun (Cat) Hacer
+		=1:RegPat.Costo:=Cat1
+		=2:RegPat.Costo:=Cat2
+		=3:RegPat.Costo:=Cat3
+		=4:RegPat.Costo:=Cat4
+	fin Segun
+
+	Escribir('El vehiculo de patente ',CodPat,' debera pagar:')
+	Escribir('Por categoria ',Cat,', el costo a pagar es de: 'RegPat.Costo)
+
+	RegPat.Patente:=CodPat
+	RegPat.FechaPaso:=FechaAct
+	RegPat.UltHora:=HoraAct
+	Grabar(Peaje,RegPat)
+Fin Procedimiento
+
+
+PROCESO
+Abrir E/S (Peaje)
+
+Escribir('Programa iniciado')
+Escribir('Ingrese los datos de los vehiculos')
+Bandera:='Si'
+
+Mientras Bandera='Si' Entonces
+	Escribir('Ingrese la patente')
+	Leer(CodPat)
+	RegPat.Patente:=CodPat
+	Leer(Peaje,CodPat)
+	SI EXISTE Entonces
+		Escribir('Ingrese Fecha Actual (Formato YYYYMMDD)')
+		Leer(FechaAct)
+		SI (FechaAct Mod 100 = RegPat.FechaPaso Mod 100) Entonces //Mod 100 saca los dos ultimos digitos, correspondientes al dia, si son iguales se interpreta que estan en el mismo dia sin importar la hora.
+			Escribir('Vehiculo de patente ', CodPat, ' ya tiene registro de pase en el dia.')
+			Escribir('Queda exento de pagar')
+		Contrario
+			CargaArchivo
+		Fin Si 
+	Contrario
+		CargaArchivo
+	Fin Si 
+	Escribir('Ingrese No para terminar el programa, Si para continuar')
+	Leer(Bandera)			
+Fin Mientras
+
+Cerrar(Peaje)
+
+Fin ACCION
+
+//El Procedimiento CargarArchivo se da tanto en el caso de que sean distintos dias como en el caso de que no exista patente de ese auto porque el sistema esta hecho para cobrar a cualquier auto indistintamente de si es su primera vez pasando o no.
+//Se podra automatizar la recoleccion de fecha y hora usando fechaSistema, pero como trabajaba con un formato particular el archivo decidi ingresarlo manual
+
+			
