@@ -1,0 +1,155 @@
+Accion Ej 2.3.6 (PadronPat) Es
+Ambiente
+
+	Veh=registro de 
+		Clave=registro de 
+			Grupo:N(2)
+			Cat:(1..50)
+			YFab:N(4)
+		fin registro
+		NroPat:N(8)
+		DNI:AN(8)
+		ApyNom:AN(25)
+		Dom:AN(30)
+	fin registro
+
+	Morosos=registro de 
+		ClaveD=registro de 
+			NroPat:N(8)
+			YDeuda:N(4)
+			Trimestre:N(1)
+		fin registro
+		Importe:N(5,2)
+	fin registro
+
+	Cuota=registro de 
+		ClaveC=registro de 
+			Grupo:N(2)
+			Cat:(1..50)
+			YFab(N(4)
+		fin registro
+		Importe:N(5,2)
+	fin registro
+
+AUTOS:Archivo de Veh Ordenado por Clave
+DEUDAS:Archivo de Morosos Indexado por ClaveD
+CUOTAS:Archivo de Cuota Indexado por ClaveC
+
+RegAuto:Veh
+RegDeu:Morosos
+RegCuota:Cuota
+
+ResgGrupo:N(2)
+ResgCat:(1..50)
+ResgFab:N(4)
+
+	Procedimiento Corte_Grupo ES
+		Corte_Categoria
+		ESCRIBIR('SUBTOTAL GRUPO ', ResgGrupo,' DEUDA ',ContDeuGrupo,' 4to TRIMESTRE ',ContGrupo)
+		
+		ContDeuGeneral:=ContDeuGeneral+ContDeuGrupo
+		ContGeneral:=ContGeneral+ContGrupo
+
+		ResgGrupo:=RegAuto.Clave.Grupo
+
+		ContGrupo:=0
+		ContDeuGrupo:=0
+
+	FIN Procedimiento
+
+	Procedimiento Corte_Categoria ES
+		Corte_AnioFab
+		ESCRIBIR('SUBTOTAL CATEGORIA ', ResgCat,' DEUDA ',ContDeuCat,' 4to TRIMESTRE ',ContCat)
+		
+		ContDeuGrupo:=ContDeuGrupo+ContDeuCat
+		ContGrupo:=ContGrupo+ContCat
+
+		ResgCat:=RegAuto.Clave.Cat
+
+		ContCat:=0
+		ContDeuCat:=0
+
+	FIN Procedimiento
+
+	Procedimiento Corte_AnioFab ES
+		ESCRIBIR('SUBTOTAL AÑO ', ResgFab,' DEUDA ',ContDeuFab,' 4to TRIMESTRE ',ContFab)
+		
+		ContDeuCat:=ContDeuCat+ContDeuFab
+		ContCat:=ContCat+ContFab
+
+		ResgFab:=RegAuto.Clave.YFab
+
+		ContFab:=0
+		ContDeuFab:=0
+	FIN Procedimiento
+
+
+ContFab,ContDeuFab,ContCat,ContDeuCat,ContGrupo,ContDeuGrupo,,ContDeuGeneral,ContGeneral:N(8,2)
+SumDeuda:N(8,2)
+
+PROCESO
+ABRIR E/(AUTOS)
+ABRIR E/(CUOTAS)
+ABRIR E/(DEUDAS)
+Leer(AUTOS,RegAuto)
+
+ResgCat:=RegAuto.Clave.Cat 
+ResgGrupo:=RegAuto.Clave.Grupo
+ResgFab:=RegAuto.Clave.YFab
+
+ESCRIBIR('GRUPO|CATEGORIA|AÑO DE FABRICACION|NRO PATENTE|DNI|APELLIDO Y NOMBRE|DOMICILIO|DEUDA|4to TRIMESTRE')
+
+Mientras NFDA(AUTOS) HACER
+	SI ResgGrupo«» RegAuto.Clave.Grupo ENTONCES
+		Corte_Grupo
+	CONTRARIO
+		Si ResgCat«» RegAuto.Clave.Cat ENTONCES
+			Corte_Categoria
+		CONTRARIO
+			SI ResgFab«» RegAuto.Clave.YFab ENTONCES
+				Corte_AnioFab
+			FIN SI
+		FIN SI
+	FIN SI
+
+	RegDeu.NroPat:=RegAuto.NroPat
+	LEER(DEUDAS,RegDeu)
+
+	SI EXISTE ENTONCES
+		RegCuota.ClaveC:=RegAuto.Clave
+		LEER(CUOTAS,RegCuota)
+		SI EXISTE ENTONCES
+			Mientras RegDeu.NroPat=RegAuto.NroPat HACER
+				SI (RegDeu.YDeuda=2022) y (RegDeu.Trimestre=4	)ENTONCES	
+					SumDe	uda:=SumDeuda+RegDeu.Importe	
+				FIN SI	
+				LEER(D	EUDAS,RegDeu)	
+			FIN Mientr	as	
+	
+				ContDeuFab:=ContDeuFab+SumDeuda
+				ContFab:=ContFab+RegCuota.Importe
+	
+			IMPRIMIRPADRON
+		CONTRARIO
+			ESCRIBIR('NO EXISTE CLAVE DE AUTO')
+		FIN SI
+	CONTRARIO	
+		ESCRIBIR('NO EXISTE PATENTE EN DEUDA')
+	FIN SI
+
+	LEER(AUTOS,RegAuto)
+FIN Mientras
+
+Corte_Grupo
+
+ESCRIBIR('TOTAL DEUDA ',ContDeuGeneral,' TOTAL 4to TRIMESTRE', ContGeneral)
+
+CERRAR(AUTOS)
+CERRAR(CUOTAS)
+CERRAR(DEUDAS)
+
+FIN ACCION
+
+
+
+

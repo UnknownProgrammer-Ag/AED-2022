@@ -1,0 +1,118 @@
+ACCION Ej 2.3.7 (PAMI) ES
+AMBIENTE
+N=2022
+	
+	Dato= registro de
+		OS:N(6)
+		Clinica:N(6)
+		NroLeg:N(5)
+		Mes:(1..12)
+		Año:(1950..N)
+		Bruto:N(5,2)
+		DescAFIP:N(5,2)
+		DescDGR:N(5,2)
+	fin registro
+
+	ObSoc=registro de 
+		Cod_OS:N(6)
+		Nombre:AN(35)
+	fin registro
+
+	Cli=registro de 
+		Cod_Cli:N(6)
+		Nombre:AN(35)
+	fin registro
+
+	MD=registro de 
+		NroLeg:N(5)
+		ApyNom:AN(35)
+		Especialidad:N(35)
+		DNI:N(8)
+	fin registro
+
+LIQUIDACIONES:Archivo de Dato ordenado por OS y Clinica
+OBRAS_SOCIALES:Archivo de ObSoc indexado por Cod_OS
+Clinicas:Archivo de Cli indexado por Cod_Cli
+MEDICOS:Archivo de MD indexado por NroLeg
+
+RegLiq:Dato
+RegOS:Cod_OS
+RegCli:Cod_Cli
+RegMD:MD 
+
+Neto:N(6,2)
+
+TotalCli,TotalOS:N(6,2)
+ResgCli,ResgOS:N(6)
+
+
+	Procedimiento Corte_ObraSocial ES 
+		Corte_Clinica
+		ESCRIBIR('TOTAL OBRA SOCIAL',TotalOS)
+		TotalOS:=0
+		ResgOS:=RegLiq.OS 
+	FIN Procedimiento
+
+	Procedimiento Corte_Clinica ES
+		ESCRIBIR('TOTAL CLINICA', TotalCli)
+		TotalOS:=TotalOS+TotalCli
+		TotalCli:=0
+		ResgCli:=RegLiq.Clinica
+	FIN Procedimiento
+
+PROCESO
+Abrir E/(LIQUIDACIONES)
+Abrir E/(OBRAS_SOCIALES)
+Abrir E/(Clinicas)
+Abrir E/(MEDICOS)
+
+LEER(LIQUIDACIONES,RegLiq)
+ResgCli:=RegLiq.Clinica
+ResgOS:=RegLiq.OS 
+
+MIENTRAS NFDA(LIQUIDACIONES) HACER
+	SI ResgOS «» RegLiq.OS ENTONCES
+		Corte_ObraSocial
+	CONTRARIO
+		SI ResgCli «» RegLiq.Clinica ENTONCES
+			Corte_Clinica
+		FIN SI 
+	FIN SI 	
+
+	RegOS.Cod_OS:=RegLiq.OS
+	LEER(OBRAS_SOCIALES,RegOS)
+	SI EXISTE ENTONCES
+		RegCli.Cod_Cli:=RegLiq.Clinica
+		LEER(Clinicas,RegCli)
+		SI EXISTE ENTONCES
+			RegMD.NroLeg:=RegLiq.NroLeg
+			LEER(MEDICOS,RegMD)
+			SI EXISTE ENTONCES
+				Neto:=RegLiq.Bruto-(RegLiq.DescAFIP+RegLiq.DescDGR)
+				TotalCli:=TotalCli+Neto
+				ESCRIBIR('OBRA SOCIAL: ',RegOS.Nombre)
+				ESCRIBIR('CLINICA: ',RegCli.Nombre)
+				ESCRIBIR('Médicos')
+				ESCRIBIR('Nro Legajo| Nombre| Neto')
+				ESCRIBIR(RegMD.NroLeg,'|',RegMD.ApyNom,'|',Neto)
+			CONTRARIO
+				ESCRIBIR('NO EXISTE MEDICO')
+			FIN SI
+		CONTRARIO
+			ESCRIBIR('NO EXISTE CLINICA')
+		FIN SI
+	CONTRARIO
+		ESCRIBIR('NO EXISTE OBRA SOCIAL')
+	FIN SI	
+
+	LEER(LIQUIDACIONES,RegLiq)
+
+FIN MIENTRAS
+Corte_ObraSocial
+
+CERRAR(LIQUIDACIONES)
+CERRAR(OBRAS_SOCIALES)
+CERRAR(Clinicas)
+CERRAR(MEDICOS)
+
+

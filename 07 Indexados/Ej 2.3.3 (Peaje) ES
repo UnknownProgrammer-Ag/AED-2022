@@ -10,7 +10,7 @@ Cat4=5
 		Patente:AN(6)
 		FechaPaso:N(8)
 		UltHora:N(4)
-		Costo:N(3,2)
+		Costo:N(3:2)
 	fin registro
 Peaje:Archivo de Datos indexado por Patente,FechaPaso
 RegPat:Datos

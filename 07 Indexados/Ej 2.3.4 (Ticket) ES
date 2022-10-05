@@ -1,0 +1,111 @@
+Accion Ej 2.3.4 (Ticket) ES
+AMBIENTE
+	
+	Fecha=registro de
+		Año:(1950..2022)
+		Mes:(1..12)
+		Dia:(1.31)
+	fin registro
+
+	Inventario=registro de
+		CodProd:N(6)
+		Nombre:AN(40)
+		Stock:N(4)
+		Precio:N(3:2)
+	fin registro
+
+	Doc=registro de
+		NroTicket:N(6)
+		FechaT:Fecha
+		Cliente='Consumidor Final'
+	fin registro
+
+	Detail=registro de
+		NroTicket:N(6)
+		CodProd:N(6)
+		NroLinea:N(6)
+		Cantidad:N(2)
+	fin registro
+
+Productos:Archivo de Inventario indexado por CodProd
+Ticket:Archivo de Doc indexado por NroTicket
+DetalleTicket:Archivo de Detail indexado por NroTicket 
+
+RegProd:Inventario
+RegTicket:Doc
+RegDet:Detail
+
+ResgProduc:N(6)
+Empresa='Parlamento Sabroso'
+Cuit=23019414243
+Total,ContProd,Cant:Entero
+Habilitacion,Escaner:('Si','No')
+
+Proceso
+Abrir E/S (Productos)
+Abrir S/(Ticket)
+Abrir S/(DetalleTicket)
+
+Total:=0
+
+Escribir('Inicializar compra? |Si|No')
+Leer(Habilitacion)
+
+Mientras Habilitacion='Si' Hacer
+
+	RegTicket.NroTicket:=OBTENER_TICKET()
+	RegTicket.FechaT:=OBTENER_FECHA()
+	GRABAR(Ticket,RegTicket)
+	
+	Escribir('Empresa: ',Empresa,'   CUIT: ',Cuit,'   Fecha: ',RegTicket.FechaT)
+	Escribir('Cliente: ',RegTicket.Cliente)
+
+	Escaner:='Si'
+	ContProd:=1
+	Mientras Escaner='Si' Hacer
+		Escribir('Ingrese el codigo del producto')
+		Leer(ResgProduc)
+		RegProd.CodProd:=ResgProduc
+		SI (NO EXISTE) ENTONCES
+			Escribir('Error no existe el producto')
+		CONTRARIO
+			Escribir('Ingrese la cantidad vendida')
+			Leer(Cant)
+			
+			RegDet.Cantidad:=Cant 
+			RegProd.Stock:=RegProd.Stock-Cant
+
+			//ESTOS ESCRIBIR SE DAN EN LA IMPRESORA
+			Escribir('Producto|Cantidad|Subtotal')
+			Escribir(RegProd.Nombre,'    ',Cant,'  ',Cant*RegProd.Precio)
+			
+			Total:=Total+(Cant*RegProd.Precio)
+
+			RegDet.CodProd:=ResgProduc
+			RegDet.NroLinea:=ContProd
+			ContProd:=ContProd+1
+			RegDet.NroTicket:=OBTENER_TICKET()
+
+			REGRABAR(Productos,RegProd)
+			GRABAR(DetalleTicket,RegDet)
+		FIN SI
+
+		Escribir('Seguir escaneando productos? Si|No')
+		Leer(Escaner)
+	FIN Mientras
+	Escribir('Total:  ',Total)
+	Total:=0
+	Escribir('Desea realizar otra compra?')
+	Leer(Habilitacion)
+FIN Mientras
+
+IMPRIMIRCOMPROBANTE()
+
+CERRAR(Productos)
+CERRAR(DetalleTicket)
+CERRAR(Ticket)
+
+FIN ACCION
+
+
+ 

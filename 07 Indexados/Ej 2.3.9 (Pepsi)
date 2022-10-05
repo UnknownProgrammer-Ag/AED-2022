@@ -1,0 +1,45 @@
+ACCION Ej 2.3.9 (Pepsi) ES
+AMBIENTE
+	
+	 Consumidor=registro de
+	 	ClienteID:N(6)
+	 	Nombre:AN(35)
+	 	CUIT:N(11)
+	 	Saldo:N(5,2)
+	 fin registro
+
+	 Fecha=registro de
+	  	Año:(1950..2022)
+	  	Mes:(1..12)
+	  	Dia:(1..31)
+	fin registro
+
+	 Detalle=registro de 
+	 	NroOP:N(6)
+	 	FechaOP:Fecha
+	 	ClienteID:N(6)
+	 	Importe:N(5,2)
+	 	FactNro:N(6)
+	 fin registro
+
+	 Trans=registro de 
+	 	VtaNro:N(6)
+	 	VtaFecha:Fecha
+	 	FactNro:N(6)
+	 	ProdID:N(6)
+	 	CantVta:N(8)
+	 	ClienteID:N(6)
+	 fin registro
+
+	 Prod=registro de 
+	 	ProdID:N(6)
+	 	Stock:N(8)
+	 	ProdDtl:AN(20)
+	 	CstoUnit:N(5,2)
+	 fin registro
+
+CLIENTES:Archivo de Consumidor indexado por ClienteID
+DETALLE_CLIENTES:Archivo de Detalle indexado por NroOP
+VENTAS:Archivo de Trans ordenado por VtaNro
+PRODUCTOS:Archivo de Prod indexado por ProdID
+

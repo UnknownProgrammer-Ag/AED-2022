@@ -1,0 +1,71 @@
+Accion 2.3.8 (UTNBook) ES
+AMBIENTE
+	
+	USUARIOS=registro de 
+		CodUsuario:N(6)
+		CodAmigo:N(6)
+		FechaAmistad=registro de
+			Year:(1960..2022)
+			Mes:(1..12)
+			Dia:(1..31)
+		fin registro
+		MensajeMuro:AN(50)
+	fin registro
+
+AMIGOS: Archivo de USUARIOS indexado por CodUsuario y CodAmigo
+RegUTN:USUARIOS
+
+ResgUsuario,ResgAmigo:N(6)
+Opcion:('Agregar','Eliminar','Escribir')
+Mensaje:AN(50)
+
+PROCESO
+ABRIR E/S(AMIGOS)
+
+ESCRIBIR('INICIE SESION (COD.USUARIO Y COD.AMIGO)')
+LEER(ResgAmigo)
+LEER(ResgUsuario)
+	
+RegUTN.CodUsuario:=ResgUsuario
+
+LEER(AMIGOS,RegUTN)
+
+ESCRIBIR('INGRESE LA OPCION|Agregar,Eliminar,Escribir|')
+LEER(OPCION)
+	
+	SI EXISTE ENTONCES
+		RegUTN.CodAmigo:=ResgAmigo
+		LEER(AMIGOS,RegUTN)
+		SI EXISTE ENTONCES
+			SI Opcion='Agregar' ENTONCES
+				ESCRIBIR('ERROR; AMISTAD EXISTENTE')
+			CONTRARIO
+				SI Opcion='Eliminar' ENTONCES
+					BORRAR(AMIGOS,RegUTN)
+				CONTRARIO
+					ESCRIBIR('Ingrese mensaje')
+					LEER(Mensaje)
+					RegUTN.MensajeMuro:=Mensaje
+					Regrabar(AMIGOS,RegUTN)
+				FIN SI 
+			FIN SI 
+		CONTRARIO
+			SI Opcion«»'Agregar' ENTONCES
+				ESCRIBIR('ERROR, NO EXISTE AMISTAD')
+			CONTRARIO
+				ESCRIBIR('INGRESE Mensaje')
+				LEER(Mensaje)
+				RegUTN.CodAmigo:=ResgAmigo
+				RegUTN.CodUsuario.ResgUsuario
+				RegUTN.FechaAmistad:=FECHASISTEMA
+				RegUTN.MensajeMuro:=Mensaje
+				GRABAR(AMIGOS,RegUTN)
+			FIN SI 
+		FIN SI  
+	CONTRARIO
+		ESCRIBIR('ERROR, NO EXISTE USUARIO')
+	FIN SI
+
+CERRAR(AMIGOS)
+FIN ACCION
+
