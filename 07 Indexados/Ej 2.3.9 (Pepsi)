@@ -43,3 +43,64 @@ DETALLE_CLIENTES:Archivo de Detalle indexado por NroOP
 VENTAS:Archivo de Trans ordenado por VtaNro
 PRODUCTOS:Archivo de Prod indexado por ProdID
 
+RegVent:Trans
+RegClt:Consumidor
+RegDet:Detalle
+RegProd:Prod
+ContProd:Entero
+SaldoADesc:Real
+PROCESO
+Abrir E/S(CLIENTES,PRODUCTOS)
+Abrir S/(DETALLE_CLIENTES)
+Abrir E/(VENTAS)
+
+LEER(VENTAS,RegVent)
+
+ContProd:=0
+
+MIENTRAS NFDA(VENTAS) HACER
+	RegClt.ClienteID:=RegVent.ClienteID
+	LEER(CLIENTES,RegClt)
+	SI EXISTE ENTONCES
+		RegProd.ProdID:=RegVent.ProdID
+		LEER(PRODUCTOS,RegProd)
+		SI EXISTE ENTONCES
+			SaldoADesc:=RegProd.CstoUnit*RegVent.CantVta
+			RegClt.Saldo:=RegClt.Saldo-SaldoADesc
+			REGRABAR(CLIENTES,RegClt)
+	
+			RegDet.NroOP=RegVent.VtaNro
+			RegDet.FechaOP:=RegVent.VtaFecha
+			RegDet.ClienteID:=RegVent.ClienteID
+			RegDet.Importe:=SaldoADesc
+			RegDet.FactNro:=RegVent.FactNro
+			GRABAR(DETALLE_CLIENTES,RegDet)
+
+			RegProd.Stock:=RegProd.Stock- RegVent.CantVta
+			REGRABAR(PRODUCTOS,RegProd)
+
+			ContProd:=ContProd+RegVent.CantVta
+		CONTRARIO
+			ESCRIBIR("ERROR: Producto no Existe")
+		FIN SI
+	CONTRARIO
+		ESCRIBIR("ERROR: Cliente no existe')
+	FIN SI
+	LEER(VENTAS,RegVent)
+FIN MIENTRAS
+
+ESCRIBIR("El total de productos vendidos es: ", ContProd)	
+RegClt.ClienteID:=0
+LEER(CLIENTES,RegClt)
+	
+	MIENTRAS NFDA(CLIENTES) HACER
+		ESCRIBIR("ID_CLIENTE|NOMBRE CLIENTE|SALDO")
+		ESCRIBIR(RegClt.ClienteID,"|",RegClt.Nombre,"|",RegClt.Saldo)
+		LEER(CLIENTES,RegClt)
+	FIN MIENTRAS
+
+CERRAR(CLIENTES)
+CERRAR(VENTAS)
+CERRAR(PRODUCTOS)
+CERRAR(DETALLE_CLIENTES)
+FIN ACCION
