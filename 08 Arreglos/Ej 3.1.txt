@@ -1,0 +1,37 @@
+ACCION Ej 3.1 (Heca:arreglo [1..100] de enteros)
+AMBIENTE
+	
+	i,Mayor,Menor,PosMay,PosMen,ContPar,SumPar:=Entero
+	LV=0
+	HV=9999
+
+PROCESO
+SumPar,ContPar:=0
+Mayor:=LV
+Menor:=HV
+
+	Para i:=1 hasta 100 Hacer
+		ESCRIBIR("Ingrese un entero")
+		LEER(Heca[i])
+		SI Heca[i] > Mayor Entonces
+			Mayor:=Heca[i]
+			PosMay:=i
+		FIN SI
+		SI Heca[i]< Menor Entonces
+			Menor:=Heca[i]
+			PosMen:=i
+		FIN SI
+		SI (Heca[i]MOD 2)=0 Entonces
+			ContPar:=ContPar+1
+			SumPar:=SumPar+Heca[i]
+		FIN SI
+	Fin Para
+	
+	ESCRIBIR("Mayor en posicion ",PosMay," cuyo valor es: ",Mayor)
+	ESCRIBIR("Menor en posicion ",PosMen," cuyo valor es: ",Menor)
+	ESCRIBIR("Suma de ",ContPar," numeros pares, cuyo resultado es: ",SumPar)
+FIN ACCION
+
+
+	
+	
