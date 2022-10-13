@@ -45,6 +45,18 @@ int main()
         int i;
         for (i = 0; i < 30; i++)
         {
+            printf("Region del Pais (NEA;NOA;CUYO,PATAG,CENTRO)\n");
+            scanf("%s", &RegCasos.Region);
+            printf("Rango de Edad de la Denuncia (A,B,C,D,E)\n");
+            scanf("%s", &RegCasos.RangoEdad);
+            printf("Importe de Denuncias");
+            scanf("%d", &RegCasos.Denuncias);
+            printf("Mes");
+            scanf("%d", &RegCasos.Mes);
+            fwrite(&RegCasos, sizeof(RegCasos), 1, AbusosMujer);
         }
+        fclose(AbusosMujer);
     }
+    system("pause");
+    return 0;
 }
