@@ -1,0 +1,20 @@
+ACCION Ej 3.4(Cinc:arreglo de [1..50] de entero)
+AMBIENTE
+
+	NoMult3:arreglo de [1..50] de entero
+	Cont,i,j:entero
+	Resg3:entero
+PROCESO
+	j:=1
+	Cont:=0
+	PARA i:=1 hasta 50 hacer
+		Si (Cinc[i] MOD 3)<>0 ENTONCES
+			NoMult3[j]
+			j:=j+1
+			Cinc[i]:=0
+			Cont:=Cont+1
+		FIN SI
+	FIN PARA
+
+	ESCRIBIR("CUMPLIERON CON LA CONDICION: ",Cont)
+FIN ACCION
