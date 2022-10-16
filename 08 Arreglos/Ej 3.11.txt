@@ -1,0 +1,17 @@
+ACCION Ej 3.11(Cinema:arreglo[1..100] de Peli)
+AMBIENTE
+	
+	Cat:AN(15)
+	i:Entero
+PROCESO
+
+	ESCRIBIR("Ingrese la categoria")
+	Leer(Cat)
+	ESCRIBIR("Titulo|Alquilado")
+PARA i:=1 hasta 100 Hacer
+	SI Cinema[i].Categ=Cat ENTONCES
+		ESCRIBIR(Cinema[i].Titulo,"|",Cinema[i].Alq)
+	FIN SI
+FIN PARA
+
+FIN ACCION

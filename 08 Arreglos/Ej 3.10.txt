@@ -1,0 +1,22 @@
+ACCION 3.10(Precipitacion:arreglo[1..50] de Med)
+AMBIENTE
+	i:Entero
+	Loc:N(6)
+PROCESO
+
+	ESCRIBIR("Ingrese codigo localidad")
+	LEER(Loc)
+	
+	i:=1
+	MIENTRAS i<50 Y Precipitacion[i].CodLoc<>Loc HACER
+		i:=i+1
+	FIN MIENTRAS
+	
+	SI Precipitacion[i].CodLoc=Loc ENTONCES
+		ESCRIBIR("En la localidad de codigo ",Loc," llovio en un año: ",Precipitacion.LluviaAnual)
+	CONTRARIO
+		ESCRIBIR("No hay localidad correspondiente a codigo ",Loc)
+	FIN SI
+	
+FIN ACCION
+

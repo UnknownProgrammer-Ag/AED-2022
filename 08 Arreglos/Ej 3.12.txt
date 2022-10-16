@@ -1,0 +1,29 @@
+ACCION Ej 3.12(Cinema:arreglo [1..de 100] de Peli) 
+AMBIENTE
+
+	Tit:AN(50)
+	i:Entero
+PROCESO
+	
+	ESCRIBIR("Ingrese titulo pedido")
+	LEER(Tit)
+	
+	i:=1
+	
+	MIENTRAS i<100 y Cinema[i].Titulo<>Tit HACER
+		i:=i+1
+	FIN MIENTRAS
+	
+	SI Cinema[i].Titulo=Tit ENTONCES
+		SI Cinema[i].Alq='no' ENTONCES
+			ESCRIBIR("Esta disponible para alquiler")
+			Cinema[i].Alq:='si'
+			Cinema[i].CantVist:=Cinema[i].CantVist+1
+		CONTRARIO
+			ESCRIBIR("No esta disponible para alquiler")
+		FIN SI
+	CONTRARIO	
+		ESCRIBIR("No existe dicha pelicula en la base de datos")
+	FIN SI
+
+FIN ACCION

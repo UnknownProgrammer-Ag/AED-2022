@@ -1,0 +1,52 @@
+ACCION 3.13 (Escue:arreglo[1..N] de Alum)
+AMBIENTE
+	
+	//Ordenar de mayor a menor segun materias aprobadas con dos opciones:
+	x:N(2)
+	i,j,MAX:Entero
+	Bandera:Logico
+PROCESO
+
+// PRIMER METODO INSERCION DIRECTA (MAYOR A MENOR)
+	Para i:=2 a N HACER
+		x:=Escue[i].CantMat
+		j:=i-1
+		MIENTRAS  (j>0) y (x>Escue[j]) HACER
+			Escue[j+1]:=Escue[j]
+			j:=j-1
+		FIN MIENTRAS
+		Escue[j+1]:=x
+	FIN Para
+
+// SEGUNDO METODO SELECCION DIRECTA (MAYOR A MENOR)	
+//ME PARECE EL MENOS EFICIENTE
+	PARA i:=1 a N-1 HACER
+		x:=Escue[i]
+		MAX:=i
+		PARA j:=i+1 a N HACER
+			SI (x<Escue[j]) ENTONCES
+				MAX:=j //Tener la posicion donde se cambian de lugar
+				x:=Escue[j]
+			FIN SI
+		FIN PARA
+		Escue[MAX]:=Escue[i]
+		Escue[i]:=x
+	FIN PARA
+
+// TERCER METODO INTERCAMBIO DIRECTO (Mayor a Menor)
+//EL MAS EFICIENTE
+	
+	Bandera:=Falso
+	MIENTRAS NO Bandera HACER	
+		Bandera:=Verdadero
+		PARA j:=1 a N-1 HACER
+			Si (Escue[j]<Escue[j+1]) ENTONCES
+				x:=Escue[j]
+				Escue[j]:=Escue[j+1]
+				Escue[j+1]:=x
+				Bandera:=Falso
+			FIN SI
+		FIN PARA
+	FIN MIENTRAS
+
+FIN ACCCION

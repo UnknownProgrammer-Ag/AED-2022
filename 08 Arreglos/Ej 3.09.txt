@@ -1,0 +1,38 @@
+ACCION 3.9 (Ejemplares:arreglo[1..200] de Libros)
+AMBIENTE
+
+	i,Mayor,p:Entero
+	Ejemplar:AN(50)
+	
+PROCESO
+Mayor:=0
+
+
+Ejemplar:='Algoritmo+Estructuras de Datos=Programa'
+i:=1
+
+Mientras (i<200) y (Ejemplares[i].Titulo<> Ejemplar) HACER
+	i:=i+1
+FIN Mientras
+
+SI Ejemplares[i].Titulo=Ejemplar ENTONCES
+	Escribir("El elemento ",Ejemplar, "se encontro en la posicion ",i)
+CONTRARIO
+	Escribir("No se encontro el libro ",Ejemplar)
+FIN SI
+
+PARA i:=1 hasta 200 HACER
+	SI Ejemplares[i].Autor='Nicklaus Wirth ENTONCES
+		Escribir("En la posicion ",i," se encuentra el libro ",Ejemplares[i].Titulo)
+		SI Ejemplares[i].CantHojas>Mayor ENTONCES	
+			Mayor:=Ejemplares[i].CantHojas
+			Ejemplar:=Ejemplares[i].Titulo
+			p:=i
+		FIN SI
+	FIN SI
+FIN PARA
+
+Escribir("En la posicion ",p," se encuentra el libro de Nicklaus Wirth con mayor volumen, de: ",Mayor," cuyo titulo es: ",Ejemplar)
+
+FIN ACCION
+
