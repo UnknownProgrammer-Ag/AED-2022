@@ -1,29 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef enum
-{
-    NEA,
-    NOA,
-    PATAG,
-    CENTRO,
-    CUYO
-} Zona;
-
-typedef enum
-{
-    A,
-    B,
-    C,
-    D,
-    E
-} Edad;
-
 struct CasosNacionales
 {
-    Zona Region;
-    Edad RangoEdad;
-    unsigned int Denuncias;
+    char Region[6];
+    char RangoEdad[1];
+    int Denuncias[2];
     int Mes;
 };
 
@@ -41,16 +23,20 @@ int main(void)
     else
     {
         int i;
+        int num;
         for (i = 0; i < 12; i++)
         {
             printf("Region del Pais (NEA;NOA;CUYO,PATAG,CENTRO)\n");
             scanf("%s", &RegCasos.Region);
+            printf("%s \n", &RegCasos.Region);
             printf("Rango de Edad de la Denuncia (A,B,C,D,E)\n");
             scanf(" %c", &RegCasos.RangoEdad);
+            printf(" %c \n", &RegCasos.RangoEdad);
             printf("Denuncias\n");
-            scanf("%d", &RegCasos.Denuncias);
-            printf("Mes \n");
-            scanf("%d", &RegCasos.Mes);
+            scanf("%u", RegCasos.Denuncias);
+            printf("%u \n", &RegCasos.Denuncias);
+            RegCasos.Mes = i + 1;
+            printf("%d \n", &RegCasos.Mes);
             fwrite(&RegCasos, sizeof(RegCasos), 1, AbusosMujer);
         }
         fclose(AbusosMujer);
