@@ -1,0 +1,27 @@
+ACCION 3.16 (Ventas:arreglo [1..N] de Stock) 
+AMBIENTE
+
+	x:Stock
+	j:Entero
+	
+	Bandera:Logico
+PROCESO
+	
+	Bandera:=Falso
+	Mientras NO Bandera HACER
+		Bandera:=Verdadero
+		Para j:=1 hasta N-1 HACER
+			SI (Ventas[j].CantVent<Ventas[j+1].CantVent) ENTONCES
+				x:=Ventas[j]
+				Ventas[j]:=Ventas[j+1]
+				Ventas[j+1]:=x
+				Bandera:=Falso
+			FIN SI
+		FIN PARA
+	FIN Mientras
+		
+	ESCRIBIR("NroArt|Tipo|Cantidad Vendida")	
+	PARA j:=1 hasta N HACER	
+		ESCRIBIR(Ventas[j].NroArt,"|",Ventas[j].Tipo,"|",Ventas[j].CantVent)
+	FIN PARA
+FIN ACCION

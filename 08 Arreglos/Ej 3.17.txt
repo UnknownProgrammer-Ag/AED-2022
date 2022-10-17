@@ -1,0 +1,47 @@
+ACCION Ej 3.17(Rank:arreglo[1..200] de Peli)
+AMBIENTE
+
+	Bandera:Logico
+	i,Cont:Entero
+	x:Peli
+	Cat:AN(15)
+	
+PROCESO
+	ESCRIBIR("Ingrese la categoria")
+	Leer(Cat)
+	
+	//Ordenamos todo el arreglo
+	Bandera:=Falso
+	MIENTRAS NO Bandera HACER
+		Bandera:=Verdadero
+		PARA i:=1 hasta 199 HACER
+			SI Rank[i].Cant<Rank[i+1].Cant ENTONCES
+				x:=Rank[i]
+				Rank[i]:=Rank[i+1]
+				Rank[i+1]:=x
+				Bandera:=Falso
+			FIN SI
+		FIN PARA
+	FIN MIENTRAS
+	
+	//Contador de categoria, como ordenamos de mayor a menor
+	//cuando el contador llegue a 0 seran los 10 de esa categoria
+	Cont:=10
+	i:=1
+	
+	ESCRIBIR("Ranking de Pelicula con mas vistas")
+	ESCRIBIR("Titulo|Cant de Vistas")
+	
+	Mientras i<200 y Cont>0 HACER
+		SI Rank[i].Categ=Cat
+			Cont:=Cont-1
+			ESCRIBIR(Rank[i].Titulo,"|",Rank[i].Cant)
+		FIN SI
+		i:=i+1
+	FIN MIENTRAS
+	
+	SI Rank[i].Categ=Cat y Cont>0 ENTONCES
+		ESCRIBIR(Rank[i].Titulo,"|",Rank[i].Cant)
+	FIN SI
+	
+FIN ACCION

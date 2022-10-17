@@ -2,16 +2,16 @@ ACCION 3.13 (Escue:arreglo[1..N] de Alum)
 AMBIENTE
 	
 	//Ordenar de mayor a menor segun materias aprobadas con dos opciones:
-	x:N(2)
+	x:Alum
 	i,j,MAX:Entero
 	Bandera:Logico
 PROCESO
 
 // PRIMER METODO INSERCION DIRECTA (MAYOR A MENOR)
 	Para i:=2 a N HACER
-		x:=Escue[i].CantMat
+		x:=Escue[i]
 		j:=i-1
-		MIENTRAS  (j>0) y (x>Escue[j]) HACER
+		MIENTRAS  (j>0) y (x.CantMat>Escue[j],CantMat) HACER
 			Escue[j+1]:=Escue[j]
 			j:=j-1
 		FIN MIENTRAS
@@ -24,7 +24,7 @@ PROCESO
 		x:=Escue[i]
 		MAX:=i
 		PARA j:=i+1 a N HACER
-			SI (x<Escue[j]) ENTONCES
+			SI (x.CantMat<Escue[j].CantMat) ENTONCES
 				MAX:=j //Tener la posicion donde se cambian de lugar
 				x:=Escue[j]
 			FIN SI
@@ -40,7 +40,7 @@ PROCESO
 	MIENTRAS NO Bandera HACER	
 		Bandera:=Verdadero
 		PARA j:=1 a N-1 HACER
-			Si (Escue[j]<Escue[j+1]) ENTONCES
+			Si (Escue[j].CantMat<Escue[j+1].CantMat) ENTONCES
 				x:=Escue[j]
 				Escue[j]:=Escue[j+1]
 				Escue[j+1]:=x
