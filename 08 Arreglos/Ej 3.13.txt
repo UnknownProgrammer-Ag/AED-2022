@@ -11,7 +11,7 @@ PROCESO
 	Para i:=2 a N HACER
 		x:=Escue[i]
 		j:=i-1
-		MIENTRAS  (j>0) y (x.CantMat>Escue[j],CantMat) HACER
+		MIENTRAS  (j>0) y (x.CantMat>Escue[j].CantMat) HACER
 			Escue[j+1]:=Escue[j]
 			j:=j-1
 		FIN MIENTRAS
