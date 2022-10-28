@@ -26,7 +26,7 @@ int main(void)
         srand(time(0));
         int lower = 1, upper = 12;
         int i;
-        for (i = 0; i < 35; i++)
+        for (i = 0; i < 5; i++)
         {
             printf("Region del Pais (NEA;NOA;CUYO,PATAG,CENTRO)\n");
             scanf("%s", &RegCasos.Region);

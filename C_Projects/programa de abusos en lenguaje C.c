@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct CasosNacionales // cambie la estructura del registro para que coincidiera con el programa que lo crea
 {
@@ -16,27 +17,120 @@ typedef struct CasosNacionales // cambie la estructura del registro para que coi
    int mes[1...12]
  }*/
 
-int RegionMay, EdadMay, resguardopos, i, j;
+int RegionMay, EdadMay, ResgEdad, ResgReg, i, j;
 long int Matriz[6][6] = {0, 0}; // Inicializar a 0 a la vez que declara
-/*int TransfEdad(){
-  switch reg.edad{
-    case 'A' : i= 1;
-    case 'B' : i= 2;
-    case 'C' : i= 3;
-    case 'D' : i= 4;
-    case 'E' : i= 5;
-  } ;
+
+void TransEdad(char R)
+{
+  switch (R)
+  {
+  case 'A':
+    i = 0;
+    break;
+  case 'B':
+    i = 1;
+    break;
+  case 'C':
+    i = 2;
+    break;
+  case 'D':
+    i = 3;
+    break;
+  case 'E':
+    i = 4;
+    break;
+  };
 };
 
-int TransRegion(){
-   switch   {
-    case 'NEA': j=1;
-    case 'NOA': j=2;
-    case 'Cuyo': j=3;
-    case 'Patagonica': j=4;
-    case 'Centro': j=5 ;
-  } ;
-}  ;*/
+char *ObtRegion(int y)
+{
+  switch (y)
+  {
+  case 0:
+    return ("NEA");
+  case 1:
+    return ("NOA");
+  case 2:
+    return ("CUYO");
+  case 3:
+    return ("CENTRO");
+  case 4:
+    return ("PATAG");
+  }
+}
+char *ObtRange(int x)
+{
+  switch (x)
+  {
+  case 0:
+    return ("de entre 1 a 14");
+  case 1:
+    return ("de entre 15 a 24");
+  case 2:
+    return ("de entre 25 a 34");
+  case 3:
+    return ("de entre 35 a 50");
+  case 4:
+    return ("desde mayores de 50");
+  }
+}
+/*int TransRegion(char* RG) Esto no se puede hacer :(
+{
+  switch (RG)
+  {
+  case 'NEA':
+    j = 1;
+    return j;
+  case 'NOA':
+    j = 2;
+    return j;
+  case 'CUYO':
+    j = 3;
+    return j;
+  case 'PATAG':
+    j = 4;
+    return j;
+  case 'CENTRO':
+    j = 5;
+    return j;
+  };
+};*/
+
+void TransRegion(char *RG)
+{
+  if (strcmp(RG, "NEA") == 0)
+  {
+    j = 0;
+  }
+  else
+  {
+    if (strcmp(RG, "NOA") == 0)
+    {
+      j = 1;
+    }
+    else
+    {
+      if (strcmp(RG, "CUYO") == 0)
+      {
+        j = 2;
+      }
+      else
+      {
+        if (strcmp(RG, "CENTRO") == 0)
+        {
+          j = 3;
+        }
+        else
+        {
+          if (strcmp(RG, "PATAG") == 0)
+          {
+            j = 4;
+          }
+        }
+      }
+    }
+  }
+}
 
 // archivo de informacion : archivo de sal_abus // esto lo hacemos en el main
 // reg : sal_abus
@@ -56,47 +150,50 @@ int main()
   else
   {
     // void matriz(int a[6][6])
-    while
-      EOF(file de informacion)
-      { /*aca va el archivo que armamos*/
-        i = int TransEdad();
-        j = int TransRegion();
-        matriz[6][j] = matriz[6][j] + Reg.Denuncias;
-        matriz[i][6] = matriz[i][6] + Reg.Denuncias;
-        matriz[i][j] = matriz[i][j] + Reg.Denuncias;
-      }
+    while (!feof(AbusosMujer)) // CARGA
+    {
+      fread(&RegCasos, sizeof(RegCasos), 1, AbusosMujer);
+
+      TransEdad(RegCasos.RangoEdad);
+      TransRegion(RegCasos.Region);
+      Matriz[5][j] = Matriz[5][j] + RegCasos.Denuncias;
+      Matriz[i][5] = Matriz[i][5] + RegCasos.Denuncias;
+      Matriz[i][j] = Matriz[i][j] + RegCasos.Denuncias;
+    }
+
     RegionMay = 0;
     EdadMay = 0;
-    for (i = 0; i < 6; i++)
-    {
-      if EdadMay
-        < matriz[i][6]
-        {
-          EdadMay = matriz[i][6];
-          resguardopos = i;
-        }
-    }
-    for (j = 0; j < 6; j++)
-      do
-      {
-        if EdadMay
-          < matriz[6][j]
-          {
-          RegionMay:
-            = matriz[6][j];
-          }
-      }
-    printf("la mayor cantidad de denuncias en la region es:", RegionMay, "y el mayor rango de edad es:", resguardopos, " con:", EdadMay, "\n");
-  }
-  return 0;
-}
 
-/* esto va para la parte de registro
- sal_abus=registro
-  region: (NEA,NOA,Cuyo,Patagonica,Centro)
-  edad: {'A', 'B', 'C', 'D', 'E'}
-  denuncia: N(6)
-  mes:(1...12)
-fin registro
-archivo de informacion : archivo de sal_abus
-reg: sal_abus */
+    for (i = 0; i < 4; i++) // BUSQUEDA DE MAYOR CASOS POR EDAD
+    {
+      if (EdadMay < Matriz[i][6])
+      {
+        EdadMay = Matriz[i][6];
+        ResgEdad = i;
+      }
+      for (j = 0; j < 4; j++)
+      {
+        if (RegionMay < Matriz[6][j])
+        {
+          RegionMay = Matriz[6][j];
+          ResgReg = j;
+        }
+      }
+      char *Region = ObtRegion(ResgReg);
+      char *Range = ObtRange(ResgEdad);
+
+      printf("La region con la mayor cantidad de denuncias es: %s ", Region, " con un total de %d ", RegionMay, " denuncias");
+      printf("El rango de edad con la mayor cantidad de denuncias es: %s ", Range, " con un total de %d ", EdadMay, " denuncias");
+    }
+    return 0;
+  }
+
+  /* esto va para la parte de registro
+   sal_abus=registro
+    region: (NEA,NOA,Cuyo,Patagonica,Centro)
+    edad: {'A', 'B', 'C', 'D', 'E'}
+    denuncia: N(6)
+    mes:(1...12)
+  fin registro
+  archivo de informacion : archivo de sal_abus
+  reg: sal_abus */
