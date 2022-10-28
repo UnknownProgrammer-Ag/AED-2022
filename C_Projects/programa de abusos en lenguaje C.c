@@ -18,7 +18,7 @@ typedef struct CasosNacionales // cambie la estructura del registro para que coi
  }*/
 
 int RegionMay, EdadMay, ResgEdad, ResgReg, i, j;
-long int Matriz[6][6] = {0, 0}; // Inicializar a 0 a la vez que declara
+long int Matriz[6][6] = {0, 0}; // Inicializar a 0 a la vez que declara , se declara [6][6] pero en realidad internamente es 0 a 5
 
 void TransEdad(char R)
 {
@@ -96,7 +96,7 @@ char *ObtRange(int x)
   };
 };*/
 
-void TransRegion(char *RG)
+void TransRegion(char *RG) // El colocar un * al lado del parametro es la notacion de C equivalente a decir que es un string
 {
   if (strcmp(RG, "NEA") == 0)
   {
@@ -137,19 +137,19 @@ void TransRegion(char *RG)
 
 int main()
 {
-  // file of struct (sal_abus){} //*esta parte estoy confundido para armar la parte de estructura archivo con forma de registro*//
-  FILE *AbusosMujer;
+  // file of struct (sal_abus){} //*esta parte estoy confundido para armar la parte de estructura archivo con forma de registro*//se declara de esta manera
+  FILE *AbusosMujer; // Equivalente a Archivo de algo.
 
-  struct CasosNacionales RegCasos;
+  struct CasosNacionales RegCasos; // esto es el equivalente a decir Reg:Casos Nacionales
 
-  AbusosMujer = fopen("CasosNacionalesMujer.dat", "rb"); // Lee el archivo
+  AbusosMujer = fopen("CasosNacionalesMujer.dat", "rb"); // Rb es lo que permite leer el archivo (.dat)
   if (AbusosMujer == NULL)
   {
-    printf("Error: No se pudo crear el fichero CasosNacionalesMujer.dat.\n");
+    printf("Error: No se pudo leer el fichero CasosNacionalesMujer.dat.\n");
   }
   else
   {
-    // void matriz(int a[6][6])
+    // void matriz(int a[6][6]) no se declara asi
     while (!feof(AbusosMujer)) // CARGA
     {
       fread(&RegCasos, sizeof(RegCasos), 1, AbusosMujer);
@@ -160,6 +160,7 @@ int main()
       Matriz[i][5] = Matriz[i][5] + RegCasos.Denuncias;
       Matriz[i][j] = Matriz[i][j] + RegCasos.Denuncias;
     }
+    fclose(AbusosMujer); // Cerramos porque ya no  lo usaremos
 
     RegionMay = 0;
     EdadMay = 0;
@@ -171,7 +172,7 @@ int main()
         EdadMay = Matriz[i][6];
         ResgEdad = i;
       }
-      for (j = 0; j < 4; j++)
+      for (j = 0; j < 4; j++) // No queremos trabajar con los totalizadores, por eso de 0 a 4, 5 siendo la columna o fila totalizadora
       {
         if (RegionMay < Matriz[6][j])
         {
