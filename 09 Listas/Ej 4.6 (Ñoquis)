@@ -1,0 +1,101 @@
+Accion Ej 4.6 (RestÑoquis) ES
+AMBIENTE
+
+	Nodo=registro
+		NombreClt:AN(30)
+		Consumo:real
+		Mesa:N(2)
+		Prox:Puntero a Nodo
+	Fin registro
+	
+	Prim,p,q,a:Puntero a Nodo
+	mesa:N(2)
+	Op:N(1)
+	consumo:real
+	nombre:AN(30)
+	
+	Procedimiento AñadirCliente() ES
+		//Carga ordenada por NombreClt
+		Nuevo (p) //Crea el nodo
+		Escribir("Ingrese Nombre") 
+		Leer(nombre)
+		Escribir("Ingrese Nro de mesa")
+		Leer(mesa)
+		*p.NombreClt:=nombre
+		*p.Mesa:=mesa
+		*p.Consumo:=0
+		
+		Si Prim=NIL Entonces //Lista vacia
+			Prim:=p
+			*p.Prox:=NIL
+		Contrario //Mas elementos, buscar el nombre mas grande a Dato
+			Mientras q<> NIL y *p.NombreClt > *q.NombreClt Hacer
+				//Avanza por la lista hasta llegar a uno mayor
+				a:=q
+				q:=*q.Prox
+			Fin Mientras
+			Si q=Prim Entonces //El valor es el primero de la lista
+				*p.Prox:=q
+				Prim:=p
+			Contrario //Medio o final (En simple enlazada)
+				*a.Prox:=p
+				*p.Prox:=q
+			Fin Si
+		Fin Si
+	Fin Procedimiento
+	
+	Procedimiento RegistrarPedido() ES
+		//Registra el pedido
+		Escribir("Ingrese nombre")
+		Leer(nombre)
+		Escribir("Ingrese el consumo")
+		Leer(consumo)
+		Mientras q<>NIL y *q.NombreClt<>nombre Hacer
+			q:=*q.Prox
+		Fin Mientras
+		Si *q.NombreClt=nombre Entonces
+			*q.Consumo:=*q.Consumo+consumo
+		Contrario	
+			Escribir("Error,no se encontro al cliente")
+		Fin Si
+	Fin Procedimiento
+	
+	Procedimiento CobrarPedido() ES 
+		Escribir("Ingrese el nombre")
+		Leer(nombre)
+		Mientras q<>NIL y *q.NombreClt<>nombre Hacer //Esta busqueda combina con eliminacion, a es un resguardo del anterior nodo a q.
+			a:=q
+			q:=*q.Prox
+		Fin Mientras
+		Si *q.NombreClt=nombre Entonces
+			Escribir("Nombre: ",*q.NombreClt, "en la fecha de: ",fecha_sistema)
+			Escribir("En la mesa: ",*q.Mesa," se consumio un total de: ",*q.Consumo," pesos.")
+			
+			Si q=Prim Entonces //Si se encontro en el primer elemento
+				Prim:=*Prim.Prox
+			Contrario
+				*a.Prox:=*q.Prox //Si se encontro en el medio o final
+			Fin Si
+			
+			Disponer(q)
+		Contrario
+			Escribir("Error, no se encontro cliente")
+		Fin Si
+	Fin Procedimiento
+	
+PROCESO
+	Escribir("Bienvenido")
+	Escribir("Opciones: [1]Añadir[2]Registrar Pedido[3]Cobro[4]Salir")
+	Leer(Op)
+	Prim:=NIL //Inicializar Prim para no generar errores en el codigo
+	Mientras (Op<>4) Hacer
+		q:=Prim //Se repite en los tres procedimientos
+		Segun Op Hacer
+			1:AñadirCliente
+			2:RegistrarPedido
+			3:CobrarPedido
+		Fin Segun
+		Escribir("Opciones: [1]Añadir[2]Registrar Pedido[3]Cobro[4]Salir")
+		Leer(Op)
+	Fin Mientras
+Fin Accion

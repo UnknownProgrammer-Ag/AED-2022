@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct CasosNacionales
+typedef struct CasosNacionales
 {
-    char Region[3];
+    char Region[6];
     char RangoEdad;
-    unsigned int Denuncias;
-    int Mes[2];
-};
+    int Denuncias;
+    int Mes;
+} CasosNacionales;
 
 int main(void)
 {
@@ -23,8 +23,11 @@ int main(void)
     }
     else
     {
-        while (!feof(AbusosMujer))
+        // while (fscanf(AbusosMujer, "%d", &RegCasos) != EOF)
+        int i;
+        for (i = 0; i < 5; i++)
         {
+            fseek(AbusosMujer, i * sizeof(RegCasos), SEEK_SET);
             fread(&RegCasos, sizeof(RegCasos), 1, AbusosMujer);
 
             /* La imprimimos. */
@@ -50,7 +53,7 @@ int main(void)
                 printf("No se registro rango de edad\n");
                 break;
             }
-            printf("Denuncias: %u \n", RegCasos.Denuncias);
+            printf("Denuncias: %d \n", RegCasos.Denuncias);
             printf("Mes: %d \n", RegCasos.Mes);
             printf("-----------------------------------\n");
         }

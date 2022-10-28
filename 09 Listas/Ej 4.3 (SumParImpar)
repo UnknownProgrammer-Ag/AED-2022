@@ -1,0 +1,31 @@
+ACCION Ej 4.3 (Prim:puntero a Nodo) ES
+AMBIENTE
+
+	Nodo=registro
+		Num:Entero
+		Prox:puntero a Nodo
+	fin registro
+	
+	p:puntero a Nodo
+	SumPar,SumImpar:Entero
+
+PROCESO
+SumImpar:=0
+SumPar:=0
+	Si Prim=NIL Entonces
+		Escribir("ERROR, Lista Vacia")
+	Contrario
+		p:=Prim
+		Mientras (P<>NIL) Hacer
+			Si (*p.Num MOD 2=0) Entonces
+				SumPar:=SumPar+*p.Num
+			Contrario
+				SumImpar:=SumImpar+*p.Num
+			Fin Si
+			p:=*p.prox
+		Fin Mientras
+	Fin Si
+	
+	Escribir ("Suma total de pares: ",SumPar)
+	Escribir("Suma total de impares: ",SumImpar)
+Fin ACCION
