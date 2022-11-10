@@ -1,0 +1,73 @@
+ACCION Freq (sec:secuencia de caracteres) es
+Ambiente
+
+	HV=9999
+	LV=0
+	Mayor,Menor:Entero
+	c,ResgLetMayor,ResgLetMenor:caracter
+	Nodo=registro 
+		Letra:caracter
+		Frequencia:N(3)
+		prox:Puntero a Nodo
+	fin Nodo
+	
+	Prim,q,p,a:puntero a Nodo
+Proceso
+ARR(sec)
+AVZ(sec,c)
+
+Prim:=Nil
+
+Mayor:=LV
+Menor:=HV
+
+Mientras NFDS(sec) Hacer
+	Si c<>" " Entonces
+		q:=prim
+		//Juntar la busqueda en caso de repetidoo y la busqueda de ordenada
+		Mientras q<>Nil y c>*q.Letra Hacer
+			a:=q
+			q:=*q.prox
+		Fin Mientras
+		Si *q.Letra=c Entonces
+			*q.Frequencia:=*q.Frequencia+1
+		Contrario
+			NUEVO(p)
+				*p.Letra := c
+				*p.Frequencia:= 1
+				Si Prim = Nil Entonces 
+					Prim := p
+					*p.prox := Nil
+				Contrario
+					Si q = Prim Entonces
+						Prim := p
+					Contrario
+						*a.prox:=p
+					Fin Si
+					*p.prox := q //Se repite en ambas
+				Fin Si
+		Fin Si
+	Fin Si
+	AVZ(sec,c)
+Fin Mientras
+q:=Prim
+Mientras q<>Nil Hacer
+	Escribir("Letra: ",*q.Letra)
+	Escribir("Frequencia: ",*q.Frequencia)
+	Escribir("----------")
+	Si Mayor<*q.Frequencia Entonces
+		Mayor:=*q.Frequencia
+		ResgLetMayor:=*q.Letra
+	Fin Si
+	SI Menor>*q.Frequencia Entonces
+		Menor:=*q.Frequencia
+		ResgLetMenor:=*q.Letra
+	Fin Si
+	q:=*q.prox
+Fin Mientras
+Escribir("La mayor frequencia: ",Mayor)
+Escribir("Letra: ",ResgLetMayor)
+Escribir("*------------------*")
+Escribir("La menor frequencia: ",Menor)
+Escribir("Letra: ",ResgLetMenor)
+Fin ACCION
