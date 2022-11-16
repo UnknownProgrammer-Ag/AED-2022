@@ -136,17 +136,17 @@ int main()
 
     for (i = 0; i < 4; i++) // BUSQUEDA DE MAYOR CASOS POR EDAD
     {
-      if (EdadMay < Matriz[i][6])
+      if (EdadMay < Matriz[i][5])
       {
-        EdadMay = Matriz[i][6];
+        EdadMay = Matriz[i][5];
         ResgEdad = i;
       }
     }
     for (j = 0; j < 4; j++)
     {
-      if (RegionMay < Matriz[6][j])
+      if (RegionMay < Matriz[5][j])
       {
-        RegionMay = Matriz[6][j];
+        RegionMay = Matriz[5][j];
         ResgReg = j;
       }
     }
