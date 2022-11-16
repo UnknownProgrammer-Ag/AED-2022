@@ -141,19 +141,21 @@ int main()
         EdadMay = Matriz[i][6];
         ResgEdad = i;
       }
-      for (j = 0; j < 4; j++)
-      {
-        if (RegionMay < Matriz[6][j])
-        {
-          RegionMay = Matriz[6][j];
-          ResgReg = j;
-        }
-      }
-      char *Region = ObtRegion(ResgReg);
-      char *Range = ObtRange(ResgEdad);
-
-      printf("La region con la mayor cantidad de denuncias es: %s ", Region, " con un total de %d ", RegionMay, " denuncias");
-      printf("El rango de edad con la mayor cantidad de denuncias es: %s ", Range, " con un total de %d ", EdadMay, " denuncias");
     }
-    return 0;
+    for (j = 0; j < 4; j++)
+    {
+      if (RegionMay < Matriz[6][j])
+      {
+        RegionMay = Matriz[6][j];
+        ResgReg = j;
+      }
+    }
+    char *Region = ObtRegion(ResgReg);
+    char *Range = ObtRange(ResgEdad);
+
+    printf("La region con la mayor cantidad de denuncias es: %s con un total de %d denuncias\n", Region, RegionMay);
+    printf("El rango de edad con la mayor cantidad de denuncias es: %s con un total de %d denuncias\n", Range, EdadMay);
   }
+  system("pause");
+  return 0;
+}
