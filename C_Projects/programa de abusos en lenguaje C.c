@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct CasosNacionales // cambie la estructura del registro para que coincidiera con el programa que lo crea
+typedef struct CasosNacionales
 {
   char Region[6];
   char RangoEdad;
@@ -10,15 +10,8 @@ typedef struct CasosNacionales // cambie la estructura del registro para que coi
   int Mes;
 } CasosNacionales;
 
-/* file of struct sal_abus{ se usa struct  nomas
-   char region ["NEA", "NOA" , "Cuyo","Patagonica", "Centro"]
-   char edad ['A', 'B', 'C', 'D', 'E']
-   int denuncia [6]
-   int mes[1...12]
- }*/
-
 int RegionMay, EdadMay, ResgEdad, ResgReg, i, j;
-long int Matriz[6][6] = {0, 0}; // Inicializar a 0 a la vez que declara , se declara [6][6] pero en realidad internamente es 0 a 5
+long int Matriz[6][6] = {0, 0};
 
 void TransEdad(char R)
 {
@@ -74,29 +67,8 @@ char *ObtRange(int x)
     return ("desde mayores de 50");
   }
 }
-/*int TransRegion(char* RG) Esto no se puede hacer :(
-{
-  switch (RG)
-  {
-  case 'NEA':
-    j = 1;
-    return j;
-  case 'NOA':
-    j = 2;
-    return j;
-  case 'CUYO':
-    j = 3;
-    return j;
-  case 'PATAG':
-    j = 4;
-    return j;
-  case 'CENTRO':
-    j = 5;
-    return j;
-  };
-};*/
 
-void TransRegion(char *RG) // El colocar un * al lado del parametro es la notacion de C equivalente a decir que es un string
+void TransRegion(char *RG)
 {
   if (strcmp(RG, "NEA") == 0)
   {
@@ -132,24 +104,21 @@ void TransRegion(char *RG) // El colocar un * al lado del parametro es la notaci
   }
 }
 
-// archivo de informacion : archivo de sal_abus // esto lo hacemos en el main
-// reg : sal_abus
-
 int main()
 {
-  // file of struct (sal_abus){} //*esta parte estoy confundido para armar la parte de estructura archivo con forma de registro*//se declara de esta manera
-  FILE *AbusosMujer; // Equivalente a Archivo de algo.
 
-  struct CasosNacionales RegCasos; // esto es el equivalente a decir Reg:Casos Nacionales
+  FILE *AbusosMujer;
 
-  AbusosMujer = fopen("CasosNacionalesMujer.dat", "rb"); // Rb es lo que permite leer el archivo (.dat)
+  struct CasosNacionales RegCasos;
+
+  AbusosMujer = fopen("CasosNacionalesMujer.dat", "rb");
   if (AbusosMujer == NULL)
   {
     printf("Error: No se pudo leer el fichero CasosNacionalesMujer.dat.\n");
   }
   else
   {
-    // void matriz(int a[6][6]) no se declara asi
+
     while (!feof(AbusosMujer)) // CARGA
     {
       fread(&RegCasos, sizeof(RegCasos), 1, AbusosMujer);
@@ -172,7 +141,7 @@ int main()
         EdadMay = Matriz[i][6];
         ResgEdad = i;
       }
-      for (j = 0; j < 4; j++) // No queremos trabajar con los totalizadores, por eso de 0 a 4, 5 siendo la columna o fila totalizadora
+      for (j = 0; j < 4; j++)
       {
         if (RegionMay < Matriz[6][j])
         {
@@ -188,13 +157,3 @@ int main()
     }
     return 0;
   }
-
-  /* esto va para la parte de registro
-   sal_abus=registro
-    region: (NEA,NOA,Cuyo,Patagonica,Centro)
-    edad: {'A', 'B', 'C', 'D', 'E'}
-    denuncia: N(6)
-    mes:(1...12)
-  fin registro
-  archivo de informacion : archivo de sal_abus
-  reg: sal_abus */
