@@ -152,9 +152,12 @@ int main()
     }
     char *Region = ObtRegion(ResgReg);
     char *Range = ObtRange(ResgEdad);
-
+    printf("\n");
+    printf("----------------------------------------------------------------------------------------------------------\n");
     printf("La region con la mayor cantidad de denuncias es: %s con un total de %d denuncias\n", Region, RegionMay);
     printf("El rango de edad con la mayor cantidad de denuncias es: %s con un total de %d denuncias\n", Range, EdadMay);
+    printf("----------------------------------------------------------------------------------------------------------\n");
+    printf("\n");
   }
   system("pause");
   return 0;

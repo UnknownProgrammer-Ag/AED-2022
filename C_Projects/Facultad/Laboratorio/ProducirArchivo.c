@@ -31,6 +31,7 @@ int main(void)
             printf("Region del Pais (NEA;NOA;CUYO,PATAG,CENTRO)\n");
             scanf("%s", &RegCasos.Region);
             printf("Rango de Edad de la Denuncia (A,B,C,D,E)\n");
+            printf("A: de entre 1 a 14, B: de entre 15 a 24, C: de entre 25 a 34, D: de entre 35 a 50, E: desde mayores de 50 \n");
             scanf(" %c", &RegCasos.RangoEdad);
             RegCasos.Denuncias = (((i + 1) * 584) % 110);
             if (i < 12)
