@@ -1,0 +1,37 @@
+ACCION 4.2 Complementario (Prim:puntero a Nodo) ES
+AMBIENTE
+	
+	Nodo=registro de 
+		Numero:Entero
+		prox:puntero a Nodo
+	fin registro
+
+Prim2,p,a:Puntero a Nodo
+
+Proceso
+Prim2:=Nil
+p:=Prim
+q:=p
+Mientras (p<>Nil) Hacer
+	Si (*p.Numero Mod 3)=0 Entonces
+		
+		Si (a=Nil) Entonces//Primer Elemento
+			Prim:=*q.prox
+		Contrario
+			*a.prox=*q.prox//Otro Elemento
+		Fin Si
+
+		p:=*p.prox
+		*q.prox=Prim2
+		Prim2:q
+
+	Contrario
+		a:=p
+		p:=*p.prox
+	Fin Si
+	
+	q:=p
+
+Fin Mientras
+
+Fin Accion

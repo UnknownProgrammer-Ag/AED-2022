@@ -1,0 +1,49 @@
+ACCION 4.4 (Prim:puntero a Nodo)
+AMBIENTE
+
+	Nodo=registro de 
+		Nombre:AN(20)
+		Capital:AN(20)
+		TotalHab:N(8)
+		CantAnalf:N(6)
+		prox:puntero a Nodo
+	fin registro
+
+	Nodo_Analf=registro de
+		Nombre:AN(20)
+		Capital:AN(20)
+		PorcAnalf:N(2,2)
+		prox:puntero a Nodo_Analf
+	fin registro
+
+Prim1,Prim2,Prim3,q:Puntero a Nodo_Analf
+p:puntero a Nodo
+Porc:N(2,2)
+
+Proceso
+p:=Prim
+Prim1:=Nil
+Prim2:=Nil
+Prim3:=Nil
+
+
+Mientras (p<>Nil) Hacer
+	Porc:=((*p.CantAnalf/*p.TotalHab)*100)
+	Nuevo(q)
+	*q.Nombre:=*p.Nombre
+	*q.Capital:=*p.Capital
+	*q.PorcAnalf:=Porc
+
+	Segun Porc Hacer
+	<11:*q.prox:=Prim1
+		Prim1:=q
+	<26:*q.prox:=Prim2
+		Prim2:=q
+	>25:*q.prox:=Prim3
+		Prim3:=q
+	fin Segun
+	
+	p:=*p.prox
+Fin Mientras
+
+Fin Accion
