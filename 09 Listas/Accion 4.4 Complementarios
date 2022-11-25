@@ -1,0 +1,79 @@
+Accion 4.4 (PrimCirc:puntero a Nodo) Es
+Ambiente
+	
+	Nodo=registro de
+		NroSocio:N(6)
+		Nombre:AN(30)
+		Cond:('A','B')
+		prox:puntero a Nodo
+	fin registro
+
+	//Ambas son simples y con la misma estructura de nodo, podemos trabajar con ambas
+
+	PrimSimple,c,a,p:puntero a Nodo
+
+Procedimiento Cargar_lista Es 
+
+		Nuevo (p) //Carga Apilada
+		*p.NroSocio:=*c.NroSocio
+		*p.Nombre:=*c.Nombre
+		*p.Cond:=*c.Cond
+		*p.prox:=PrimSimple
+		PrimSimple:=p
+
+Fin Procedimiento
+
+Proceso
+PrimSimple:=Nil 
+c:=PrimCirc
+
+//Trata multiples elementos
+Mientras (*c.prox<>PrimCirc) Hacer
+	
+	Si (*c.Cond<>'B') Entonces
+		Si (*c.NroSocio MOD 100)= 0 Entonces
+			Cargar_lista()
+		Fin Si		
+		a:=c
+		c:=*c.prox
+	
+	Contrario
+		
+		Si c=PrimCirc Entonces
+			
+			p:=PrimCirc
+			Mientras (*p.prox<>PrimCirc) Hacer
+				p:=*p.prox
+			Fin Mientras
+			*p.prox:=*c.prox
+			PrimCirc:=*c.prox
+			p:=*c.prox
+		Contrario
+			*a.prox:=*c.prox
+			p:=*c.prox
+		Fin Si 
+		
+		Disponer (c)
+		c:=p
+	
+	Fin Si 
+
+Fin Mientras
+
+//Tratar el ultimo elemento 
+
+Si (*c.Cond<>'B') Entonces
+	Si (c.NroSocio MD 100)= 0 Entonces
+		Cargar_lista()
+	Fin Si
+Contrario
+	Si *c.prox=c Entonces //Si se cumple esto, tambien significa que c=PrimCirc, porque salio del mientras
+		PrimCirc:=Nil //Es el unico elemento restante
+	Contrario
+		*a.prox:=*c.prox
+	Fin Si 
+	Disponer (c)
+Fin Si 
+
+Fin Accion
+

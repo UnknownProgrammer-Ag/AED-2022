@@ -1,0 +1,53 @@
+Accion 4.3 (Prim:puntero a Nodo) ES
+Ambiente
+	
+	Datos=registro de
+		Nombre:AN(20)
+		Capital:AN(20)
+		TotalHab:N(9)
+		Analf:N(9)
+	fin registro
+	
+	Nodo=registro de
+		Cont:Datos
+		prox,ant:puntero a Nodo
+	fin registro
+
+	NodoSimple=registro de
+		ContSimple:Datos
+		prox:puntero a NodoSimple
+	fin registro
+
+t:puntero a Nodo
+Prim2,a,q,p:puntero a NodoSimple
+
+PROCESO
+Prim2:=Nil
+
+t:=Prim 
+
+Mientras (t<>Nil) Hacer
+
+	Nuevo (p)
+	*p.ContSimple:=*t.Cont
+	q:=Prim2
+	a:=Nil
+
+	Mientras (q<>Nil) Y (*q.ContSimple.Analf>*p.ContSimpl.Analf) Hacer
+		a:=q
+		q:=*q.prox
+	Fin Mientras	
+
+	Si (a=Nil) Entonces //Este caso se va a dar si es primer elemento cargado o si es mas grande el valor ingresado al que esta almacenado en Prim2
+		*p.prox:=Prim2
+		Prim2:=p
+	Contrario
+		+p.prox:=q 
+		*a.prox:=p
+	Fin SI 
+
+	t:=*t.prox
+Fin Mientras
+
+Fin Accion
+
