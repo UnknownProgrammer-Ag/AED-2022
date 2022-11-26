@@ -1,0 +1,101 @@
+Accion 4.5 (Prim:puntero a Nodo) Es
+Ambiente
+
+	Nodo=registro de
+		Nro_Cliente:N(6)
+		Nro_Pedido:N(6)
+		Precio:N(6)
+		Tipo:('C','R')
+		prox:puntero a Nodo
+	fin registro
+
+	NodoSal=registro de	
+		Nro_Cliente:N(6)
+		TotalPedido:N(8)
+		prox:puntero a NodoSal
+	fin registro
+
+	DatoClt=registro de
+		Nro_Cliente:N(6)
+		DNI:N(8)
+		Dom:AN(15)
+		Dinero_deuda:N(8)
+		Deudor:('S','N')
+		Baja:('S','N')
+	fin registro
+
+CLIENTES:archivo de DatoClt indexado por Nro_Cliente
+RegClt:DatoClt
+
+q:puntero a Nodo
+PrimReg,PrimDeu,p:puntero a NodoSal
+
+ResgNroCliente:N(6)
+SumaCtaCrr,TotalGeneral:Entero
+
+PROCESO
+
+//Iniciar elementos
+Abrir E/ (CLIENTES)
+SumaCtaCrr,TotalGeneral:=0
+PrimReg,PrimDeu:=Nil 
+q:=Prim
+
+//Procesar Pedidos 
+Mientras q<>Nil Hacer
+	RegClt.Nro_Cliente:=*q.Nro_Cliente
+	Leer(CLIENTES,RegClt)
+
+	//Se consulta estado del Nro_Cliente	
+	SI EXISTE ENTONCES
+		
+		SI RegClt.Baja='S' Entonces
+			RegClt.Baja:='N' //Se da de alta
+		FIN SI
+		
+		ResgNroCliente:=*q.Nro_Cliente
+
+		Mientras (ResgNroCliente=*q.Nro_Cliente) Y (q<>Nil) Hacer
+
+			//Trabajar con los pedidos
+			Si (*q.Tipo='R') Entonces	
+				SumaCtaCrr:=SumaCtaCrr+*q.Precio
+			Fin Si
+				TotalGeneral:=TotalGeneral+*q.Precio
+
+			q:=*q.prox
+		Fin Mientras
+
+		//Actualizar
+		SI (SumaCtaCrr>0) Entonces
+			RegClt.Deudor:='S'
+			RegClt.Dinero_deuda:=RegClt.Dinero_deuda+SumaCtaCrr
+		FIN SI
+
+		//Cargar en listas
+		Nuevo(p)
+		*p.Nro_Cliente:=ResgNroCliente
+		*p.TotalPedido:=TotalGeneral
+
+		Si (RegClt.Deudor='S') Entonces
+			*p.prox:=PrimDeu
+			PrimDeu:=p
+		Contrario
+			*p.prox:=PrimReg
+			PrimReg:=p
+		Fin SI
+
+		Regrabar(CLIENTES,RegClt)
+	
+	Contrario
+	
+		Escribir("Este Numero de Cliente no existe")
+		ResgNroCliente:=*q.Nro_Cliente
+		Mientras ResgNroCliente=*q.Nro_Cliente y q<>Nil  Hacer
+			q:=*q.prox
+		Fin Mientras
+	Fin SI
+Fin Mientras
+
+FIn Accion
+
