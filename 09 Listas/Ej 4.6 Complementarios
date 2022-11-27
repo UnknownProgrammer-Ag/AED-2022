@@ -1,0 +1,82 @@
+Accion 4.6 
+
+	Nodo=registro de
+		Valor:Entero
+		ant,prox:puntero a nodo
+	fin registro
+
+Procedimiento AGRUPA (Prim,Ult:puntero a Nodo;A:Entero) Es
+Ambiente
+	p,q,a:puntero a Nodo
+	Suma:Entero
+Proceso
+	p:=Prim 
+	Suma:=0
+	Mientras (p<>Nil) Hacer
+
+		Si (*p.Valor>=A) o (p=Ult) Entonces
+			p:=*p.prox
+		CONTRARIO
+			Si (p=Prim) Entonces
+			
+				//Suma desde Prim hasta el ultimo o hasta el A
+				Mientras (Suma<A) y (p<>Ult) Hacer
+					Suma:=Suma+*p.Valor
+					a:=p
+					p:=*p.prox
+					*p.ant:=Nil
+					Prim:=p
+					Disponer(a)
+				Fin Mientras
+
+				//Si entra en este si, es porque el p esta en Ult
+
+				Si (Suma<A) Entonces
+					Suma:=Suma+*p.Valor
+					Disponer(p) //Eliminamos Ult
+				Fin Si
+
+				//Insertamos el nuevo Prim
+
+				Nuevo(q)
+				*q.Valor:=Suma
+				*q.ant:=Nil
+				*q.prox:=p //p pudiendo ser Nil o un valor
+				Prim:=q
+				Suma:=0
+
+			Contrario
+
+				Mientras (Suma<A) y (p<>Ult) Hacer
+					Suma:=Suma+*p.Valor
+					a:=p
+					p:=*p.prox
+					*(*a.ant).prox:=p
+					*p.ant:=*a.ant 
+					Disponer(a)
+				Fin Mientras
+
+				Nuevo(q)
+				*q.ant:=*p.ant
+				*(q.ant).prox:=q
+				Si (Suma<A) Entonces
+					Suma:=Suma+*p.Valor
+					Disponer(p) //Disponemos de Ult
+				Fin Si
+				*q.Valor:=Suma
+				*q.prox:=p
+
+			Fin Si
+			
+			Si (p=Nil) Entonces //Si se dispuso de Ult
+				Ult:=q
+			Contrario
+				*p.ant:=q 
+			Fin Si
+		
+		Fin Si
+	Fin Mientras
+
+Fin Procedimiento
+
+Fin Accion
