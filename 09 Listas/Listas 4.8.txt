@@ -1,0 +1,132 @@
+Listas 4.8
+
+Escribir un algoritmo que permita buscar, insertar o borrar un elemento identificado con una clave determinada en una lista circular simplemente encadenada.
+
+ACCION 4.8 ES 
+AMBIENTE
+NODO=REGISTRO
+	dato:N(3)
+	prox:puntero a NODO
+FR
+
+PRIM,p,q,k,ant:puntero a NODO
+
+op:(1...3)
+
+YN:('S','N')
+
+clave:entero
+
+
+
+PROCEDIMIENTO BUSCAR ES
+	ESC("INGRESE CLAVE A BUSCAR")
+	LEER(clave)
+
+	SI PRIM=NILL ENTONCES
+		ESC("ERROR LISTA VACIA")
+	SINO
+		p:PRIM
+		MIENTRAS (p.prox <> PRIM) y (*p.dato <> clave) hacer
+			p:*p.prox
+		FM
+
+		SI *p.dato=clave ENTONCES
+			ESC("SE ENCONTRO EL ELEMENTO")
+		SINO
+			ESC("NO SE ENCONTRO EL ELEMENTO")
+		FIN SI
+	FIN SI
+FIN PROCEDIMIENTO
+
+PROCEDIMIENTO INSERTAR ES
+
+	NUEVO(q)
+	ESC("INGRESE CLAVE")
+	LEER(*q.dato)
+
+	SI PRIM=NILL ENTONCES
+		PRIM=q
+		*q.prox=q
+	SINO
+		MIENTRAS (p.prox <> PRIM) y (*q.dato > *p.dato) HACER
+			ant:=p
+			p:=*p.prox
+		FM
+
+		SI p=PRIM ENTONCES
+			k:=PRIM
+			MIENTRAS *k.prox <> PRIM HACER
+				k:=*k.prox
+			FM
+			*k.prox:=q
+			*q.prox:=PRIM
+			PRIM:=q
+		SINO
+			*ant.prox:=q
+			*q.prox:=p
+		FIN SI
+	FIN SI
+
+FIN PROCEDIMIENTO
+
+PROCEDIMIENTO BORRAR ES
+
+	ESC("INGRESE CLAVE DE ELEMENTO A BORRAR")
+	LEER(clave)
+
+	SI PRIM=NILL ENTONCES
+		ESC(ERROR LISTA VACIA)
+	SINO
+		p:=PRIM
+		ant:=p
+		MIENTRAS (*p.prox <> PRIM) y (*p.dato <> clave) hacer
+			ant:=p
+			p:=*p.prox
+		FM
+
+		SI p=*p.prox ENTONCES
+			PRIM:=NILL
+		SINO
+			SI p=PRIM ENTONCES
+				k:PRIM
+				MIENTRAS (k <> PRIM) HACER
+					k:=*k.prox
+				FM
+				*k.prox:=*p.prox
+				PRIM:=*p.prox
+			SINO
+				ant.prox:=p.prox
+			FIN SI
+		FIN SI
+
+		DISPONER (p)
+	FIN SI
+
+FIN PROCEDIMIENTO
+
+
+
+
+PROCESO
+
+repetir
+
+	ESC('Que operacion desea realizar')
+	ESC('1.BUSCAR ELEMENTO')
+	ESC('2.INSERTAR ELEMENTO')
+	ESC('3.BORRAR ELEMENTO')
+
+	leer(op)
+
+	SEGUN op HACER
+
+		=1: BUSCAR
+		=2: INSERTAR
+		=3: BORRAR
+	FS
+
+	ESC('Desea realizar otra operacion? S/N')
+	leer(YN)
+
+hasta que (YN="N")
