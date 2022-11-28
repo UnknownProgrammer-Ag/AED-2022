@@ -1,0 +1,96 @@
+Listas 4.5
+
+Dada una lista simplemente encadenada que contiene datos de todas las provincias de la República Argentina: nombre, capital, cantidad total de habitantes y cantidad de analfabetos, y está ordenada en forma decreciente por número de habitantes analfabetos, generar otras tres listas que contengan el nombre, la capital y el porcentaje de analfabetos de las Provincias que respondan a las siguientes restricciones.
+
+L1: <= 10 % analfabetos
+L2: 16 a 25 % analfabetos
+L3: => 26 % analfabetos
+
+ACCION 4.5 (PRIM: puntero a NODO) ES
+
+Ambiente
+NODO=registro
+	Dato=registro
+		nombre:AF(30)
+		capital:AF(40)
+		TotalHab:N(5)
+		TotalAn:N(5)
+	FR
+	Prox:puntero a NODO
+FR
+
+NODO2=registro
+	Dato=registro
+		nombre:AF(30)
+		capital:AF(40)
+		Porce:N(3)
+	FR
+	Prox:puntero a NODO2
+FR
+
+p: puntero a NODO
+Porc:real
+
+PRIML1,PRIML2,PRIML3,q: puntero a NODO2
+
+
+PROCEDIMIENTO LISTA1 ES
+	Si PRIML1=NILL entonces
+		PRIML1:=q
+		*q.prox:=nill
+	SINO
+		*q.prox:=PRIML1
+		PRIML1:=q
+	FIN SI
+FP
+
+PROCEDIMIENTO LISTA2 ES
+	Si PRIML2=NILL entonces
+		PRIML2:=q
+		*q.prox:=nill
+	SINO
+		*q.prox:=PRIML2
+		PRIML2:=q
+	FIN SI
+FP
+
+PROCEDIMIENTO LISTA3 ES
+	Si PRIML3=NILL entonces
+		PRIML3:=q
+		*q.prox:=nill
+	SINO
+		*q.prox:=PRIML3
+		PRIML3:=q
+	FIN SI
+FP
+
+PROCESO
+
+p:=PRIM
+
+SI  (p = nil) entonces
+	esc("error lista vacia")
+SINO
+	MIENTRAS (P<>nill) hacer
+		Porc:=(*p.Dato.TotalAn * 100) DIV *p.Dato.TotalHab
+		
+		Nuevo(q)
+		*q.Dato.nombre:=*p.Dato.nombre
+		*q.Dato.capital:=*p.Dato.capital
+		*q.Dato.Porce:=Porc
+		
+		SEGUN Porc Hacer
+			<= 10: LISTA1
+			<= 25: LISTA2
+			=> 26: LISTA3
+		FIN SEGUN
+
+		p:=*p.Prox
+	FIN MIENTRAS
+FIN SI
+FIN ACCION
+
+
+
+
+

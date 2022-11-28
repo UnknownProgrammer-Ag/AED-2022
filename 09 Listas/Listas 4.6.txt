@@ -1,0 +1,175 @@
+Listas 4.6
+
+En el restaurante ÑOQUIS se está pensando en una solución informática para el soporte de datos del nuevo sistema de atención a clientes. Se han decidido por LISTAS por su dinamismo en cuanto a la cantidad de elementos. Diseñe un algoritmo que realice las siguientes funciones:
+
+Añadir cliente al ser atendido (lista simple ordenada por Nombre del Cliente).
+Registrar su consumo (Acumular el Total Consumido en valores de montos).
+Realizar el cobro (emitir ticket con Nombre, Fecha, Número de Mesa y Total).
+Eliminar del listado de atención.
+La información almacenada debe mantenerse ordenada por Nombre del cliente.
+
+ACCION 4.6 ES
+FECHA=REGISTRO
+	Dia: 1...31
+	Mes: 1...12
+	Año: N(4)
+FR
+
+NODO=REGISTRO
+	Dato=registro
+		Nombre:AF(30)
+		Fecha: FECHA
+		Mesa: N(2)
+		ConsumoTotal:N(4.2)
+	FR
+	Prox:puntero a NODO
+FR
+
+p,q,PRIM,ant: puntero a NODO
+
+
+Consumo: entero
+op:entero
+YN:('S','N')
+NombreCL
+
+
+PROCEDIMIENTO AñadirCliente ES
+	
+	NUEVO(q)
+	ESC('INGRESE NOMBRE DEL CLIENTE')
+	leer(*q.Dato.Nombre)
+	
+	*q.Fecha:=FechaSistema()
+
+	ESC('INGRESE NUMERO DE MESA')
+	Leer(*q.Dato.Mesa)
+
+	*q.ConsumoTotal:=0
+
+	Si PRIM=nill entonces
+		PRIM:=q
+		*q.Prox:=nill
+	sino
+		p:=PRIM
+		ant:=nill
+
+		Mientras (p<>nill) y (*q.Dato.Nombre > *p.Dato.Nombre) Hacer
+			ant:=p
+			p:=*p.prox
+		FM
+
+		SI p=PRIM entonces
+			q*prox:=PRIM
+			PRIM:=q
+		SINO
+			ant.prox:=q
+			*q.prox:=p
+		FIN SI
+	FIN SI
+
+FIN PROCEDIMIENTO
+
+
+
+
+
+PROCEDIMIENTO RegistrarConsumo ES
+
+	ESC('Escribir consumo a cargar')
+	leer(consumo)
+	ESC('Escriba el nombre del cliente')
+	leer(NombreCl)
+
+	p:=PRIM
+
+	MIENTRAS (p<>nill) y (*p.Dato.Nombre <> NombreCl) Hacer
+		p:=*p.prox
+	FM
+
+	Si *p.Dato.Nombre=NombreCl entonces
+		*p.Dato.ConsumoTotal: *p.Dato.ConsumoTotal + consumo
+	SINO
+		ESC('Error, cliente no encontrado')
+	FIN SI
+
+FIN PROCEDIMIENTO
+
+
+PROCEDIMIENTO RealizarCobro ES
+
+	ESC('Escriba el nombre del cliente')
+	leer(NombreCl)
+
+	p:=PRIM
+
+	MIENTRAS (p<>nill) y (*p.Dato.Nombre <> NombreCl) Hacer
+		p:=*p.prox
+	FM
+
+	Si *p.Dato.Nombre=NombreCl entonces
+		ESC('FECHA:', *p.Dato.Fecha)
+		ESC('NOMBRE DEL CLIENTE', *p.Dato.Nombre)
+		ESC('MESA NRO', *p.Dato.Mesa)
+		ESC('CONSUMO TOTAL:', *p.Dato.ConsumoTotal)
+	SINO
+		ESC('Error, cliente no encontrado')
+	FIN SI
+
+FIN PROCEDIMIENTO
+
+
+PROCEDIMIENTO Eliminar ES
+	ESC("INGRESE NOMBRE DEL CLIENTE")
+	leer(NombreCl)
+	SI PRIM= nil entonces
+		esc("lista vacia")
+	SINO
+		p:= prim
+		MIENTRAS (p <> nill) y (p.dato.nombre <> NombreCl) HACER
+			ant:= p
+			p:= *p.prox
+		FM
+		Si *p.Dato.Nombre=NombreCl entonces
+			SI p = PRIM entonces
+				PRIM:= *p.prox
+			SINO
+				*ant.prox:= *p.prox
+			FIN SI
+		FIN SI
+		Disponer(p)
+	FIN SI
+FIN PROCEDIMIENTO
+
+
+
+
+
+
+
+
+
+PROCESO
+repetir
+
+	ESC('Que operacion desea realizar')
+	ESC('1.Añadir Cliente Nuevo')
+	ESC('2.Registrar Consumo')
+	ESC('3.Realizar Cobro')
+	ESC('4.Eliminar Cliente del Listado')
+	leer(op)
+
+	SEGUN op HACER
+
+		=1: AñadirCliente
+		=2: RegistrarConsumo
+		=3: RealizarCobro
+		=4: Eliminar
+	FS
+
+	ESC('Desea realizar otra operacion? S/N')
+	leer(YN)
+
+hasta que (YN="N")
+
+FIN ACCION
