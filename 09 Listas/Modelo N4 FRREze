@@ -1,0 +1,98 @@
+ACCCION FRREze (PrimGust:puntero a Gustos,PrimPed:puntero a Pedidos)ES
+AMBIENTE
+	
+
+	Gustos=registro de 
+		CodG:N(10)
+		NombreG:AN(50)
+		Precio:N(5,2)
+		prox:puntero a Gustos
+	fin registro
+
+	Pedidos=registro de 
+		CodPed:N(10)
+		CodG:N(10)
+		NombreVnd:AN(30)
+		Cant:N(10)
+		prox:puntero a Pedidos
+	fin registro
+
+p:puntero a Pedidos
+g:puntero a Gustos
+		
+	Nodo=registro de 	
+		CodG:N(10)
+		CantTotal:N(15)
+		ant,prox:puntero a Nodo
+	fin registro
+
+PrimDoble,UltDoble,q:puntero a Nodo
+
+ResgGusto:AN(50)
+ResgCod:N(10)
+MontoTotal:Real
+
+Proceso
+	
+PrimDoble:=Nil;UltDoble:=Nil	
+p:=PrimPed
+g:=PrimGust
+
+Mientras p<>Nil Hacer
+	ResgCod:=*p.CodG
+	Nuevo(q) //Cambia de nuevo nodo al cambiar de Gustos
+	*q.CantTotal:=0
+	
+	Mientras ResgCod=*p.CodG Hacer
+		*q.CodG:=ResgCod
+		*q.CantTotal:=*q.CantTotal+*p.Cant
+		p:=*p.prox
+	Fin Mientras
+
+	//Insertar en la lista PrimDoble
+
+	Si PrimDoble=Nil Entonces
+		*q.prox:=Nil
+		*q.ant:=Nil
+		PrimDoble:=q
+		UltDoble:=q
+	Contrario
+		*UltDoble.prox:=q
+		*q.prox:=Nil
+		*q.ant:=UltDoble
+		UltDoble:=q
+	Fin Mientras
+
+Fin Mientras
+
+Escribir("Ingrese un sabor de helado a buscar")
+Leer(ResgGusto)
+
+	Mientras *g.NombreG<>ResgGusto y g<>Nil Hacer
+		g:=*g.prox
+	Fin Mientras
+
+	Si *g.NombreG=ResgGusto Entonces
+		ResgCod:=*g.CodG //Como es igual el nombre se guarda su codigo
+	Contrario
+		Escribir("Error, no existe este nombre")
+	Fin Si
+
+	q:=PrimDoble
+	
+	//Busqueda del sabor y MontoTotal
+	Mientras q<>Nil y *q.CodG<>ResgCod Hacer
+		q:=*q.prox
+	Fin Mientras
+
+	Si q=Nil Entonces
+		Escribir("Error, no se pidio este sabor")
+	Contrario
+		
+		MontoTotal:=(*q.CantTotal)*(*g.Precio)
+		Escribir("El monto total recaudado por el gusto ",ResgGusto," es de: $ ",MontoTotal)
+	
+	Fin Si
+
+Fin ACCCION
+
