@@ -1,0 +1,132 @@
+ACCION DEV (Proyectos:archivo ordenaddo por Cod,Prim:puntero a Nodo) ES
+AMBIENTE
+	
+	Project=registro de 
+		Cod:N(10)
+		Nombre:AN(60)
+		Tipo:('D','W')
+		CantErr:N(3)
+	fin registro
+
+RegProj:Project
+
+	Nodo=registro de 	
+		Desc:AN(250)
+		Estado:('N','O','R')
+	fin registro
+
+	NodoResuelt=registro de 
+		Cod:N(10)
+		Nombre:AN(60)
+		prox,ant:puntero a NodoResuelt
+	fin registro
+
+	NodoProm=registro de 
+		PorcError:N(2)
+		Cod:N(10)
+		Nombre:AN(60)
+		prox,ant:puntero a NodoProm
+	fin registro
+
+PrimResult,UltResult,q:puntero a NodoResuelt
+PrimProm,UltProm,q2,a,:puntero a NodoProm
+p:puntero a Nodo
+
+ContNoResuelto,ContResuelto,ContProceso,ProyecNoResult,i:Entero
+ResgPorc:N(2)
+
+PROCESO 
+Abrir E/(Proyectos)
+Leer(Proyectos,RegProj)
+
+PrimProm,PrimResult,UltResult,UltProm:=Nil
+p:=Prim
+ProyecNoResult:=0
+
+Mientras NFDA(Proyectos) Hacer
+	ContNoResuelto,ContResuelto,ContProceso:=0
+
+	//Contar los estados de los errores del proyecto
+	Para i:=1 hasta RegProj.CantErr Hacer	
+		Segun *p.Estado Hacer
+		='N': ContNoResuelto:=ContNoResuelto+1
+		='O': ContProceso:=ContProceso+1
+		='R': ContResuelto:=ContResuelto+1
+		fin Segun
+		p:=*p.prox
+	Fin Para
+
+	//Analizamos los resultados
+	Si ContResuelto=RegProj.CantErr Entonces
+		//Insertar en primer lista doble
+		Nuevo(q)
+		*q.Nombre:=RegProj.Nombre
+		*q.Cod:=RegProj.Cod
+		Si PrimResult=Nil Entonces
+			*q.ant:=Nil
+			*q.prox:=Nil
+			PrimResult:=q
+			UltResult:=q
+		Contrario
+			*UltResult.prox:=q
+			*q.ant:=UltResult 
+			UltResult:=q 
+			*q.prox:=Nil
+		Fin Si
+	Contrario
+		
+		Si ContNoResuelto=RegProj.CantErr Entonces
+			//Aumentar contador de proyectos
+			ProyecNoResult:=ProyecNoResult+1
+		Contrario
+			
+			ResgPorc:=((ContResuelto+ContProceso)/RegProj.CantErr)+100 
+			Si ResgPorc>=50 Entonces
+				//Cargar a segunda Lista Doble ordenado de mayor a menor
+				Nuevo(q2)
+				*q2.Nombre:=RegProj.Nombre
+				*q2.Cod:=RegProj.Cod
+				*q2.PorcError:=ResgPorc
+
+				Si PrimProm=Nil Entonces
+					PrimProm:=q2
+					UltProm:=q2
+					*q2.ant:=Nil
+					*q2.prox:=Nil
+				Contrario
+
+					a:=PrimProm	
+					//Avanza mientras existan nodos mayores al nuevo Nodo	
+					Mientras (a<>Nil) y (*q2.PorcError<*a.PorcError) Hacer
+							a:=*a.prox
+					Fin Mientras 
+	
+					Si a=PrimProm Entonces
+						*q2.prox:=PrimProm
+						*q2.ant:=Nil
+						*a.ant:=q2
+						PrimProm:=q2
+					Contrario
+						Si a=Nil Entonces
+							*q2.prox:=Nil
+							*q2.ant:=UltProm
+							*UltProm.prox:=q2
+							UltProm:=q2
+						Contrario
+							*q2.prox:=a
+							*q2.ant:=*a.ant
+							*(*q2.ant).prox:=q2
+							*a.ant=q2
+						Fin Si
+					Fin Si
+				Fin SI
+			Fin Si 
+		Fin Si
+	Fin Si
+
+	Leer(Proyectos,RegProj)
+Fin Mientras
+
+Escribir("La cantidad de proyectos con todos los errores no resueltos son: ",ProyecNoResult)
+
+Fin ACCION	

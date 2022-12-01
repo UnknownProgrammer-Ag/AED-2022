@@ -6,7 +6,7 @@ AMBIENTE
 		prox:puntero a Nodo
 	fin registro
 
-Prim2,p,a:Puntero a Nodo
+Prim2,p,q,a:Puntero a Nodo
 
 Proceso
 Prim2:=Nil

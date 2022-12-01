@@ -1,0 +1,64 @@
+Accion UBER (Prim,Ult:puntero a Nodo) ES
+Ambiente
+	
+	Datos=registro de 
+		Chofer:AN(60)
+		Estado:('A','R','ER')
+		Calif:N(1,1)
+		Vehiculo:(1..4)
+	fin registro
+
+	Nodo=registro de 
+		Informacion:Datos
+		prox,ant:puntero a Nodo
+	fin registro
+
+	NodoSal=registro de 
+		InfoSal:Datos	
+		prox:puntero a NodoSal
+	fin registro
+
+p,q:puntero a Nodo
+Prim2,k:puntero a NodoSal
+
+Proceso
+Prim2:=Nil 
+p:=Prim
+
+Mientras p<>Nil Hacer
+	Si *p.Informacion.Estado='R' Entonces
+		q:=p
+		Si p=Prim Entonces
+			*(*p.prox).ant:=Nil 
+			Prim:=*p.prox
+		Contrario
+			Si p=Ult Entonces
+				*(*p.ant).prox=Nil
+				Ult:=*p.ant
+			Contrario
+				*(*p.ant).prox:=*p.prox
+				*(*p.prox).ant:=*p.ant
+			Fin SI
+		Fin Si
+		Disponer (q)
+	Contrario
+		Si (*p.Informacion.Estado<>'ER') Entonces
+			Si (*p.Informacion.Calif<3) Entonces
+				*p.Informacion.Estado:='ER'
+			Contrario
+				Si (*p.Informacion.Calif>4.5) Entonces
+					Nuevo(k)
+					*k.InfoSal:=*p.Informacion
+					*k.prox:=Prim2
+					Prim2:=k
+				Fin Si
+			Fin Si
+		Fin Si
+	Fin Si			
+	p:=*p.prox
+Fin Mientras
+
+Fin Accion
+
+
+

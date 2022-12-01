@@ -1,0 +1,95 @@
+ACCION COSME(Prim:puntero a Nodo,Productos:archivo indexado por Cod) ES
+Ambiente
+
+	Nodo=registro de 
+		Cod:N(6)
+		Rubro:AN(30)
+		PrecioOfer:N(6,2)
+		prox:puntero a Nodo
+	fin registro
+
+//Este Nodo esta ordenado por Rubro, puede haber mas de un Cod de producto por Rubro en oferta.
+
+	MayorOferta=registro de 
+		Cod:N(6)
+		Nombre:AN(35)
+		PrecioOfer:N(6,2)
+		PorcDesc:N(2,2)
+		prox,ant:puntero a MayorOferta
+	fin registro
+
+p:puntero a Nodo
+q,a,t,Prim2,Ult:puntero a MayorOferta
+
+ResgPorc:N(2,2)
+ResgDesc:Entero
+
+	Datos=registro de 
+		Cod:N(6)
+		Nombre:AN(35)
+		Precio:N(6,2)
+		Rubro:AN(30)
+		Stock:N(6)
+	fin registro
+
+RegProd:Datos
+
+ResgRubro:AN(30)
+
+PROCESO
+Abrir E/(Productos)
+
+p:=Prim 
+Prim2,Ult:=Nil
+
+Mientras p<>Nil Hacer
+		
+	ResgRubro:=*p.Rubro
+	Nuevo(q) //Cada vez que empieza un rubro se hace un nodo
+	*q.PorcDesc:=0
+	Mientras (ResgRubro = *p.Rubro) Hacer
+		RegProd.Cod:=*p.Cod
+		Leer(Productos,RegProd)
+
+		Si Existe Entonces
+			//Si posee productos para poder vender
+			Si RegProd.Stock>0 Entonces
+				
+				ResgDesc:=RegProd.Precio -*p.PrecioOfer
+				ResgPorc:=(ResgDesc/RegProd.Precio)*100
+				Si ResgPorc>*q.PorcDesc Entonces
+					*q.PorcDesc:=ResgPorc
+					*q.Nombre:= RegProd.Nombre
+					*q.Cod:=*p.Cod
+					*q.PrecioOfer:=*p.PrecioOfer
+				Fin Si
+
+			Fin Si
+		Contrario
+			Escribir("Error no existe este codigo ",*p.Cod)
+		Fin Si
+
+		p:=*p.prox
+
+	Fin Mientras
+
+	//Insercion en la lista
+	Si Prim2=Nil Entonces
+		*q.ant=Nil
+		*q.prox:=Nil
+		Prim2:=q
+		Ult:=q
+	Contrario
+		*Ult.prox:=q
+		*q.ant:=Ult
+		Ult:=q
+		*q.prox:=Nil
+	Fin Si
+
+Fin Mientras
+
+Fin Accion
+
+
+
+Fin Mientras
