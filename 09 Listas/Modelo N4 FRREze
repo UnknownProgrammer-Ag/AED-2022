@@ -42,9 +42,8 @@ Mientras p<>Nil Hacer
 	ResgCod:=*p.CodG
 	Nuevo(q) //Cambia de nuevo nodo al cambiar de Gustos
 	*q.CantTotal:=0
-	
+	*q.CodG:=ResgCod
 	Mientras ResgCod=*p.CodG Hacer
-		*q.CodG:=ResgCod
 		*q.CantTotal:=*q.CantTotal+*p.Cant
 		p:=*p.prox
 	Fin Mientras
