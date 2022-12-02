@@ -1,0 +1,11 @@
+Temp(Arr:arreglo[1..4] de Real,i:Entero):Logico
+	Si Arr[i]>36.5 ENtonces
+		Temp:=Falso
+	COntrario
+		Si i=1 Entonces
+			Temp:=Verdadero
+		Contrario
+			Temp:=Temp(Arr,i-1)
+		Fin SI
+	Fin SI
+Fin FUncion
