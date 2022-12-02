@@ -1,0 +1,109 @@
+ACCION SUPER(COMPRAS:archivo ordenado por Fecha_Compra,ADHERIDOS:archivo indexado por DNI;Prim,Ult:puntero a DESCUENTOS)
+
+	COMPRAS=registro de
+		Fecha_Compra:N(8)
+		DNI:N(8)
+		CantArt:N(3)
+		ImporteTotal:N(8)
+	fin registro
+
+	ADHERIDOS=registro de
+		DNI:(8)
+		ApyNomb:AN(50)
+		Fecha_Adh:N(8)
+		Cat:N(1)
+	fin registro
+
+	DESCUENTOS=registro de 
+		Min:N(8)
+		Max:N(8)
+		Desc:(0,01..0,99)
+		Cupo:N(3) //Interpreto como stock no como logico
+		Rubro:(1..9)
+		prox,ant:puntero a DESCUENTOS
+	fin registro
+
+	NodoSal=registro de 
+		DNI:N(8)
+		Cant_Compras:N(3)
+		Importe:N(10,2)
+		prox:puntero a NodoSal
+	fin registro
+
+RegComp:COMPRAS
+RegAdh:ADHERIDOS
+ResgCompra:Real
+p:puntero a DESCUENTOS
+Prim2,q,a,t:puntero a NodoSal
+
+Proceso
+
+Prim2:=Nil
+p:=Prim
+Abrir E/(COMPRAS)
+Abrir E/(ADHERIDOS)
+LEER(COMPRAS,RegComp)
+
+Mientras NFDA(COMPRAS) HACER
+	RegAdh.DNI:=RegComp.DNI
+	LEER(ADHERIDOS,RegAdh)
+	
+	ResgCompra:=ImporteTotal
+
+	//Procesar COMPRAS
+	Mientras (*p.Min>RegComp.ImporteTotal o *p.Max<RegComp.ImporteTotal) y p<>Nil HACER	
+		p:=*p.prox
+	Fin Mientras
+
+	SI p=Nil Entonces 
+		Escribir("No hay descuento correspondiente a este importe, disculpe las molestias")
+	Contrario
+		SI *p.Cupo>0 Entonces
+			ESCRIBIR("DESCUENTO: ")
+			ESCRIBIR("RUBRO: ",*p.Rubro,"  PORCENTAJE: ",*p.Desc)
+			ResgCompra:=ResgCompra-(ImporteTotal*(*p.Desc)) //Realiza el descuento
+		CONTRARIO
+			ESCRIBIR("No hay cupos disponibles")
+		FIN SI
+
+	//Insertar no adheridos a lista
+	SI NO EXISTE ENTONCES
+		
+		SI Prim2=Nil Entonces
+			Nuevo(q)
+			*q.DNI:=RegComp.DNI
+			*q.Cant_Compras:=1
+			*q.Importe:=RegComp.ResgCompra
+			*q.prox:=Prim2
+			Prim2:=q
+
+		Contrario //Esta ordenado de menor a mayor
+		
+		//Buscar si no esta cargado el DNI
+			t:=Prim2
+			Mientras RegComp.DNI>*t.DNI	y t<>Nil Hacer
+				a:=t
+				t:=*t.prox
+			Fin Mientras
+
+			//SI HAY REPETIDO
+			Si *t.DNI=RegComp.DNI Entonces	
+				*t.Cant_Compras:=*t.Cant_Compras+1
+				*t.Importe:=*t.Importe+ResgCompra
+			Contrario //No existe en la lista
+				Nuevo(q)
+				*q.DNI:=RegComp.DNI
+				*q.Cant_Compras:=1
+				*q.Importe:=ResgCompra
+				*q.prox:=t
+				*a.prox:=q
+			Fin Si 
+		Fin Si 
+	FIN SI
+
+	LEER(COMPRAS,RegComp)
+
+Fin Mientras
+
+FIN ACCION
+

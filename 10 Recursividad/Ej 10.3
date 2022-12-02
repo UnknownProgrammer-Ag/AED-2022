@@ -1,0 +1,21 @@
+Accion 10.3 ES
+Ambiente
+	
+	Funcion Pot(A,B:Entero):Entero ES
+		Si B=0 Entonces
+			Pot:=1
+		Contrario
+			Pot:=Pot(A,B-1)*2
+		Fin Si
+	Fin Funcion
+
+Result,X,Y:Entero
+
+Proceso
+Escribir("Ingrese la base y el exponente")
+LEER(X)
+LEER(Y)
+Result:=Pot(X,Y)
+Escribir("Result ",Result)
+
+Fin Accion

@@ -1,0 +1,16 @@
+ACCION 10.4
+AMBIENTE
+	
+	AllPar(n:Entero):Logico ES
+		//Dividimos por dos el numero
+		SI n MOD 2 <>0 Entonces
+			AllPar:=Falso //Si en algun momento la division tiene resto existe un digito impar
+		Contrario //No es un digito impar
+			Si n<10 Entonces //Es el ultimo digito
+
+				AllPar:=Verdadero //Si llego al contrario es porque no cumple que sea impar
+			Contrario
+				AllPar:=AllPar(n Div 10) //Se quita el digito que es par 
+			Fin Si
+		Fin Si
+	Fin Funcion

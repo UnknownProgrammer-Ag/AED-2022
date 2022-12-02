@@ -1,0 +1,11 @@
+Funcion Paridad(n;Entero):Logico ES
+	Si n<2 Entonces
+		Si n=1 Entonces
+			Paridad:=Falso
+		Contrario
+			Paridad:=Verdadero
+		Fin Si
+	Contrario
+		Paridad:=Paridad(n-2)
+	Fin Si
+Fin Funcion
